@@ -1,0 +1,31 @@
+4.0.1
+load themes config
+---------------------
+3.1
+Add Theme custom routes
+-------------------
+3.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+2.0
+Laravel 6 Upgrade
+------------------------------------
+1.7.1
+Add Theme View Exists function
+------------------------
+1.7
+Execute Theme Update batches.
+--------------------------------------
+1.5.4
+- pass request array instead of request object
+------------------------------------------
+1.5.2
+- Translation Fixes
+-----------------------------------------------------
+1.5.1
+- Themes css($href, $id = null) function new signature
+-----------------------------------------------------
+1.5
+- add translation feature and enhance breadcrumbs
+-----------------------------------------------------

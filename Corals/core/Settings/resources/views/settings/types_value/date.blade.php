@@ -1,0 +1,1 @@
+{!! CoralsForm::date('value','Settings::attributes.setting.value') !!}

@@ -1,0 +1,1 @@
+@include('Settings::settings.partials.edit')

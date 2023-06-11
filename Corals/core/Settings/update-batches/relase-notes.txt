@@ -1,0 +1,92 @@
+4.3.1
+support color custom field type
+---------------------------------
+4.1
+add scopes to Select2 ajax
+-------------------------------------
+4.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+3.2
+Fix Force update when no available remote updated
+----------------------------------
+
+3.1
+clear cache while doing actions on modules
+------------------------------------
+3.0.2
+fix feeder route
+------------------------------------
+3.0
+------------------------------------
+Laravel 6 Upgrade
+
+2.4
+change custom fields to be called by using : getCustom(), instead of magic attribute
+-----------------------------------------------
+2.3
+Add Google Tag Manager Support
+API Support
+--------------------------------------
+2.2.5
+- fix PHP 7.3 bug when displaying modules.
+--------------------------------------------------------
+
+2.2.3
+- enhance UtilitiesController select2 and add more features
+---------------------------------------
+2.2.2
+---------------------------------------
+Add Remote update validation
+
+2.2.1
+---------------------------------------
+Add Admin Permissions
+
+2.1.2
+- fix custom field update model without custom field exist
+------------------------------------------
+2.0.5
+- enhancements for new admin theme
+------------------------------------------
+2.0.4
+- Add Updates Available count to theme header
+------------------------------------------
+2.0.0
+- Add Module Manager command line
+------------------------------------------
+1.8.7
+- pass request array instead of request object
+------------------------------------------
+1.8.7
+- add label type to custom fields
+-----------------------------------------------------
+1.8.6
+- fix create settings redirect page.
+-----------------------------------------------------
+1.8.5
+- add translation feature and enhance breadcrumbs
+-----------------------------------------------------
+1.8.4
+- fix custom field getAttribute
+- fix custom field caching
+-----------------------------------------------------
+1.8.3
+- add category for settings
+-----------------------------------------------------
+1.8.2
+- add login backgound to settings
+-----------------------------------------------------
+1.8.1
+- add missing column custom_attributes to custom_field_settings table
+-----------------------------------------------------
+1.7.3
+- remove
+    $table->unique(['name', 'model']);
+    $table->unique(['field_name', 'parent_type', 'parent_id'], 'custom_field_parent_unique');
+    from migration due to database limitations
+- update customFields foreign key to use id's instead of name
+    $table->foreign('custom_field_setting_id')->references('id')->on('custom_field_settings')
+                ->onDelete('cascade')->onUpdate('cascade');
+-----------------------------------------------------

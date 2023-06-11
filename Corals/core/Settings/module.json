@@ -1,0 +1,17 @@
+{
+  "code": "corals-settings",
+  "name": "Settings Manager",
+  "author": "Corals",
+  "type": "core",
+  "description": "Manage System Settings, title, logo, payments...",
+  "namespace": "Corals\\Settings",
+  "provider": "SettingsServiceProvider",
+  "version": "5.2.8",
+  "load_order": "15",
+  "folder": "Settings",
+  "autoload": "psr-4",
+  "icon": "fa fa-gears",
+  "require": {
+    "corals-foundation": "^6.0"
+  }
+}

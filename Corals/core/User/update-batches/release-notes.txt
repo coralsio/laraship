@@ -1,0 +1,145 @@
+5.4.7
+- Users Import
+-----------------------------------------
+5.4.6
+- fix composer install issue
+-----------------------------------------
+5.4.1
+- check for role and theme in user impersonation action
+-----------------------------------------
+5.4
+Add Ability to reset password on login
+Add Send Profile Email
+Fix update profile not working
+-----------------------------------------
+
+5.3
+force reset password and send login details
+------------------------------------
+5.2
+=====================================
+Google 2FA
+
+4.1.2
+------------------------------
+fix bug on password reset email with email confirmation activated.
+
+4.1
+fixes and cleanup
+-------------------------------------
+4.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+3.3
+Add authy assets
+=========================
+3.2
+php 7.4 support
+============================
+3.1.3
+fix notification upgrade issue
+==================================
+3.1
+Update Nexmo to latest version
+==================================
+3.0
+Laravel 6 Upgrade
+------------------------------------
+2.5.1
+fix set user confirmed_at attribute logic
+--------------------------------------
+2.5
+add ability to view emails in notification templates
+---------------------------------------
+2.4
+fix user event names in service provider
+--------------------------------------
+2.3
+Add Customer Classification
+---------------------------------------
+2.2
+fix on demand notification
+--------------------------------------
+2.1
+Add Nexmo Notification Support
+------------------------------------
+
+2.0.3
+send multiple notifications for one event name
+------------------------------------
+2.0.2
+fix to notification template form
+------------------------------------
+2.0
+API Support
+------------------------------------
+2.0.1
+----------------------------
+Fix Ajax login on ecommerce checkout
+
+1.6.6
+- Fix Anon Emails
+-------------------------------------------------------
+1.6.5
+- add attachment support for toMail general mail
+-------------------------------------------------------
+1.6.4
+- add default roles for socila registration
+-------------------------------------------------------
+1.6.3
+- add ability to add custom emails and sms to the notification templates
+-------------------------------------------------------
+1.6.2
+- fix notification templates validation
+-------------------------------------------------------
+1.6
+- Add user last name and make phone number optional
+-----------------------------------------------------
+1.5.7
+- add new settings available_registration_roles to the User category
+-----------------------------------------------------
+1.5.6
+- fix Noticiation notifiables collection
+-----------------------------------------------------
+1.5.5
+change can_login to disable_login
+-----------------------------------------------------
+1.5.4
+- add new columns to roles table:
+    - can_login
+    - redirect_url
+    - dashboard_url
+    - dashboard_theme
+-----------------------------------------------------
+1.5.2
+- add cookie consent config
+-----------------------------------------------------
+1.5
+- add email confirmation on registration
+-----------------------------------------------------
+1.4.9
+- enhancements for new admin theme
+-----------------------------------------------------
+1.4.8
+- add properties to users table
+- add ModelPropertiesTrait to User model
+-----------------------------------------------------
+1.4.7
+- change Auth controllers and profile controller to extend AuthBaseController
+-----------------------------------------------------
+1.4.6
+- add notification bcc functionality
+-----------------------------------------------------
+1.4.5
+- add translation feature and enhance breadcrumbs
+-----------------------------------------------------
+1.4
+- Add Social Login
+------------------------------------------
+1.3.3
+- change user registration email to use notification module
+- add notifications.user.registered event in service provider
+--------------------------------------------
+1.3.2
+- fix profile update.

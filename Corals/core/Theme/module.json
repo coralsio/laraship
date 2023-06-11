@@ -1,0 +1,17 @@
+{
+  "code": "corals-theme",
+  "name": "Theme Manager",
+  "author": "Corals",
+  "type": "core",
+  "description": "Manage admin and front-end themes...",
+  "namespace": "Corals\\Theme",
+  "provider": "ThemeServiceProvider",
+  "version": "4.0.1",
+  "load_order": "40",
+  "folder": "Theme",
+  "autoload": "psr-4",
+  "icon": "fa fa-magic",
+  "require": {
+    "corals-foundation": "^6.0"
+  }
+}

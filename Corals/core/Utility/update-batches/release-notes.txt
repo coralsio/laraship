@@ -1,0 +1,114 @@
+4.2.1
+---------------------------
+Fix Guide Edit
+
+4.2
+support gallery upload without model
+Add Parent Model Review Functionality
+
+--------------------------
+4.2
+-----------------------
+Add Parent Model Review Functionality
+
+3.5.1
+support attribute of type color/image
+--------------------------
+3.2.3
+fixes and enhancements
+------------------------------------
+3.2.2
+comments changes to support dynamic author than and public comments
+------------------------------------
+3.2.1
+add is_private boolean column to comments
+
+-------------------------------------
+3.2
+add permissions for Webhooks
+-------------------------------------
+3.1
+Utility Fixes
+-------------------------------------
+3.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+2.7.1
+comments approval
+=============================
+2.7
+add label and hidden columns to utility module
+=============================
+2.5
+php 7.4 support
+============================
+
+2.4
+-added guide model
+
+2.3
+- add missing permission [Utility::comment.delete] to permissions table
+
+
+2.2
+- add properties column to [utility_ratings,utility_wishlists,utility_locations,utility_schedules,utility_comments] tables
+
+2.1
+------------------------------------
+fix Multi Value Custom Field Bug
+
+2.0
+------------------------------------
+Laravel 6 Upgrade
+
+1.5.1
+------------------------------
+Fix Multi Select Display on products listing
+
+
+1.5
+add icon and thumbnail to tags/attributes
+---------------------------
+1.3.6
+add getCategoriesByParent to CategoryManager
+---------------------------
+1.3.5
+- Add SEO Tool.
+---------------------------
+1.3.3
+- Add Bulk Action in Utility
+---------------------------
+1.2
+- add categories parent_id foreign key
+---------------------------
+1.1
+Add Module Admin Permission
+---------------------------
+1.0.8
+-Add new table utility_comments
+-Add new status column to utility_ratings
+-Add new menus items (Ratings, Comments)
+-Add new permission Utility::comment.create
+-Add new notifications (Ratings toggle status)
+----------------------------------------
+1.0.7
+- Add Rate Notification
+-----------------------------------------
+1.0.7
+- add Address Policy
+
+-----------------------------------------
+1.0.6
+- add criteria to rating
+------------------------------------------
+1.0.5
+- change thumbnails to use full URL
+------------------------------------------
+1.0.4
+- add prefix to calendar settings
+------------------------------------------
+
+1.0.3
+- enhancements on gallery
+------------------------------------------
