@@ -1,0 +1,37 @@
+body {
+    color: #f8e8e7;
+}
+
+a {
+    color: #3fc3ee;
+}
+
+.login-box-body, .register-box-body {
+    background: #1D2939;
+    padding: 20px;
+    color: #f8e8e7;
+    border: #000 solid 1px;
+    border-bottom-right-radius: 50px;
+}
+
+.form-control-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+    color: #777;
+}
+
+.login-box, .register-box {
+    margin: 6% auto;
+}
+
+html, body {
+    height: auto;
+}

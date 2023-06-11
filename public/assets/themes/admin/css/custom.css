@@ -1,0 +1,252 @@
+.required-field > label::after {
+    content: " *";
+    color: #F44336;
+}
+
+.popover-content {
+    word-wrap: break-word;
+}
+
+.sidebar-hidden .content-wrapper,
+.sidebar-hidden .main-footer {
+    margin-left: 0;
+}
+
+.sidebar-hidden .sidebar-toggle {
+    display: none;
+}
+
+.main-sidebar .fa {
+    font-size: large;
+    margin-right: 5px;
+}
+
+.main-footer {
+    margin-left: 0px;
+}
+
+.treeview-menu li.active > span, .treeview-menu li.active > i {
+    color: #FFF;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.profile-user-img {
+    cursor: pointer;
+}
+
+.popover {
+    max-width: 50%;
+}
+
+.treeview-menu > li > a {
+    padding-left: 25px;
+}
+
+/** Some Styling Changes
+
+ */
+
+body {
+    font-family: "Fira Sans", "Helvetica Neue", Arial, sans-serif;
+    color: #1D2939;
+
+}
+
+.content-wrapper {
+    background-image: url(../img/3132.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main-sidebar {
+    background-color: #283341;
+    font-size: 13px;
+
+}
+
+.main-header, .main-footer {
+    background-color: #1D2939;
+}
+
+.main-sidebar li a, .main-sidebar li, .main-sidebar a, .main-header a, .main-footer {
+    color: #adb5bd;
+}
+
+.main-sidebar li > a:hover {
+    color: #fff;
+}
+
+.main-sidebar li > a:active {
+    font-size: small;
+}
+
+.main-sidebar li.active > a {
+    color: #fff;
+}
+
+.content-wrapper {
+    min-height: 100%;
+    background-color: #ecf0f5;
+    z-index: 800;
+}
+
+@media only screen and (min-width: 768px) {
+    .content-wrapper, .main-footer {
+        margin-left: 210px;
+    }
+
+    .main-sidebar, .main-header .logo {
+        width: 210px;
+    }
+}
+
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header > p {
+    color: #1D2939;
+}
+
+.main-footer {
+
+    background-color: #1D2939;
+}
+
+.table-condensed > tbody > tr > td {
+    padding: 10px 5px;
+}
+
+.icheckbox_square-blue {
+    margin-top: 5px;
+}
+
+select[readonly] {
+    cursor: no-drop;
+}
+
+select[readonly] option {
+    display: none;
+}
+
+.text-center img {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.select2 {
+    width: 100% !important;
+}
+
+.nav-currency {
+    float: left;
+    padding-top: 14px;
+}
+
+.nav-currency a {
+    border-radius: 5px;
+    padding: 5px 8px;
+}
+
+.dropdown-menu > li > a > .glyphicon, .dropdown-menu > li > a > .fa, .dropdown-menu > li > a > .ion {
+    margin-right: 0;
+}
+
+.icheckbox_flat-blue, .iradio_flat-blue {
+    width: 21px;
+    height: 21px;
+}
+
+.navbar-custom-menu li > a:hover, .navbar-custom-menu li > a:active, .navbar-custom-menu li > a:focus {
+    color: white;
+}
+
+.dropdown.open > a:hover, .dropdown.open > a:active, .dropdown.open > a:focus {
+    color: black;
+}
+
+a.clickable-object {
+    position: relative;
+    display: inline-block;
+}
+
+a.clickable-object:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+table.details-table {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid black;
+}
+
+table.details-table td {
+    padding: 5px;
+    border: 1px #0b0b0b dashed;
+}
+
+@media (max-width: 767px) {
+
+    #demo_mode_nav {
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+
+    .navbar-custom-menu > .navbar-nav {
+        background-color: white;
+    }
+
+    .dropdown.locale #language_name {
+        display: none;
+    }
+
+}
+
+.form-control-feedback {
+    position: unset;
+    top: unset;
+    right: unset;
+    z-index: unset;
+    display: unset;
+    width: unset;
+    height: unset;
+    line-height: unset;
+    text-align: unset;
+    pointer-events: unset;
+}
+
+.w-200 {
+    width: 200px;
+}
+
+.dataTableBuilder .custom-control-label {
+    display: none;
+}
+
+.tab-pane {
+    padding: 10px;
+}
