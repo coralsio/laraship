@@ -1,0 +1,8 @@
+{
+  "type": "admin",
+  "name": "corals-one-ui-dark",
+  "extends": "corals-one-ui",
+  "caption": "Corals One Ui Dark",
+  "version": "2.3.1",
+  "assetPath": "assets\/themes\/oneui-dark"
+}

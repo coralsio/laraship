@@ -1,0 +1,8 @@
+{
+  "type": "admin",
+  "name": "corals-one-ui",
+  "extends": null,
+  "caption": "Corals One UI",
+  "version": "2.2.6",
+  "assetPath": "assets\/themes\/oneui"
+}
