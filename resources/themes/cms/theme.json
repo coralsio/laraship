@@ -1,0 +1,26 @@
+{
+  "type": "frontend",
+  "name": "corals-basic",
+  "caption": "Corals CMS",
+  "extends": null,
+  "assetPath": "assets\/themes\/cms",
+  "version": "1.4",
+  "css": [
+    "css/bootstrap.min.css",
+    "css/font-awesome.min.css",
+    "css/animate.min.css",
+    "css/prettyPhoto.css",
+    "css/pricingTable.min.css",
+    "css/main.css",
+    "css/responsive.css"
+  ],
+  "js": [
+    "js/jquery.js",
+    "js/bootstrap.min.js",
+    "js/jquery.prettyPhoto.js",
+    "js/jquery.isotope.min.js",
+    "js/wow.min.js",
+    "js/functions.js",
+    "js/main.js"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "admin",
+  "name": "corals-admin",
+  "extends": null,
+  "caption": "Corals Admin",
+  "version": "2.4.2",
+  "assetPath": "assets\/themes\/admin"
+}
