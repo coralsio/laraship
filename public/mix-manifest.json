@@ -1,0 +1,7 @@
+{
+    "/assets/core/compiled/js/manifest.js": "/assets/core/compiled/js/manifest.js",
+    "/assets/core/compiled/js/vendor.js": "/assets/core/compiled/js/vendor.js",
+    "/assets/core/compiled/js/laravel-echo-setup.js": "/assets/core/compiled/js/laravel-echo-setup.js",
+    "/assets/themes/reservation-doctors/dist/js/Schedule.js": "/assets/themes/reservation-doctors/dist/js/Schedule.js",
+    "/assets/themes/reservation-touring/dist/js/Booking.js": "/assets/themes/reservation-touring/dist/js/Booking.js"
+}
