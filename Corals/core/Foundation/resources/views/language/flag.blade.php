@@ -1,0 +1,2 @@
+<img src="{{ asset(config('language.flags.asset_path'). $country_code .'.png') }}" alt="{{ $name }}"
+     class="{{ config('language.flags.img_class') }}" width="{{ config('language.flags.width') }}"/>

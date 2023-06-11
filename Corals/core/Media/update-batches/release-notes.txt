@@ -1,0 +1,29 @@
+4.1.2
+fix media hash issue
+------------------------------------
+4.1
+add attachments component and logic
+------------------------------------
+4.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+3.0
+laravel 7 upgrade
+upgrade laravel-medialibrary
+------------------------------------
+2.0
+Laravel 6 Upgrade
+------------------------------------
+1.4.1
+add responsive_images to main migration
+-----------------------------------------------------
+1.4
+Update to Media Library 7
+-----------------------------------------------------
+1.3
+- add translation feature and enhance breadcrumbs
+-----------------------------------------------------
+1.2
+- Corals\Media\Classes\CoralsPathGenerator
+  add ability to set the folder name for media record instead of id column.

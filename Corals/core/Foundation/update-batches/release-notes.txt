@@ -1,0 +1,259 @@
+6.2.6
+add generic actions
+-------------------------
+6.2.5
+fix dt
+-------------------------
+6.2.2
+add cloner package
+--------------------------
+6.2
+--------------------------
+Add ParentModelReview
+
+
+6.1.2
+add csv_delimiter config
+---------------------------
+6.1.1
+---------------------------
+Fix dt export
+
+6.1
+---------------------------
+Add autocomplete library
+
+6.0.4
+gateway status status_type
+------------------
+5.3.5
+move gateway status to foundation
+------------------
+
+5.3.4
+support color input
+------------------
+5.3.3
+copy new CORS Config
+
+-----------------
+5.3.1
+Fix Custom Field
+-----------------
+
+5.3
+fix datatables with ordering feature
+-------------------------
+
+5.2
+fix issue on new Laravel version related to missing attribute values
+-----------------------
+5.1
+Translation fix
+--------------------------
+5.0.11
+Add CoralsMiddleware to web
+---------------------
+5.0.10
+Bug fix on console
+---------------------
+5.0.9
+Refresh Recapatcha on Error
+--------------------
+5.0.6
+Query Builder Filter
+-----------------------------
+5.0.4
+general fixes and updates to support Trouble ticket
+------------------------------
+5.0.1
+------------------------------
+Add Handler function if ability not defined
+
+5.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+4.9.1
+=========================
+Add global excluded variables
+
+4.9
+==================================
+Add Auto Strip Tags on Request
+
+ion logic
+
+4.8
+=========================
+Add Chartjs, iCheck assets
+
+4.7.1
+use "strict_mode";
+----------------------------------
+4.7
+php 7.4 support
+============================
+
+4.6.2
+Enhancements for API and Datatables
+-----------------------------------
+4.6.1
+make <a> with ladda disabled after click
+-----------------------------------
+4.5
+fixes to the installer
+-----------------------------------
+4.4
+fixes to the installer
+add select2-tree plugin
+-----------------------------------
+4.1
+laraship installer
+------------------------------------
+4.0
+Laravel 6 Upgrade
+------------------------------------
+3.4
+fix to the translation script
+----------------------------------
+3.3
+move filters_script to corals_functions
+----------------------------------
+3.2
+change custom fields to be called by using : getCustom(), instead of magic attribute
+----------------------------------
+3.0.1
+Fix Ajax Login on Checkout
+----------------------------
+3.0
+API Support
+------------------------------------
+1.8.8.
+----------------------------
+Add New Translation
+
+1.8.7
+- fix datatable request issue
+----------------------------------
+1.8.5
+- add \Arr::hashids_encode helper
+- enhance select2-ajax and support to be working on modals.
+- add select 2 result_mapper
+- add ModelUniqueCode trait
+- add ckeditor-simple class
+----------------------------------
+1.8.3
+----------------------------------
+Compatibility with Latest Laravel datatables
+
+1.8.2
+----------------------------------
+make Media library verison fixed
+
+1.8.1
+----------------------------------
+Add Core Admin Permission
+
+1.8.0
+- fix CKEDITOR translation
+---------------------------------------
+1.7.9
+- get locale from url in middleware
+---------------------------------------
+1.7.8
+- Add Recovery Service Provider
+---------------------------------------
+1.7.7
+- fix CoralsForm translation when there is no model
+-----------------------------------------------------
+1.7.6
+- fix CoralsForm translation when model not use trait
+-----------------------------------------------------
+1.7.5
+- fix translation form data
+-----------------------------------------------------
+1.7.4
+- add translations to form fields
+-----------------------------------------------------
+1.7.3
+- enhancements for new admin theme
+-----------------------------------------------------
+1.7.2
+- add ModelPropertiesTrait to foundation
+-----------------------------------------------------
+1.7.1
+- fix BaseRequest can method when user not logged in.
+- fix BaseDataTable setResourceUrl use url helper.
+- add CoralsScope
+-----------------------------------------------------
+1.7
+- add cropper to corals assets.
+- add AuthBaseController.
+-----------------------------------------------------
+1.6.9
+- add ModelHelpersTrait
+-----------------------------------------------------
+1.6.8
+- rollback 'static_properties' in config.
+-----------------------------------------------------
+1.6.7
+- handle 'static_properties' in config.
+-----------------------------------------------------
+1.6.6
+- add js.cookie.js to corals plugins.
+-----------------------------------------------------
+1.6.5
+- add translation feature and enhance breadcrumbs
+- add formatStatusAsLabels helper
+-----------------------------------------------------
+1.6.0
+- add localization support
+-----------------------------------------------------
+1.5.8
+- add submit button that have name and value to the submitted form parameters
+-----------------------------------------------------
+1.5.7
+- add javascript variable binder to core
+-----------------------------------------------------
+1.5.6
+- update corals function add hash functionality for tabs
+-----------------------------------------------------
+1.5.5
+
+- add schemaHasTable helper function and use it where needed
+- move cachable files to separate folder.
+- handle limited-text textarea in corals_main.js
+-----------------------------------------------------
+1.5
+
+- enhancement to scripts
+    * change ajaxPost function to ajaxRequest and pass the method in the params.
+- fix helper function removeEmptyArrayElement to exclude boolean false values.
+- add helper function generateCopyToClipBoard.
+-----------------------------------------------------
+1.3.6
+- Move core modules service providers registration to FoundationServiceProvider
+- add notification module registration
+-----------------------------------------------------
+1.3.5
+- Add Corals Search Engine
+-----------------------------------------------------
+1.3.4
+- add config registration to foundation.
+- fixes to corals_functions.js
+-----------------------------------------------------
+1.3.3
+- enhance corals scripts
+    corals_functions.js
+    corals_main.js
+
+- enhance BaseTransformer
+    check if components.item_actions view exists or not
+- enhance helpers
+    formatArrayAsLabels support badge for bs4
+    change redirectTo url in response
+-----------------------------------------------------
+1.3.2
+Corals/core/Foundation/Classes/CoralsForm.php
+change select2 tags class to select2-normal tags in handleCustomFieldInput

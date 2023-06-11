@@ -1,0 +1,17 @@
+3.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+2.0
+Laravel 6 Upgrade
+------------------------------------
+1.3.1
+------------------------------------------------
+Add Menu Permission
+
+1.3
+- add translation feature and enhance breadcrumbs
+-----------------------------------------------------
+1.1.1
+- Corals/core/Menu/resources/views/menu/create_edit.blade.php
+  fix menu form roles select2 multiple class

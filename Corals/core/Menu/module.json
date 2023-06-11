@@ -1,0 +1,18 @@
+{
+  "code": "corals-menu",
+  "name": "Menu Manager",
+  "author": "Corals",
+  "type": "core",
+  "description": "Manage Menu items, sidebar, cms menu...",
+  "namespace": "Corals\\Menu",
+  "provider": "MenuServiceProvider",
+  "version": "4.1",
+  "load_order": "20",
+  "folder": "Menu",
+  "autoload": "psr-4",
+  "icon": "fa fa-bars",
+  "require": {
+    "corals-settings": "^5.0",
+    "corals-foundation": "^6.0"
+  }
+}

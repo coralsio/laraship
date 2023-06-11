@@ -1,0 +1,63 @@
+<?php
+
+return [
+
+    'without_icon' => [
+        'create' => 'Crio',
+        'update' => 'Atualizar',
+        'edit' => 'Editar',
+        'save' => 'Salve ',
+        'delete' => 'Excluir',
+        'show' => 'exposição',
+        'cancel' => 'Cancelar',
+    ],
+    'create' => '<i class = "fa fa-fw fa-plus"> </i> Criar',
+    'update' => '<i class = "fa fa-fw fa-save"> </i> Atualizar',
+    'edit' => '<i class = "fa fa-fw fa-lápis"> </i> Editar',
+    'save' => '<i class = "fa fa-fw fa-save"> </i> :title',
+    'delete' => '<i class = "fa fa-fw fa-remove"> </i> Excluir',
+    'show' => '<i class = "fa fa-fw fa-olho"> </i> Mostrar',
+    'cancel' => '<i class = "fa-fa-times"> </i> Cancelar',
+    'download' => '<i class = "fa fa-fw fa-download"> </i> download',
+    'browse' => '<i class = "fa-fa-pasta-open-o"> </i> Navegar',
+    'more_info' => 'Mais informações <i class = "fa fa-arrow-circle-right"> </i>',
+    'create_title' => 'Criar :title',
+    'create_setting' => 'Criar :type: title_singular',
+    'update_title' => 'Atualizar [:title]',
+    'show_title' => '[:title]',
+    'action' => 'Açao',
+    'select' => 'Selecione :label ...',
+    'or' => 'Ou',
+    'and' => 'E',
+    'next' => 'Próximo',
+    'previous' => 'Anterior',
+    'confirmation' => [
+        'title' => 'Você tem certeza?',
+        'yes' => 'sim',
+        'cancel' => 'Cancelar',
+        'delete' => [
+            'yes' => 'Sim, exclua!',
+            'text' => 'Você não poderá reverter isso!',
+        ],
+    ],
+    'actions' => 'Actions',
+    'address_label' => [
+        'billing_details' => 'Detalhes de cobrança',
+        'bill_address' => 'endereço de cobrança',
+        'address_one' => 'Endereço 1',
+        'address_two' => 'Endereço 2',
+        'city' => 'Cidade',
+        'state' => 'Estado',
+        'zip' => 'Fecho eclair',
+        'country' => 'País',
+        'shipping_details' => 'Detalhes de envio',
+        'save_billing' => 'Salvar o endereço de faturamento no meu perfil',
+        'copy_billing' => 'Copiar endereço de cobrança para endereço de entrega',
+        'save_shipping' => 'Salvar endereço de entrega no meu perfil',
+        'shipping_title' => 'endereço de entrega',
+        'title_checkout' => 'Detalhes do checkout',
+        'type' => 'Tipo',
+    ],
+
+
+];

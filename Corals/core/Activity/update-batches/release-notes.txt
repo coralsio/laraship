@@ -1,0 +1,20 @@
+3.0
+upgrade to laravel 7
+new LARASHIP features
+-------------------------------------
+2.1
+- create http_log table
+- add http_log view/delete permissions
+- add http-logs menus
+--------------------------------------
+2.0
+------------------------------------
+Laravel 6 Upgrade
+
+1.2.1
+-----------------------
+Add Admin Permission
+
+1.2
+- add translation feature and enhance breadcrumbs
+-----------------------------------------------------
