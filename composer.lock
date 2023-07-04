@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e03de15c47c58b286953b28e34d1e5d2",
+    "content-hash": "8ee54a97c9927c1cb825393630a23907",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -4757,20 +4757,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8e75661c0f78371d8fddc77f9af181ed501acc26"
+                "reference": "abf63b9ca007ab2d3e8d148416a096ed17119d1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8e75661c0f78371d8fddc77f9af181ed501acc26",
-                "reference": "8e75661c0f78371d8fddc77f9af181ed501acc26",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/abf63b9ca007ab2d3e8d148416a096ed17119d1b",
+                "reference": "abf63b9ca007ab2d3e8d148416a096ed17119d1b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": "^7.1.8 || ^8.0",
+                "psr/clock": "^1.0",
                 "symfony/polyfill-mbstring": "^1.0",
                 "symfony/polyfill-php80": "^1.16",
                 "symfony/translation": "^3.4 || ^4.0 || ^5.0 || ^6.0"
+            },
+            "provide": {
+                "psr/clock-implementation": "1.0"
             },
             "require-dev": {
                 "doctrine/dbal": "^2.0 || ^3.1.4",
@@ -4852,7 +4856,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-09T20:08:09+00:00"
+            "time": "2023-06-23T13:31:39+00:00"
         },
         {
             "name": "nette/schema",
@@ -5604,12 +5608,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "bc8e0ed636fe8cfc949beff17ab7a4cdd2d5f437"
+                "reference": "5a7569cd131be1f7562fb2317ab17d0491852c53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/bc8e0ed636fe8cfc949beff17ab7a4cdd2d5f437",
-                "reference": "bc8e0ed636fe8cfc949beff17ab7a4cdd2d5f437",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/5a7569cd131be1f7562fb2317ab17d0491852c53",
+                "reference": "5a7569cd131be1f7562fb2317ab17d0491852c53",
                 "shasum": ""
             },
             "require": {
@@ -5706,7 +5710,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-25T15:03:16+00:00"
+            "time": "2023-07-02T17:32:01+00:00"
         },
         {
             "name": "pragmarx/google2fa",
@@ -7193,12 +7197,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "740e5d8f4457caa1f469b15dfb45b91569fbfcff"
+                "reference": "3159b18d2d4d08b752037dbe8d65dc95e49ad2b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/740e5d8f4457caa1f469b15dfb45b91569fbfcff",
-                "reference": "740e5d8f4457caa1f469b15dfb45b91569fbfcff",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/3159b18d2d4d08b752037dbe8d65dc95e49ad2b9",
+                "reference": "3159b18d2d4d08b752037dbe8d65dc95e49ad2b9",
                 "shasum": ""
             },
             "require": {
@@ -7267,7 +7271,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-29T21:57:38+00:00"
+            "time": "2023-07-03T01:06:12+00:00"
         },
         {
             "name": "spatie/pdf-to-image",
@@ -10839,12 +10843,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "bdfe99cbbfaa880a5126732a2806a82380be0a89"
+                "reference": "8ac7c19d1af8ec4d0717279978fe3d477ac1a48d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/bdfe99cbbfaa880a5126732a2806a82380be0a89",
-                "reference": "bdfe99cbbfaa880a5126732a2806a82380be0a89",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/8ac7c19d1af8ec4d0717279978fe3d477ac1a48d",
+                "reference": "8ac7c19d1af8ec4d0717279978fe3d477ac1a48d",
                 "shasum": ""
             },
             "require": {
@@ -10916,7 +10920,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-10T07:57:13+00:00"
+            "time": "2023-07-03T10:08:21+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
