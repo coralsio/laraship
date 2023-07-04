@@ -127,7 +127,7 @@ class GenerateExcelForDataTable implements ShouldQueue
      */
     protected function getModelTransformer($dataTable, $source)
     {
-        return Arr::first($dataTable->dataTable($source)->transformer);
+        return Arr::first($dataTable->dataTable($source)->getTransformer());
     }
 
 }

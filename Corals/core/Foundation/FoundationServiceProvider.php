@@ -47,6 +47,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTableAbstract;
 
 class FoundationServiceProvider extends ServiceProvider
 {
@@ -76,6 +77,10 @@ class FoundationServiceProvider extends ServiceProvider
         if (request()->is('*api*'))  {
             $this->mobileResetPasswordConfiguration();
         }
+
+        DataTableAbstract::macro('getTransformer', function () {
+            return $this->transformer;
+        });
     }
 
     /**
