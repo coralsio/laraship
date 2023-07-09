@@ -44,7 +44,9 @@ class ClearCacheCommand extends Command
             'route:clear',
             'view:clear',
             'debugbar:clear',
-            'queue:restart'
+            'queue:restart',
+            'route:cache',
+            'config:cache'
         ];
 
         $this->executeCommands($cacheCommands);
