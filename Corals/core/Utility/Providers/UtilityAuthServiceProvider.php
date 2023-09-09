@@ -21,6 +21,6 @@ class UtilityAuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+
     }
 }
