@@ -4,7 +4,7 @@
         <h3 class="box-title {{ !empty($box_title) || !empty($box_actions)?'':'hidden' }}">{{ $box_title ?? '' }}</h3>
 
         <div class="box-tools pull-right">
-            {{ $box_actions ?? '' }}
+            {!! $box_actions ?? '' !!}
         </div>
     </div>
     <div class="box-body">
