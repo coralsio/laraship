@@ -124,6 +124,5 @@
       "type": "composer",
       "url": "https://packages.laraship.com"
     }
-  ],
-  "minimum-stability": "dev"
+  ]
 }

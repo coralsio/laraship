@@ -33,6 +33,6 @@ class NotificationAuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+
     }
 }
