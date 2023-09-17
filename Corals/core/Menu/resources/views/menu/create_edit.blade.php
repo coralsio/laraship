@@ -19,8 +19,8 @@
             @endslot
 
             {!! CoralsForm::openForm($menu,['url' => url(config('menu.models.menu.resource_url').'/'.$menu->hashed_id), 'data-page_action'=>'site_reload']) !!}
-            {{ Form::hidden('parent_id', $menu->parent_id) }}
-            {{ Form::hidden('root', $root) }}
+            {{ html()->hidden('parent_id', $menu->parent_id) }}
+            {{ html()->hidden('root', $root) }}
 
             @if($root)
                 {!! CoralsForm::text('key','Menu::attributes.menu.key',true) !!}

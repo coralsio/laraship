@@ -162,7 +162,7 @@
                   class="dropzone"
                   id="galleryDZ">
                 {{ csrf_field() }}
-                {{ Form::hidden('model_class', get_class($galleryModel)) }}
+                {{ html()->hidden('model_class', get_class($galleryModel)) }}
             </form>
         </div>
         <script type="text/javascript">

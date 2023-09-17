@@ -40,7 +40,7 @@
                     <div class="tab-pane {{ $active_tab=="profile"? 'active':'' }}" id="profile" role="tabpanel">
                         <div class="row">
                             <div class="col-md-12">
-                                {!! Form::model($user = user(), ['url' => url('profile'), 'method'=>'PUT','class'=>'ajax-form','files'=>true]) !!}
+                                {!! CoralsForm::openForm($user = user(), ['url' => url('profile'), 'method'=>'PUT','class'=>'ajax-form','files'=>true]) !!}
                                 <ul class="nav nav-pills mt-2">
                                     <li class="nav-item"><a href="#edit_profile" class="nav-link active"
                                                             data-toggle="tab"
@@ -91,7 +91,7 @@
                                                          style="width: 200px"
                                                          src="{{ user()->picture }}"
                                                          alt="User profile picture">
-                                                    {{ Form::hidden('profile_image') }}
+                                                    {{ html()->hidden('profile_image') }}
                                                     <small class="">@lang('corals-elite-admin::labels.auth.click_pic_update')</small>
                                                 </div>
                                             </div>
@@ -146,7 +146,7 @@
                                 <div class="col-md-12">
                                     {!! CoralsForm::formButtons(trans('corals-elite-admin::labels.auth.save',['title' => $title_singular]),[],['href'=>url('dashboard')]) !!}
                                 </div>
-                                {!! Form::close() !!}
+                                {!! CoralsForm::closeForm() !!}
                             </div>
                         </div>
                     </div>

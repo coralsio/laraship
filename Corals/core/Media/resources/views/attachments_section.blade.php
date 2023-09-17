@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <h4>@lang('Media::labels.media.attachment.add_new_attachments')</h4>
             @if((isset($hasForm) && $hasForm) || !isset($hasForm))
-                {!! Form::model($object, ['url' => $url,'method'=>'POST','class'=>'', 'files' => true,'class'=>'ajax-form']) !!}
+                {!! CoralsForm::openForm($object, ['url' => $url,'method'=>'POST','class'=>'', 'files' => true,'class'=>'ajax-form']) !!}
             @endif
 
             <table id="values-table" style="width:100%;" class="table table-striped table-responsive key-value-table">
@@ -30,7 +30,7 @@
             @if((isset($hasForm) && $hasForm) || !isset($hasForm))
                 {!! CoralsForm::formButtons('<i class="fa fa-save"></i> '.trans('Media::labels.media.attachment.add_attachments') ,[],['show_cancel'=>false]) !!}
 
-                {!! Form::close() !!}
+                {!! CoralsForm::closeForm() !!}
             @endif
         </div>
     @endif

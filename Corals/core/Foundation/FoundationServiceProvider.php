@@ -47,6 +47,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Spatie\Html\Html;
 use Yajra\DataTables\DataTableAbstract;
 
 class FoundationServiceProvider extends ServiceProvider
@@ -74,12 +75,78 @@ class FoundationServiceProvider extends ServiceProvider
             ]);
         }
 
-        if (request()->is('*api*'))  {
+        if (request()->is('*api*')) {
             $this->mobileResetPasswordConfiguration();
         }
 
         DataTableAbstract::macro('getTransformer', function () {
             return $this->transformer;
+        });
+
+
+        $this->registerMissingHtmlMacro();
+    }
+
+    /**
+     *
+     */
+    protected function registerMissingHtmlMacro(): void
+    {
+
+        Html::macro('style', function ($url, $attributes = [], $secure = null) {
+
+            $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
+
+            $attributes = array_merge($defaults, $attributes);
+
+            $attributes['href'] = url()->asset($url, $secure);
+
+            return new HtmlString('<link' . $this->attributes($attributes) . '>');
+
+        });
+
+        Html::macro('script', function ($url, $attributes = [], $secure = null) {
+
+            $attributes['src'] = url()->asset($url, $secure);
+
+            return new HtmlString(
+                '<script' . $this->attributes($attributes) . '></script>'
+            );
+        });
+
+        Html::macro('attributes', function ($attributes) {
+            $html = [];
+
+            $attributeElement = function ($key, $value) {
+                if (is_numeric($key)) {
+                    return $value;
+                }
+
+                // Treat boolean attributes as HTML properties
+                if (is_bool($value) && $key !== 'value') {
+                    return $value ? $key : '';
+                }
+
+                if (is_array($value) && $key === 'class') {
+                    return 'class="' . implode(' ', $value) . '"';
+                }
+
+                if (!is_null($value)) {
+                    return $key . '="' . e($value, false) . '"';
+                }
+            };
+
+            foreach ((array)$attributes as $key => $value) {
+
+
+                $element = $attributeElement($key, $value);
+
+                if (!is_null($element)) {
+                    $html[] = $element;
+                }
+            }
+
+            return count($html) > 0 ? ' ' . implode(' ', $html) : '';
         });
     }
 

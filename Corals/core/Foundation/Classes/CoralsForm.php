@@ -3,8 +3,6 @@
 namespace Corals\Foundation\Classes;
 
 use Carbon\Carbon;
-use Collective\Html\FormFacade as Form;
-use Collective\Html\HtmlFacade as Html;
 use Corals\Foundation\Traits\Language\Translatable;
 use Corals\Settings\Facades\CustomFields;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +49,7 @@ class CoralsForm
         if (empty($label)) {
             return '';
         }
-        return Form::label($key, trans($label), $attributes);
+        return html()->label(trans($label), $key)->attributes($attributes);
     }
 
     public function helpText($text)
@@ -136,9 +134,9 @@ class CoralsForm
         $options = \Arr::pull($attributes, 'options', []);
 
         if (in_array($type, $this->selectTypes)) {
-            $input = Form::select($key, $options, $value, array_merge([], $attributes));
+            $input = html()->select($key, $options, $value)->attributes(array_merge([], $attributes));
         } elseif (in_array($type, $this->skipValueTypes)) {
-            $input = Form::{$type}($key, array_merge([], $attributes));
+            $input = html()->{$type}($key)->attributes(array_merge([], $attributes));
 
             if ($type == 'file') {
                 $image = \Arr::get($attributes, 'with_preview',
@@ -151,7 +149,7 @@ class CoralsForm
             $id = \Arr::get($attributes, 'id', $key);
 
             $input = '<div class="custom-control custom-checkbox">';
-            $input .= Form::{$type}($key, $value, $checked, array_merge([], $attributes));
+            $input .= html()->{$type}($key, $checked, $value)->attributes(array_merge([], $attributes));
             $input .= '<label class="custom-control-label" for="' . $id . '">' . self::SPACER . trans($label) . '</label></div>';
             $label = '';
         } elseif ($type == 'checkboxes') {
@@ -165,8 +163,7 @@ class CoralsForm
             foreach ($options as $checkbox_value => $checkbox_label) {
                 $attributes['id'] = $checkbox_value . '_' . \Str::random(6);
                 $input .= '<span class="custom-control custom-checkbox">';
-                $input .= Form::checkbox($key, $checkbox_value, in_array($checkbox_value, $selected ?? []),
-                    array_merge([], $attributes));
+                $input .= html()->checkbox($key, in_array($checkbox_value, $selected ?? []), $checkbox_value)->attributes(array_merge([], $attributes));
                 $input .= '<label class="custom-control-label" for="' . $attributes['id'] . '">' . self::SPACER . $checkbox_label . '</label></span>' . self::SPACER;
             }
 
@@ -179,7 +176,7 @@ class CoralsForm
             foreach ($options as $radio_value => $radio_label) {
                 $attributes['id'] = $radio_value . '_' . \Str::random(6);
                 $input .= '<' . $radioWrapper . ' class="custom-control custom-radio">';
-                $input .= Form::radio($key, $radio_value, $radio_value == $selected, array_merge([], $attributes));
+                $input .= html()->radio($key, $radio_value == $selected, $radio_value)->attributes(array_merge([], $attributes));
                 $input .= '<label class="custom-control-label" for="' . $attributes['id'] . '">' . self::SPACER . $radio_label . '</label>' .
                     "</$radioWrapper>" . self::SPACER;
             }
@@ -201,7 +198,7 @@ class CoralsForm
                 $attributes);
             $input .= '</div>';
         } else {
-            $input = Form::{$type}($key, $value, array_merge([], $attributes));
+            $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
         }
 
         $label = $this->inputLabel($key, $label, $labelAttributes);
@@ -326,7 +323,8 @@ class CoralsForm
         $value = null,
         $attributes = [],
         $type = 'select'
-    ) {
+    )
+    {
         if (!empty($label)) {
             $label = trans($label);
         }
@@ -409,17 +407,13 @@ class CoralsForm
      * @param $href
      * @param $label
      * @param array $attributes
-     * @return HtmlString
+     * @return \Spatie\Html\BaseElement|\Spatie\Html\Elements\A
      */
     public function link($href, $label, $attributes = [])
     {
         $attributes = $this->setDataAttribute($attributes);
 
-        $attributes['href'] = $href;
-
-        $html_attributes = Html::attributes($attributes);
-
-        return $this->toHtmlString('<a' . $html_attributes . '>' . trans($label) . '</a>');
+        return html()->a($href, trans($label))->attributes($attributes);
     }
 
     /**
@@ -441,7 +435,7 @@ class CoralsForm
      * @param $label
      * @param array $attributes
      * @param string $type
-     * @return HtmlString
+     * @return \Spatie\Html\BaseElement|\Spatie\Html\Elements\Button|string
      */
     public function button($label, $attributes = [], $type = 'button')
     {
@@ -449,9 +443,8 @@ class CoralsForm
 
         $attributes['type'] = $type;
 
-        $html_attributes = Html::attributes($attributes);
+        $button = html()->button(trans($label), $type)->attributes($attributes);
 
-        $button = $this->toHtmlString('<button' . $html_attributes . '>' . trans($label) . '</button>');
 
         if (Arr::get($attributes, 'inline-form', false)) {
             $button = '<label style="display: block;">&nbsp;</label>' . $button;
@@ -658,16 +651,12 @@ class CoralsForm
                 $input = sprintf("%s %s %s %s %s %s %s",
                     $this->text($name, $fieldLabel, $isFieldRequired, data_get($value, 'address'),
                         $fieldCustomAttributes),
-                    Form::hidden('properties[lat]', data_get($value, 'lat'), ['id' => 'lat']),
-                    Form::hidden('properties[long]', data_get($value, 'long'), ['id' => 'long']),
-                    Form::hidden('properties[address_street]', data_get($value, 'address_street'),
-                        ['id' => 'address_street']),
-                    Form::hidden('properties[address_city]', data_get($value, 'address_city'),
-                        ['id' => 'address_city']),
-                    Form::hidden('properties[address_state]', data_get($value, 'address_state'),
-                        ['id' => 'address_state']),
-                    Form::hidden('properties[address_country]', data_get($value, 'address_country'),
-                        ['id' => 'address_country'])
+                    html()->hidden('properties[lat]', data_get($value, 'lat'))->attributes(['id' => 'lat']),
+                    html()->hidden('properties[long]', data_get($value, 'long'))->attributes(['id' => 'long']),
+                    html()->hidden('properties[address_street]', data_get($value, 'address_street'))->attributes(['id' => 'address_street']),
+                    html()->hidden('properties[address_city]', data_get($value, 'address_city'))->attributes(['id' => 'address_city']),
+                    html()->hidden('properties[address_state]', data_get($value, 'address_state'))->attributes(['id' => 'address_state']),
+                    html()->hidden('properties[address_country]', data_get($value, 'address_country'))->attributes(['id' => 'address_country'])
                 );
 
                 \Assets::add(asset('assets/corals/js/auto_complete_google_address.js'));
@@ -747,10 +736,14 @@ class CoralsForm
         // check form class attributes
         $attributes['class'] = \Arr::get($attributes, 'class', 'ajax-form');
 
+        $method = Arr::pull($attributes, 'method');
+        $action = Arr::pull($attributes, 'url');
+
+
         if (!is_null($model)) {
-            $formOpenTag = Form::model($model, $attributes);
+            $formOpenTag = html()->model($model)->form($method, $action)->attributes($attributes)->open();
         } else {
-            $formOpenTag = Form::open($attributes);
+            $formOpenTag = html()->form($method, $action)->attributes($attributes)->open();
         }
 
 
@@ -803,8 +796,8 @@ class CoralsForm
 
             $switcher = HtmlElement('ul.list-inline', $languages);
 
-            $translation_language_code = Form::hidden('translation_language_code', \App::getLocale(),
-                ['class' => 'translation_language_code ignore-dirty-state']);
+            $translation_language_code = html()->hidden('translation_language_code', \App::getLocale())
+                ->attributes(['class' => 'translation_language_code ignore-dirty-state']);
             $customContent .= $translation_language_code;
 
             $customContent .= HtmlElement('div.row > div.col-md-12 > div.form_language_switcher text-right', $switcher);
@@ -819,7 +812,7 @@ class CoralsForm
      */
     public function closeForm(Model $model = null)
     {
-        return Form::close();
+        return html()->form()->close();
     }
 
     /**
@@ -877,8 +870,7 @@ class CoralsForm
         $datetimePicker .= "<div class='col-md-5' style='padding-left: 0;'>" . $this->select('', 'Time', [], $required,
                 null, $timePickerAttributes, 'select2') . "</div></div>";
 
-        $datetimePicker .= $this->formGroup(Form::hidden($key, $value,
-            ['class' => 'datetime-hidden', 'id' => $elementID]), false, $this->errorMessage($key),
+        $datetimePicker .= $this->formGroup(html()->hidden($key, $value)->attributes(['class' => 'datetime-hidden', 'id' => $elementID]), false, $this->errorMessage($key),
             self::FORM_GROUP_CLASS . ' mb-0 m-b-0');
         $datetimePicker .= '</div>';
 

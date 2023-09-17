@@ -34,7 +34,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane @if($active_tab=="profile") active @endif" id="profile">
-                        {!! Form::model($user = user(), ['url' => url('profile'), 'method'=>'PUT','class'=>'ajax-form','files'=>true]) !!}
+                        {!! CoralsForm::openForm($user = user(), ['url' => url('profile'), 'method'=>'PUT','class'=>'ajax-form','files'=>true]) !!}
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-pills">
                                 <li class="active"><a href="#edit_profile" data-toggle="pill"><i
@@ -78,7 +78,7 @@
                                                      style="width: 200px"
                                                      src="{{ user()->picture }}"
                                                      alt="User profile picture">
-                                                {{ Form::hidden('profile_image') }}
+                                                {{ html()->hidden('profile_image') }}
                                                 <small class="">@lang('corals-admin::labels.auth.click_pic_update')</small>
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                 {!! CoralsForm::formButtons(trans('corals-admin::labels.auth.save',['title' => $title_singular]),[],['href'=>url('dashboard')]) !!}
                             </div>
                         </div>
-                        {!! Form::close() !!}
+                        {!! CoralsForm::closeForm() !!}
                     </div>
                     @php \Actions::do_action('user_profile_tabs_content',user(),$active_tab) @endphp
 
