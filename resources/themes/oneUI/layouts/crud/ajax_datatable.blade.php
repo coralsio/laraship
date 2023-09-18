@@ -23,7 +23,15 @@
 </div>
 
 
+@push('partial_js')
+    {!! $dataTable->assets() !!}
+    {!! $dataTable->scripts() !!}
+@endpush
 
-
-{!! $dataTable->assets() !!}
-{!! $dataTable->scripts() !!}
+@isset($includeAssets)
+    {!! $dataTable->scripts() !!}
+    <script>
+        initThemeElements();
+        initSelect2ajax();
+    </script>
+@endisset
