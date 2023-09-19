@@ -3,8 +3,10 @@
 namespace Corals\Foundation\Classes;
 
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Writer\Common\Creator\WriterFactory;
 use OpenSpout\Writer\WriterInterface;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Entity\Row;
 
 class ExcelWriter
 {
@@ -55,7 +57,7 @@ class ExcelWriter
      */
     protected function __construct(string $path)
     {
-        $this->writer = WriterEntityFactory::createWriterFromFile($path);
+        $this->writer = WriterFactory::createFromFile($path);
 
         $this->path = $path;
     }
@@ -96,7 +98,11 @@ class ExcelWriter
                 $this->writeHeaderFromRow($row);
             }
 
-            $row = WriterEntityFactory::createRowFromArray($row, $style);
+            $cells = array_map(function ($cellValue) {
+                return Cell::fromValue($cellValue);
+            }, $row);
+
+            $row = new Row($cells,$style);
         }
 
         $this->writer->addRow($row);
@@ -111,7 +117,11 @@ class ExcelWriter
     {
         $headerValues = array_keys($row);
 
-        $headerRow = WriterEntityFactory::createRowFromArray($headerValues);
+        $cells = array_map(function ($cellValue) {
+            return Cell::fromValue($cellValue);
+        }, $headerValues);
+
+        $headerRow = new Row($cells);
 
         $this->writer->addRow($headerRow);
         $this->numberOfRows++;
