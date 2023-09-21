@@ -18,7 +18,7 @@
         <div class="col-md-4">
             @component('components.box')
                 {!! CoralsForm::openForm($setting) !!}
-                {{ html()->hidden('type', $type) }}
+                {{ CoralsForm::hidden('type', $type) }}
                 @include('Settings::settings.partials.shared_fields',['setting' => $setting])
                 {!! CoralsForm::formButtons() !!}
                 {!! CoralsForm::closeForm($setting) !!}

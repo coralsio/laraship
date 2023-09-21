@@ -162,7 +162,7 @@
                   class="dropzone"
                   id="galleryDZ">
                 {{ csrf_field() }}
-                {{ html()->hidden('model_class', get_class($galleryModel)) }}
+                {{ CoralsForm::hidden('model_class', get_class($galleryModel)) }}
             </form>
         </div>
         <script type="text/javascript">

@@ -8,7 +8,7 @@
                 {!! CoralsForm::text($key.'[address_2]', 'Corals::labels.address_label.address_two',false, $object['address_2'] ?? '') !!}
             </div>
             @if(isset($type))
-                {!! html()->hidden($key.'[type]', $type) !!}
+                {!! CoralsForm::hidden($key.'[type]', $type) !!}
             @else
                 <div class="col-md-3">
                     {!! CoralsForm::select($key.'[type]', 'Corals::labels.address_label.type', $addressTypes??\Settings::get('address_types',[]), true, $object['type'] ?? '') !!}

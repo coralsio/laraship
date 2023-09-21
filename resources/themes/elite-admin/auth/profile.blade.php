@@ -91,7 +91,7 @@
                                                          style="width: 200px"
                                                          src="{{ user()->picture }}"
                                                          alt="User profile picture">
-                                                    {{ html()->hidden('profile_image') }}
+                                                    {{ CoralsForm::hidden('profile_image') }}
                                                     <small class="">@lang('corals-elite-admin::labels.auth.click_pic_update')</small>
                                                 </div>
                                             </div>

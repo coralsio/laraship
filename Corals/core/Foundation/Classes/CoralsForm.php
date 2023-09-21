@@ -651,12 +651,12 @@ class CoralsForm
                 $input = sprintf("%s %s %s %s %s %s %s",
                     $this->text($name, $fieldLabel, $isFieldRequired, data_get($value, 'address'),
                         $fieldCustomAttributes),
-                    html()->hidden('properties[lat]', data_get($value, 'lat'))->attributes(['id' => 'lat']),
-                    html()->hidden('properties[long]', data_get($value, 'long'))->attributes(['id' => 'long']),
-                    html()->hidden('properties[address_street]', data_get($value, 'address_street'))->attributes(['id' => 'address_street']),
-                    html()->hidden('properties[address_city]', data_get($value, 'address_city'))->attributes(['id' => 'address_city']),
-                    html()->hidden('properties[address_state]', data_get($value, 'address_state'))->attributes(['id' => 'address_state']),
-                    html()->hidden('properties[address_country]', data_get($value, 'address_country'))->attributes(['id' => 'address_country'])
+                    $this->hidden('properties[lat]', data_get($value, 'lat'), ['id' => 'lat']),
+                    $this->hidden('properties[long]', data_get($value, 'long'), ['id' => 'long']),
+                    $this->hidden('properties[address_street]', data_get($value, 'address_street'), ['id' => 'address_street']),
+                    $this->hidden('properties[address_city]', data_get($value, 'address_city'), ['id' => 'address_city']),
+                    $this->hidden('properties[address_state]', data_get($value, 'address_state'), ['id' => 'address_state']),
+                    $this->hidden('properties[address_country]', data_get($value, 'address_country'), ['id' => 'address_country'])
                 );
 
                 \Assets::add(asset('assets/corals/js/auto_complete_google_address.js'));
@@ -796,8 +796,7 @@ class CoralsForm
 
             $switcher = HtmlElement('ul.list-inline', $languages);
 
-            $translation_language_code = html()->hidden('translation_language_code', \App::getLocale())
-                ->attributes(['class' => 'translation_language_code ignore-dirty-state']);
+            $translation_language_code = $this->hidden('translation_language_code', \App::getLocale(), ['class' => 'translation_language_code ignore-dirty-state']);
             $customContent .= $translation_language_code;
 
             $customContent .= HtmlElement('div.row > div.col-md-12 > div.form_language_switcher text-right', $switcher);
@@ -870,7 +869,7 @@ class CoralsForm
         $datetimePicker .= "<div class='col-md-5' style='padding-left: 0;'>" . $this->select('', 'Time', [], $required,
                 null, $timePickerAttributes, 'select2') . "</div></div>";
 
-        $datetimePicker .= $this->formGroup(html()->hidden($key, $value)->attributes(['class' => 'datetime-hidden', 'id' => $elementID]), false, $this->errorMessage($key),
+        $datetimePicker .= $this->formGroup($this->hidden($key, $value, ['class' => 'datetime-hidden', 'id' => $elementID]), false, $this->errorMessage($key),
             self::FORM_GROUP_CLASS . ' mb-0 m-b-0');
         $datetimePicker .= '</div>';
 
@@ -913,5 +912,16 @@ class CoralsForm
                 $value, $timePickerAttributes, 'select2') . "</div>";
 
         return $timePicker;
+    }
+
+    /**
+     * @param null $name
+     * @param null $value
+     * @param array $attributes
+     * @return \Spatie\Html\BaseElement|\Spatie\Html\Elements\Input
+     */
+    public function hidden($name = null, $value = null, $attributes = [])
+    {
+        return html()->hidden($name, $value)->attributes($attributes);
     }
 }

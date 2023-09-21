@@ -63,7 +63,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-8">
-                        {{ html()->label('body', trans('Notification::attributes.notification_template.body')) }}
+                        {{ CoralsForm::label('body', trans('Notification::attributes.notification_template.body')) }}
 
                         <ul class="nav nav-tabs nav-primary">
                             @foreach(config('notification.supported_channels') as $channelKey => $channelName)
@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-md-4">
                         @if(sizeof($notificationParametersDescription) > 0)
-                            {{ html()->label('notification_parameters', trans('Notification::labels.notification_parameters')) }}
+                            {{ CoralsForm::label('notification_parameters', trans('Notification::labels.notification_parameters')) }}
                             <small class="help-block text-muted">@lang('Notification::labels.notification_parameters_help')</small>
                             <table class="table color-table info-table table table-hover table-striped table-condensed">
                                 <thead>
