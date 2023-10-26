@@ -6,6 +6,7 @@ namespace Corals\User\Communication\Listeners;
 use Corals\User\Communication\Facades\CoralsNotification;
 use Corals\User\Communication\Models\NotificationHistory;
 use Corals\User\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 
@@ -109,7 +110,7 @@ class NotificationEventSubscriber
             }
 
             if (isset($onDemandNotifiables[$channel])) {
-                $notifiablesRoutes[$channel] = array_merge($notifiablesRoutes[$channel] ?? [], $onDemandNotifiables[$channel]);
+                $notifiablesRoutes[$channel] = array_merge($notifiablesRoutes[$channel] ?? [], Arr::wrap($onDemandNotifiables[$channel]));
             }
         }
 
