@@ -13,13 +13,13 @@ class installPackage extends baseCommand
         $package = $this->argument('package');
 
         if (!$package) {
-            $filenames = $this->files->glob($this->packages_path('*.theme.tar.gz'));
+            $filenames = $this->files->glob($this->packages_path('*.zip'));
             $packages = array_map(function ($filename) {
-                return basename($filename, '.theme.tar.gz');
+                return basename($filename, '.zip');
             }, $filenames);
             $package = $this->choice('Select a theme to install:', $packages);
         }
-        $package = $this->packages_path($package . '.theme.tar.gz');
+        $package = $this->packages_path($package . '.zip');
 
         // Create Temp Folder
         $this->createTempFolder();

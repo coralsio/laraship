@@ -31,14 +31,14 @@ class createPackage extends baseCommand
         $packageFileName = $theme->name;
         $packageFileName = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $packageFileName);
         $packageFileName = mb_ereg_replace("([\.]{2,})", '', $packageFileName);
-        $packageFileName = $this->packages_path("{$packageFileName}.theme.tar.gz");
+        $packageFileName = $this->packages_path("{$packageFileName}.zip");
 
         // Create Temp Folder
         $this->createTempFolder();
 
         // Copy Views+Assets to Temp Folder
         system("cp -r $viewsPath {$this->tempPath}/views");
-        system("cp -r $assetPath {$this->tempPath}/asset");
+        system("cp -r $assetPath {$this->tempPath}/assets");
 
         // Add viewsPath into theme.json file
         $themeJson = new ThemeManifest();
@@ -46,9 +46,7 @@ class createPackage extends baseCommand
         $themeJson->set('viewsPath', $theme->viewsPath);
         $themeJson->saveToFile("{$this->tempPath}/views/theme.json");
 
-        // Tar Temp Folder contents
-        system("cd {$this->tempPath} && tar -cvzf $packageFileName .");
-
+        \Madzipper::make($packageFileName)->add($this->tempPath)->close();
         // Del Temp Folder
         $this->clearTempFolder();
 
