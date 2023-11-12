@@ -24,12 +24,15 @@ class installPackage extends baseCommand
         // Create Temp Folder
         $this->createTempFolder();
 
-        // Untar to temp folder
-        exec("tar xzf $package -C {$this->tempPath}");
+
+        \Madzipper::make($package)->extractTo($this->tempPath);
+
+        \Madzipper::close();
+
 
         // Read theme.json
         $themeJson = new \Corals\Theme\ThemeManifest();
-        $themeJson->loadFromFile("{$this->tempPath}/views/theme.json");
+        $themeJson->loadFromFile("{$this->tempPath}/" . basename($package, '.zip') . '/views/' . basename($package, '.zip') . '/theme.json');
 
         // Check if theme is already installed
         $themeName = $themeJson->get('name');
@@ -40,14 +43,15 @@ class installPackage extends baseCommand
         }
 
         // Target Paths
-        $viewsPath = themes_path($themeJson->get('viewsPath'));
+        $viewsPath = themes_path($themeJson->get('viewsPath')) . '/' . basename($package, '.zip');
         $assetPath = public_path($themeJson->get('assetPath'));
 
         // If Views+Asset paths don't exist, move theme from temp to target paths
         if (file_exists($viewsPath)) {
             $this->info("Warning: Views path [$viewsPath] already exists. Will not be installed.");
         } else {
-            exec("mv {$this->tempPath}/views $viewsPath");
+            $tempViewThemPath = "{$this->tempPath}/" . basename($package, '.zip') . '/views/' . basename($package, '.zip');
+            exec("mv $tempViewThemPath $viewsPath");
 
             // Remove 'theme-views' from theme.json
             $themeJson->remove('viewsPath');
@@ -58,7 +62,8 @@ class installPackage extends baseCommand
         if (file_exists($assetPath)) {
             $this->error("Error: Asset path [$assetPath] already exists. Will not be installed.");
         } else {
-            exec("mv {$this->tempPath}/asset $assetPath");
+            $tempAssetThemPath = "{$this->tempPath}/" . basename($package, '.zip') . '/assets/' . basename($package, '.zip');
+            exec("mv $tempAssetThemPath $assetPath");
             $this->info("Theme assets installed to path [$assetPath]");
         }
 

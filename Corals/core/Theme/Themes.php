@@ -376,8 +376,8 @@ class Themes
     /**
      * Return css link for $href
      *
-     * @param string $href
-     * @param string $id
+     * @param  string $href
+     * @param  string $id
      * @return string
      */
     public function css($href, $id = null)
@@ -392,7 +392,7 @@ class Themes
     /**
      * Return script link for $href
      *
-     * @param string $href
+     * @param  string $href
      * @return string
      */
     public function js($href)
@@ -403,10 +403,10 @@ class Themes
     /**
      * Return img tag
      *
-     * @param string $src
-     * @param string $alt
-     * @param string $Class
-     * @param array $attributes
+     * @param  string $src
+     * @param  string $alt
+     * @param  string $Class
+     * @param  array $attributes
      * @return string
      */
     public function img($src, $alt = '', $class = '', $attributes = array())
@@ -422,7 +422,7 @@ class Themes
     /**
      * Return attributes in html format
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return string
      */
     private function HtmlAttributes($attributes)
@@ -509,6 +509,7 @@ class Themes
 
         \Madzipper::close();
 
+
         $tempFiles = scandir($this->tempPath);
         foreach ($tempFiles as $file) {
             if (is_dir($this->tempPath . '/' . $file) && !in_array($file, ['.', '..'])) {
@@ -516,7 +517,9 @@ class Themes
             }
         }
 
-        $themeTempPath = $this->tempPath . '/';
+
+        $themeTempPath = $this->tempPath . '/' . $filename;
+
 
         if (!$this->isValidThemeStructure($themeTempPath)) {
             throw new \Exception(trans('Theme::exception.theme.theme_invalid_structure'));
@@ -524,7 +527,7 @@ class Themes
 
         $themeJson = new ThemeManifest();
 
-        $themeJson->loadFromFile($themeTempPath . '/views/' . "/theme.json");
+        $themeJson->loadFromFile($themeTempPath . '/views/' . basename($themeTempPath) . "/theme.json");
 
         // Check if theme is already installed
         $themeName = $themeJson->get('name');
@@ -548,8 +551,8 @@ class Themes
         $assetPath = public_path($themeJson->get('assetPath'));
 
 
-        $this->filesystem->copyDirectory($themeTempPath . '/views/', $viewsPath);
-        $this->filesystem->copyDirectory($themeTempPath . '/assets/', $assetPath);
+        $this->filesystem->copyDirectory($themeTempPath . '/views/' . basename($themeTempPath), $viewsPath . '/' . basename($themeTempPath));
+        $this->filesystem->copyDirectory($themeTempPath . '/assets/' . basename($themeTempPath), $assetPath);
 
 
         if ($isThemeInstalled) {
@@ -589,8 +592,8 @@ class Themes
 //        logger($this->filesystem->exists($themeTempPath . '/views/' . basename($themeTempPath)) ? 'assets' : '---');
 
         return $this->filesystem->exists($themeTempPath)
-            && $this->filesystem->exists($themeTempPath . '/assets/')
-            && $this->filesystem->exists($themeTempPath . '/views/');
+            && $this->filesystem->exists($themeTempPath . '/assets/' . basename($themeTempPath))
+            && $this->filesystem->exists($themeTempPath . '/views/' . basename($themeTempPath));
     }
 
     public function createTempFolder()
@@ -626,7 +629,7 @@ class Themes
     }
 
 
-    public function theme_view_exists($themeName, $view)
+    public function theme_view_exists($themeName,$view)
     {
         if (!\Theme::exists($themeName)) {
             return false;

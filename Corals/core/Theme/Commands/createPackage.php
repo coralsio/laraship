@@ -1,11 +1,14 @@
 <?php namespace Corals\Theme\Commands;
 
 use Corals\Theme\ThemeManifest;
+use Madnest\Madzipper\Madzipper;
 
 class createPackage extends baseCommand
 {
     protected $signature = 'theme:package {themeName?}';
     protected $description = 'Create a theme package';
+    protected $themes;
+
 
     public function handle()
     {
@@ -17,40 +20,27 @@ class createPackage extends baseCommand
             }, \Theme::all());
             $themeName = $this->choice('Select a theme to create a distributable package:', $themes);
         }
-        $theme = \Theme::find($themeName);
 
-        $viewsPath = themes_path($theme->viewsPath);
-        $assetPath = public_path($theme->assetPath);
+        if (!$this->themes) {
+            $this->themes = \Modules::scanThemesJsonFiles();;
 
-        // Packages storage path
-        $packagesPath = $this->packages_path();
-        if (!$this->files->exists($packagesPath))
-            mkdir($packagesPath);
+        }
 
-        // Sanitize target filename
-        $packageFileName = $theme->name;
-        $packageFileName = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $packageFileName);
-        $packageFileName = mb_ereg_replace("([\.]{2,})", '', $packageFileName);
-        $packageFileName = $this->packages_path("{$packageFileName}.zip");
 
-        // Create Temp Folder
-        $this->createTempFolder();
+        $theme = $this->themes[$themeName];
 
-        // Copy Views+Assets to Temp Folder
-        system("cp -r $viewsPath {$this->tempPath}/views");
-        system("cp -r $assetPath {$this->tempPath}/assets");
+        $asset_path = \Modules::getThemesPublicPath() . $theme['assetPath'];
+        $viewsPath = \Modules::getThemesBasedPath() . $theme['viewsPath'];
+        $filename = env('PACKAGE_PATH') . "/" . $theme['name'] . ".zip";
 
-        // Add viewsPath into theme.json file
-        $themeJson = new ThemeManifest();
-        $themeJson->loadFromFile("{$this->tempPath}/views/theme.json");
-        $themeJson->set('viewsPath', $theme->viewsPath);
-        $themeJson->saveToFile("{$this->tempPath}/views/theme.json");
 
-        \Madzipper::make($packageFileName)->add($this->tempPath)->close();
-        // Del Temp Folder
-        $this->clearTempFolder();
+        $zipper = new Madzipper();
+        $zipper->make($filename);
+        $zipper->folder($themeName . '/assets/' . $themeName)->add($asset_path);
+        $zipper->folder($themeName . '/views/' . $themeName)->add($viewsPath);
+        $zipper->close();
 
-        $this->info("Package created at [$packageFileName]");
+        $this->info("Package created at [$filename]");
     }
 
 

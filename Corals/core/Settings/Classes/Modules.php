@@ -948,4 +948,67 @@ class Modules
         });
         return $module_updates_count;
     }
+
+
+    // Scans theme folders for theme.json files and returns an array of themes
+    public function scanThemesJsonFiles()
+    {
+        $themes_path = $this->getThemesBasedPath();
+        $themes = [];
+        $themeFolders = File::directories($themes_path);
+        foreach ($themeFolders as $themeFolder) {
+            $themeFolder = realpath($themeFolder);
+            if (file_exists($jsonFilename = $themeFolder . '/' . 'theme.json')) {
+
+                $folders = explode(DIRECTORY_SEPARATOR, $themeFolder);
+                $themeName = end($folders);
+
+                // default theme settings
+                $defaults = [
+                    'name' => $themeName,
+                    'assetPath' => $themeName,
+                    'extends' => null,
+                ];
+
+                // If theme.json is not an empty file parse json values
+                $json = file_get_contents($jsonFilename);
+                if ($json !== "") {
+                    $data = json_decode($json, true);
+                    if ($data === null) {
+                        throw new \Exception(trans('Theme::exception.theme.theme_invalid_folder', ['themeFolder' => $themeFolder]));
+                    }
+                } else {
+                    $data = [];
+                }
+
+                // We already know viewsPath since we have scaned folders.
+                // we will overide this setting if exists
+                $data['viewsPath'] = $themeName;
+
+                $themes[$data['name']] = array_merge($defaults, $data);
+            }
+        }
+        return $themes;
+    }
+
+
+    public function getThemesBasedPath()
+    {
+        $repo_path = env('REPO_PATH');
+
+        return $repo_path . '/resources/themes/';
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    public function getThemesPublicPath()
+    {
+        $repo_path = env('REPO_PATH');
+
+        return $repo_path . '/public/';
+    }
+
+
 }
