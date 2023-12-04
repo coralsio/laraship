@@ -6,7 +6,7 @@
   "description": "Log system different activities",
   "namespace": "Corals\\Activity",
   "provider": "ActivityServiceProvider",
-  "version": "5.0.0",
+  "version": "10.0.0",
   "load_order": "35",
   "folder": "Activity",
   "autoload": "psr-4",
