@@ -74,7 +74,7 @@ class CoralsInstallation extends Command
 
         $this->clearAllCache(false);
 
-        $this->configureLicense();
+//        $this->configureLicense();
 
         $this->configureDatabase();
 
