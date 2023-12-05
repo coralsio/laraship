@@ -27,6 +27,11 @@ class ConfigureLicense
     protected $file = '.env';
 
     /**
+     * @var string
+     */
+    protected $authJsonFile = 'auth.json';
+
+    /**
      * ConfigureDatabase constructor.
      * @param Filesystem $finder
      */
@@ -55,6 +60,8 @@ class ConfigureLicense
             $domain = $this->askInstallationDomain();
             $license = $this->askLicenseKey();
 
+            $email = $this->askEmail();
+
             $result = $this->LicenseIsValid($domain, $license);
 
             $status = false;
@@ -72,6 +79,8 @@ class ConfigureLicense
         }
 
         $this->write($domain, $license);
+
+        $this->writeAuthJsonFile($email, $license);
 
         $command->info('License successfully configured.');
     }
@@ -153,6 +162,44 @@ class ConfigureLicense
         } while (empty($license));
 
         return $license;
+    }
+
+    protected function askEmail()
+    {
+        do {
+            $email = $this->command->ask('Enter your Email');
+
+            $validator = Validator::make(['email' => $email], [
+                'email' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $this->command->warn(join('|', $validator->errors()->get('email')));
+                $email = '';
+            }
+        } while (empty($email));
+
+        return $email;
+    }
+
+
+    protected function writeAuthJsonFile($email, $license)
+    {
+        $jsonString = file_get_contents($this->authJsonFile);
+
+        $data = json_decode($jsonString, true);
+
+        foreach ($data as $key => $entry) {
+            foreach ($entry as $entryKey => $value) {
+                $data[$key][$entryKey]['username'] = $email;
+                $data[$key][$entryKey]['password'] = $license;
+            }
+        }
+
+        $newJsonString = json_encode($data);
+
+        $this->finder->put($this->authJsonFile, $newJsonString);
+
     }
 
     private function strpos_arr($domain)
