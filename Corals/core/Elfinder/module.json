@@ -6,7 +6,7 @@
   "description": "Manage users files powered by elfinder",
   "namespace": "Corals\\Elfinder",
   "provider": "ElfinderServiceProvider",
-  "version": "4.0.1",
+  "version": "10.0.0",
   "load_order": "30",
   "folder": "Elfinder",
   "autoload": "psr-4",
