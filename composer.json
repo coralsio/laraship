@@ -1,9 +1,12 @@
 {
-  "name": "laravel/laravel",
-  "description": "The Laravel Framework.",
+  "name": "corals/laraship",
+  "description": "Laraship is a Platform built on Laravel for Rapid Development, it helps Agents, Startups, and even individuals to save time building their Web Applications and websites using well-structured code.",
   "keywords": [
     "framework",
-    "laravel"
+    "laravel",
+    "dashboard",
+    "cms",
+    "admin-panel"
   ],
   "license": "MIT",
   "type": "project",
