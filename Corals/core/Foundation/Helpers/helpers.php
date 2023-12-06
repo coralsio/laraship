@@ -79,6 +79,10 @@ if (!function_exists('hashids_decode')) {
             return $value;
         }
 
+        if (!$value) {
+            return null;
+        }
+
         $decoded_value = \Corals\Foundation\Facades\Hashids::decode($value);
 
         if (empty($decoded_value)) {
@@ -154,11 +158,12 @@ if (!function_exists('format_time')) {
 if (!function_exists('log_exception')) {
     function log_exception(
         \Exception $exception = null,
-        $object = null,
-        $action = null,
-        $message = null,
-        $echo_message = false
-    ) {
+                   $object = null,
+                   $action = null,
+                   $message = null,
+                   $echo_message = false
+    )
+    {
         logger(array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2), -1));
 
         if ($exception) {
@@ -588,8 +593,11 @@ if (!function_exists('HtmlElement')) {
 if (!function_exists('getUserByHash')) {
     function getUserByHash($user_hashed_id)
     {
-        $user = Corals\User\Models\User::findByHash($user_hashed_id);
-        return $user;
+        if (!$user_hashed_id) {
+            return null;
+        }
+
+        return Corals\User\Models\User::findByHash($user_hashed_id);
     }
 }
 
