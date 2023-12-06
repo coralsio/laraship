@@ -3,9 +3,9 @@
 namespace Corals\User\Communication\database\migrations;
 
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateNotificationTemplatesTable extends Migration
 {
@@ -19,7 +19,7 @@ class CreateNotificationTemplatesTable extends Migration
         Schema::create('notification_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('event_name');
+            $table->string('event_name')->nullable();
             $table->string('friendly_name');
             $table->string('title')->nullable();
             $table->text('body')->nullable();

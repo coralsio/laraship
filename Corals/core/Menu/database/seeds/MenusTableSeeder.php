@@ -14,7 +14,6 @@ class MenusTableSeeder extends Seeder
 
         // seed root menus
         $sidebarMenuId = \DB::table('menus')->insertGetId([
-                'id' => 1,
                 'parent_id' => 0,
                 'key' => 'sidebar',
                 'url' => null,
