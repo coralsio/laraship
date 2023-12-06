@@ -110,7 +110,7 @@ class UsersDataTable extends BaseDataTable
             'roles.id' => [
                 'title' => trans('User::attributes.user.roles'),
                 'class' => 'col-md-2',
-                'type' => 'select',
+                'type' => 'select2',
                 'options' => Roles::getRolesList(),
                 'active' => true
             ],
