@@ -18,7 +18,6 @@ class RolesDatabaseSeeder extends Seeder
 
         \DB::table('roles')->insert([
             [
-                'id' => 1,
                 'name' => 'superuser',
                 'label' => 'Super User',
                 'guard_name' => config('auth.defaults.guard'),
@@ -27,7 +26,6 @@ class RolesDatabaseSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'id' => 2,
                 'name' => 'member',
                 'label' => 'Member',
                 'guard_name' => config('auth.defaults.guard'),

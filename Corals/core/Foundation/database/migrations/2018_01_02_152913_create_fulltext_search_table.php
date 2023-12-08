@@ -30,8 +30,10 @@ class CreateFulltextSearchTable extends Migration
                 $table->timestamps();
             });
 
-            \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title(indexed_title)');
-            \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title_content(indexed_title, indexed_content)');
+            if (\Illuminate\Support\Facades\DB::connection()->getConfig()['name'] == 'mysql') {
+                \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title(indexed_title)');
+                \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title_content(indexed_title, indexed_content)');
+            }
         }
     }
 
