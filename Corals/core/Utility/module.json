@@ -2,7 +2,7 @@
   "code": "corals-utility",
   "name": "Utility Module",
   "author": "Corals",
-  "type": "module",
+  "type": "core",
   "description": "Utility Package",
   "namespace": "Corals\\Utility\\",
   "provider": "UtilityServiceProvider",

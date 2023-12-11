@@ -37,6 +37,7 @@ use Corals\User\Communication\Facades\CoralsNotification;
 use Corals\User\Facades\Roles;
 use Corals\User\Facades\TwoFactorAuth;
 use Corals\User\UserServiceProvider;
+use Corals\Utility\UtilityServiceProvider;
 use Hashids\Hashids;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Passwords\PasswordBrokerManager as BasePasswordBrokerManager;
@@ -174,6 +175,7 @@ class FoundationServiceProvider extends ServiceProvider
         $this->app->register(ElfinderServiceProvider::class);
         $this->app->register(ThemeServiceProvider::class);
         $this->app->register(BreadcrumbsServiceProvider::class);
+        $this->app->register(UtilityServiceProvider::class);
 
         $this->app->singleton('JavaScript', function ($app) {
             return new Transformer(

@@ -33,6 +33,9 @@ class CreateFulltextSearchTable extends Migration
             if (\Illuminate\Support\Facades\DB::connection()->getConfig()['name'] == 'mysql') {
                 \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title(indexed_title)');
                 \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title_content(indexed_title, indexed_content)');
+            } else if (\Illuminate\Support\Facades\DB::connection()->getConfig()['name'] == 'pgsql') {
+                \DB::statement('ALTER TABLE fulltext_search ADD COLUMN tsvector_content tsvector GENERATED ALWAYS AS (to_tsvector(\'simple\', COALESCE(indexed_title, \'\') || \' \' || COALESCE(indexed_content, \'\'))) STORED');
+                \DB::statement('CREATE INDEX tsvector_content_gin_index ON fulltext_search USING gin(tsvector_content)');
             }
         }
     }

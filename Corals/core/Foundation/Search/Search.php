@@ -55,11 +55,11 @@ class Search implements SearchInterface
 
         $isBoolean = data_get($config, 'boolean', true);
 
-        $query
-            ->when($isBoolean, function ($query) use ($termsBool) {
+
+        if (config('database.default') === 'mysql') {
+            $query->when($isBoolean, function ($query) use ($termsBool) {
                 $query->whereRaw('MATCH (indexed_title, indexed_content) AGAINST (? IN BOOLEAN MODE)', [$termsBool]);
-            })
-            ->when(!$isBoolean, function ($query) use ($termsMatch) {
+            })->when(!$isBoolean, function ($query) use ($termsMatch) {
                 $query->
                 whereRaw('MATCH (indexed_title, indexed_content) AGAINST (? IN NATURAL LANGUAGE MODE)', [$termsMatch]);
             })->orderByRaw(
@@ -68,6 +68,10 @@ class Search implements SearchInterface
              ) DESC',
                 [$termsMatch, $termsMatch]
             );
+        } else if (config('database.default') === 'pgsql') {
+            $query
+                ->whereRaw("to_tsvector(indexed_title || ' ' || indexed_content) @@ to_tsquery(?)", [str_replace('*', ':*', $termsMatch)]);
+        }
 
         return $query;
     }
