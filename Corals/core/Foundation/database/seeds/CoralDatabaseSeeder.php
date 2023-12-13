@@ -7,6 +7,7 @@ use Corals\Menu\database\seeds\MenusTableSeeder;
 use Corals\Settings\database\seeds\SettingsTableSeeder;
 use Corals\Settings\Facades\Modules;
 use Corals\User\database\seeds\UsersDatabaseSeeder;
+use Corals\Utility\database\seeds\UtilityDatabaseSeeder;
 use Illuminate\Database\Seeder;
 
 class CoralDatabaseSeeder extends Seeder
@@ -22,6 +23,7 @@ class CoralDatabaseSeeder extends Seeder
         $this->call(SettingsTableSeeder::class);
         $this->call(UsersDatabaseSeeder::class);
         $this->call(MenusTableSeeder::class);
+        $this->call(UtilityDatabaseSeeder::class);
 
         Modules::grantSuperuserRoleFullAccess();
     }
