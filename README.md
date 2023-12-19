@@ -26,20 +26,20 @@ Installation instructions and Docs can be found under : https://www.laraship.com
 
 ## Plugins
 
-| Plugin | README | Platform
+| Plugin | Repository | Platform
 | ------ | ------ | --------|
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
+| Dropbox |  |
 
 ## Themes
 
-| Plugin | README | Platform
+| Plugin | Repository | Platform
 | ------ | ------ | --------|
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
+| Dropbox |  |
 
 ## Payment Methods
 
-| Plugin | README | Platform
+| Plugin | Repository | Platform
 | ------ | ------ | --------|
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
+| Dropbox |  |
 
 
