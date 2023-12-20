@@ -7,7 +7,7 @@ Route::group(['prefix' => 'utilities'], function () {
     Route::group(['prefix' => 'gallery', 'as' => 'gallery.'], function () {
         Route::get('{hashed_id}', ['as' => 'list', 'uses' => 'Gallery\GalleryController@gallery']);
         Route::post('upload', ['as' => 'upload', 'uses' => 'Gallery\GalleryController@galleryUpload']);
-        Route::post('{hashed_id}/upload', ['as' => 'upload', 'uses' => 'Gallery\GalleryController@galleryUpload']);
+        Route::post('{hashed_id}/upload', ['as' => 'item.upload', 'uses' => 'Gallery\GalleryController@galleryUpload']);
         Route::post('{media}/mark-as-featured',
             ['as' => 'mark-as-featured', 'uses' => 'Gallery\GalleryController@galleryItemFeatured']);
         Route::delete('{media}/delete', ['as' => 'delete', 'uses' => 'Gallery\GalleryController@galleryItemDelete']);
