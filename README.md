@@ -1,14 +1,23 @@
 # Laraship
 
-Laraship is a modular Laravel-based platform designed for building various types of websites and applications. Laravel
+Laraship is a modular Laravel-based platform for building various websites and applications. Laravel
 is a popular PHP framework for web development, and Laraship provides a set of modules and features that can be used to
 accelerate the development of specific types of web applications.
 
-Laraship is rich with features includes:
+
+### Elevate Your Projects with Our Expert Laravel Team!
+Looking for a dedicated, experienced Laravel development team to bring your web projects to life? Look no further than Corals. Our team of seasoned Laravel developers is here to collaborate with you and deliver top-notch, customized solutions that exceed your expectations.
+
+Ready to take your project to the next level with our expert Laravel team? Reach out to us at info@corals.io or fill out the [form on our website to](https://www.laraship.com/contact/) discuss your project requirements and kickstart a successful collaboration.
+
+
+## Laraship Features 
+
+Laraship is rich with features, including:
 
 ### Modular Architecture:
 
-Laraship is built with a modular structure, allowing developers to easily integrate and customize specific modules based
+Laraship is built with a modular structure, allowing developers to integrate and customize specific modules based easily
 on their project requirements.
 
 ### Subscription and Membership Management:
@@ -27,7 +36,7 @@ Some versions of Laraship may include a content management system for managing a
 
 ### Marketplace Solutions:
 
-Laraship Marketplace provides Multi Vendor Capability with different payment options and different shipping methods
+Laraship Marketplace provides Multi Vendor Capability with different payment options and different shipping methods.
 
 ### User Management:
 
@@ -35,7 +44,7 @@ Laraship provides user authentication, registration, and profile management feat
 
 ## Installation Instructions & Documentations
 
-Installation instructions and Docs can be found under : https://www.laraship.com/docs/laraship/welcome-to-laraship/
+Installation instructions and Docs can be found under: https://www.laraship.com/docs/laraship/welcome-to-laraship/
 
 ## Modules
 
