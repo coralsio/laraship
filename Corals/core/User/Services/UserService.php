@@ -71,9 +71,17 @@ class UserService extends BaseServiceClass
         $this->model->groups()->sync($request->groups);
     }
 
-    public function handleUserRoles(UserRequest $request)
+    public function handleUserRoles(UserRequest $request, $rolesListForLoggedInUser)
     {
-        $this->model->roles()->sync($request->roles);
+        $rolesFormRequest = $request->roles;
+
+        $loggedInUserRoles = $rolesListForLoggedInUser;
+
+        $updatedUserRoles = $this->model->roles->pluck('label', 'id');
+
+        $rolesToInsert = array_merge(array_keys(($updatedUserRoles->diff($loggedInUserRoles))->toArray()), $rolesFormRequest);
+
+        $this->model->syncRoles($rolesToInsert);
     }
 
     public function store($request, $modelClass, $additionalData = [])
@@ -117,11 +125,13 @@ class UserService extends BaseServiceClass
 
     public function postStoreUpdate($request, $additionalData)
     {
+        $rolesListForLoggedInUser = $additionalData['roles_for_logged_in_user'];
+
         $this->setTwoFactorAuthDetails($request);
 
         $this->handleUserPicture($request);
 
-        $this->handleUserRoles($request);
+        $this->handleUserRoles($request, $rolesListForLoggedInUser);
 
         $this->handleUserGroups($request);
     }

@@ -61,7 +61,9 @@ class UsersController extends BaseController
     public function store(UserRequest $request)
     {
         try {
-            $user = $this->userService->store($request, User::class);
+            $additionalData = ['roles_for_logged_in_user' => \Roles::getRolesListForLoggedInUser()];
+
+            $user = $this->userService->store($request, User::class, $additionalData);
 
             flash(trans('Corals::messages.success.created', ['item' => $user->name]))->success();
         } catch (\Exception $exception) {
@@ -110,7 +112,9 @@ class UsersController extends BaseController
     public function update(UserRequest $request, User $user)
     {
         try {
-            $user = $this->userService->update($request, $user);
+            $additionalData = ['roles_for_logged_in_user' => \Roles::getRolesListForLoggedInUser()];
+
+            $user = $this->userService->update($request, $user, $additionalData);
 
             flash(trans('Corals::messages.success.updated', ['item' => $user->name]))->success();
         } catch (\Exception $exception) {

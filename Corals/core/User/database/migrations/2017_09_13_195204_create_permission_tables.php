@@ -42,6 +42,8 @@ class CreatePermissionTables extends Migration
 
             $table->softDeletes();
             $table->timestamps();
+
+            $table->json('can_manage_roles')->nullable();
         });
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $foreignKeys) {

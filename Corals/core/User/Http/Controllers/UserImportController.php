@@ -121,12 +121,14 @@ class UserImportController extends BaseController
 
             switch ($this->importTarget) {
                 case 'user':
+                    $rolesListForLoggedInUser = \Roles::getRolesListForLoggedInUser();
                     $this->dispatch(
                         new HandleUsersImportFile(
                             $fileFullPath,
                             user(),
                             $roles,
-                            $groups)
+                            $groups,
+                            $rolesListForLoggedInUser)
                     );
                     break;
             }
