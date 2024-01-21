@@ -41,7 +41,7 @@ class UserRequest extends BaseRequest
                     'name' => 'required|max:191',
                     'last_name' => 'required|max:191',
                     'roles' => 'required',
-                    'roles.*' => Rule::in(array_keys(Roles::getRolesList())),
+                    'roles.*' => Rule::in(array_keys(Roles::getRolesList()->toArray())),
                     'status' => 'required',
                     'picture' => 'mimes:jpg,jpeg,png|max:' . maxUploadFileSize(),
                 ]

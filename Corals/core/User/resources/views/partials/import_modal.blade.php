@@ -18,7 +18,7 @@
     {!! CoralsForm::openForm(null, ['url' => url('import/'.$resource_url.'/upload-import-file'), 'files' => true]) !!}
     {!! CoralsForm::file('file', 'User::import.labels.file') !!}
 
-    {!! CoralsForm::checkboxes('roles[]', 'User::attributes.user.roles' ,true,\Roles::getRolesList(),null)!!}
+    {!! CoralsForm::checkboxes('roles[]', 'User::attributes.user.roles' ,true,\Roles::getRolesListForLoggedInUser() ?:[],null)!!}
 
     @if($groups = \Users::getGroupsList())
         {!! CoralsForm::checkboxes('groups[]', 'User::module.group.title' ,false, $groups, null) !!}

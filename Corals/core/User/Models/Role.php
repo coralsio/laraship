@@ -27,7 +27,8 @@ class Role extends SpatieRole
     public $config = 'user.models.role';
 
     protected $casts = [
-        'properties' => 'json'
+        'properties' => 'json',
+        'can_manage_roles' => 'json'
     ];
 
     /**

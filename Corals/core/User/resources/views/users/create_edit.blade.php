@@ -56,7 +56,7 @@
                         {!! CoralsForm::text('phone_number', 'User::attributes.user.phone_number' ,false,null,['id'=>'authy-cellphone']) !!}
                         {!! CoralsForm::select('classification','User::attributes.user.classification', \Settings::get('customer_classifications',[])) !!}
 
-                        {!! CoralsForm::checkboxes('roles[]', 'User::attributes.user.roles' ,true,\Roles::getRolesList(),$user->roles->pluck('id')->toArray()) !!}
+                        {!! CoralsForm::checkboxes('roles[]', 'User::attributes.user.roles' ,true,\Roles::getRolesListForLoggedInUser() ?? [],$user->roles->pluck('id')->toArray()) !!}
 
                         @if($groups =\Users::getGroupsList())
                             {!! CoralsForm::checkboxes('groups[]', 'User::module.group.title' ,false, $groups, $user->groups->pluck('id')->toArray()) !!}

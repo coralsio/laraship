@@ -58,6 +58,14 @@ class UserPolicy extends BasePolicy
             return false;
         }
 
+        $loggedInUserRoles = \Roles::getRolesListForLoggedInUser();
+
+        $updatedUserRoles = $usermodel->roles->pluck('label', 'id');
+
+        if ($loggedInUserRoles->intersect($updatedUserRoles)->isEmpty()) {
+            return false;
+        }
+
         if ($user->can('User::user.update') || isSuperUser()) {
             return true;
         }
@@ -74,6 +82,15 @@ class UserPolicy extends BasePolicy
         if (isSuperUser($usermodel) || $usermodel->id == $user->id) {
             return false;
         }
+
+        $loggedInUserRoles = \Roles::getRolesListForLoggedInUser();
+
+        $updatedUserRoles = $usermodel->roles->pluck('label', 'id');
+
+        if ($loggedInUserRoles->intersect($updatedUserRoles)->isEmpty()) {
+            return false;
+        }
+
 
         if ($user->can('User::user.delete') || isSuperUser()) {
             return true;

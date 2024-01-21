@@ -37,6 +37,12 @@ class UsersDataTable extends BaseDataTable
     {
         $model = $model->with('roles', 'groups')->select('users.*');
 
+        if (!isSuperUser()) {
+            $model->whereHas('roles', function ($query) {
+                $query->whereIn('id', Roles::getRolesListForLoggedInUser()->keys());
+            });
+        }
+
         return $model;
     }
 
