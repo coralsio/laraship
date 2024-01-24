@@ -47,7 +47,12 @@
         @endif
         <div class="row">
             <div class="col-md-12">
-                <div class="table-responsive">
+                <div class="" id="reports-list">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {!! CoralsForm::text('', '', false, null,['class'=>'search','placeholder'=>'Find a module...']) !!}
+                        </div>
+                    </div>
                     <table class="table color-table info-table table table-hover table-striped table-condensed">
                         <thead>
                         <tr>
@@ -63,13 +68,13 @@
                             <th>@lang('Corals::labels.action')</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="list">
                         @foreach($modules as $module)
                             <tr id="{{ $module->code }}" data-hashedid="{{ $module->hashed_id }}">
                                 <td class="module_name">
                                     <b class="text-primary">
                                         {!! property_exists($module,'icon')?'<i class="'.$module->icon.' m-r-5"></i>':'' !!}
-                                        {{ $module->name }}
+                                        <span class="name">{{ $module->name }}</span>
                                     </b>
                                 </td>
                                 <td>{!! generatePopover($module->description)  !!}</td>
@@ -92,5 +97,12 @@
 @endsection
 
 @section('js')
-
+    {!! Html::script('assets/corals/plugins/list.min.js') !!}
+    <script>
+        $(document).ready(function () {
+            var monkeyList = new List('reports-list', {
+                valueNames: ['name']
+            });
+        })
+    </script>
 @endsection
