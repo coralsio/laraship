@@ -45,9 +45,14 @@ class ClearCacheCommand extends Command
             'view:clear',
             'debugbar:clear',
             'queue:restart',
-            'route:cache',
-            'config:cache'
         ];
+
+        if (app()->isProduction()) {
+            $cacheCommands = array_merge($cacheCommands, [
+                'route:cache',
+                'config:cache'
+            ]);
+        }
 
         $this->executeCommands($cacheCommands);
 
