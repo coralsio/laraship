@@ -51,7 +51,7 @@ trait Hookable
             \Actions::do_action('pre_create_' . $class_name, $item);
         });
 
-        static::deleted(function ($item) {
+        static::created(function ($item) {
             $class_name = strtolower(class_basename(get_class($item)));
             \Actions::do_action('post_create', $item);
             \Actions::do_action('post_create_' . $class_name, $item);
