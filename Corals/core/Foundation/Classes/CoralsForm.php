@@ -134,7 +134,11 @@ class CoralsForm
         $options = \Arr::pull($attributes, 'options', []);
 
         if (in_array($type, $this->selectTypes)) {
-            $input = html()->select($key, $options, $value)->attributes(array_merge([], $attributes));
+            if (isset($attributes['multiple'])) {
+                $input = html()->multiselect($key, $options, $value)->attributes(array_merge([], $attributes));
+            } else {
+                $input = html()->select($key, $options, $value)->attributes(array_merge([], $attributes));
+            }
         } elseif (in_array($type, $this->skipValueTypes)) {
             $input = html()->{$type}($key)->attributes(array_merge([], $attributes));
 
