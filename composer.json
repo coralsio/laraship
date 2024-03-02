@@ -49,7 +49,7 @@
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.0",
-    "barryvdh/laravel-translation-manager": "dev-master",
+    "barryvdh/laravel-translation-manager": "^0.6.5",
     "filp/whoops": "~2.0",
     "fakerphp/faker": "^1.9.1",
     "mockery/mockery": "^1.3.1",
