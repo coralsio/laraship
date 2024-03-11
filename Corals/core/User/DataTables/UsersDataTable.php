@@ -3,8 +3,8 @@
 namespace Corals\User\DataTables;
 
 use Corals\Foundation\DataTables\BaseDataTable;
-use Corals\User\Facades\Users;
 use Corals\User\Facades\Roles;
+use Corals\User\Facades\Users;
 use Corals\User\Models\User;
 use Corals\User\Transformers\UserTransformer;
 use Yajra\DataTables\EloquentDataTable;
@@ -103,7 +103,7 @@ class UsersDataTable extends BaseDataTable
             'groups.id' => [
                 'title' => trans('User::module.group.title'),
                 'class' => 'col-md-2',
-                'type' => 'select',
+                'type' => 'select2',
                 'options' => Users::getGroupsList(),
                 'active' => true
             ],
