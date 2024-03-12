@@ -36,7 +36,7 @@
     "psr/http-factory": "^1.0",
     "spatie/image-optimizer": "^1.6",
     "spatie/laravel-activitylog": "^4.7.3",
-    "spatie/laravel-html": "dev-main",
+    "spatie/laravel-html": "^3.5",
     "spatie/laravel-medialibrary": "^10.11.3",
     "spatie/laravel-permission": "^5.10.2",
     "spatie/pdf-to-image": "^2.2.0",
@@ -49,7 +49,7 @@
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.0",
-    "barryvdh/laravel-translation-manager": "^0.6.5",
+    "barryvdh/laravel-translation-manager": "dev-master",
     "filp/whoops": "~2.0",
     "fakerphp/faker": "^1.9.1",
     "mockery/mockery": "^1.3.1",
