@@ -875,7 +875,7 @@ if (!function_exists('update_morph_columns')) {
         foreach ($tables as $table) {
             $tableName = $table->TABLE_NAME;
 
-            foreach (\DB::select("show columns from $tableName") as $column) {
+            foreach (\DB::select("show columns from `$tableName`") as $column) {
                 if (\Str::is('*_type', $morphColumn = $column->Field) && !in_array($morphColumn, $blackListType)) {
                     $morphColumns[$tableName][] = $morphColumn;
                 }
