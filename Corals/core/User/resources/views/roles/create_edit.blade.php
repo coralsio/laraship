@@ -35,7 +35,7 @@
 
 
 
-                        {!! CoralsForm::select('dashboard_theme', 'User::attributes.role.dashboard_theme',collect(\Theme::all())->pluck('caption','name')->toArray() , false,null,['help_text' => trans('User::messages.role.defaults_will_be_used')] ) !!}
+                        {!! CoralsForm::select2('dashboard_theme', 'User::attributes.role.dashboard_theme',collect(\Theme::all())->pluck('caption','name')->toArray() , false,null,['help_text' => trans('User::messages.role.defaults_will_be_used')] ) !!}
 
                         {!! CoralsForm::customFields($role, 'col-md-12') !!}
 
