@@ -224,7 +224,7 @@ class BaseRequest extends FormRequest
             $data = $this->all();
 
             $htmlentitiesExcluded = $modelClass
-                ? $modelClass::htmlentitiesExcluded()
+                ? ($modelClass::htmlentitiesExcluded() ?:[])
                 : [];
 
             foreach ($data as $key => $value) {
