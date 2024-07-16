@@ -52,7 +52,6 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract, 
 
     protected $appends = ['picture', 'picture_thumb'];
 
-    protected $dates = ['trial_ends_at'];
     /**
      * The attributes that are mass assignable.
      *
@@ -76,7 +75,8 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract, 
     protected $casts = [
         'address' => 'json',
         'notification_preferences' => 'array',
-        'properties' => 'json'
+        'properties' => 'json',
+        'trial_ends_at' => 'datetime',
     ];
 
     public function __construct(array $attributes = [])
