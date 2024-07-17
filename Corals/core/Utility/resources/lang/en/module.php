@@ -6,8 +6,8 @@ return [
             'title' => 'Media'
         ]
     ],
-    'invite_friends' => [
-        'title' => 'Invite Friends',
+    'invitation' => [
+        'title' => ':title',
     ],
     'content_consent' => [
         'title' => 'Content Consent Settings',

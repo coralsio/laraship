@@ -154,21 +154,26 @@ class CoralsBuilder extends Builder
         }
         $action_links = "";
         foreach ($bulk_actions as $bulk_action_key => $bulk_action) {
-            if ($bulk_action['permission']) {
-                if (!user()->hasPermissionTo($bulk_action['permission'])) {
-                    continue;
-                }
 
-                $action = Arr::get($bulk_action, 'action', $bulk_action_key);
-                $href = Arr::get($bulk_action, 'href', $this->resource_url);
-                $title = Arr::get($bulk_action, 'modal-title');
-
-                $confirmation = "";
-                if ($bulk_action['confirmation']) {
-                    $confirmation = ' data-confirmation="' . $bulk_action['confirmation'] . '" ';
-                }
-                $action_links .= '<li><a class="dropdown-item"  href="' . $href . '" ' . $confirmation . ' data-action="' . $action . '" data-title="' . $title . '" >' . $bulk_action['title'] . '</a></li>';
+            if (!empty($bulk_action['permission']) && !user()->hasPermissionTo($bulk_action['permission'])) {
+                continue;
             }
+
+            if (!empty($bulk_action['policy']) && user()->cannot($bulk_action['policy'], $bulk_action['policy_class'])) {
+                continue;
+            }
+
+            $action = Arr::get($bulk_action, 'action', $bulk_action_key);
+            $href = Arr::get($bulk_action, 'href', $this->resource_url);
+            $title = Arr::get($bulk_action, 'modal-title');
+
+            $confirmation = "";
+
+            if ($bulk_action['confirmation']) {
+                $confirmation = ' data-confirmation="' . $bulk_action['confirmation'] . '" ';
+            }
+
+            $action_links .= '<li><a class="dropdown-item"  href="' . $href . '" ' . $confirmation . ' data-action="' . $action . '" data-title="' . $title . '" >' . $bulk_action['title'] . '</a></li>';
         }
 
         if (empty($action_links)) {
@@ -337,11 +342,11 @@ class CoralsBuilder extends Builder
         }
 
         if (!empty($filtersFields)) {
-            $filters .= '<div class="col-md-1 p-r-0">' .
+            $filters .= '<div class="col-md-2 p-r-0">' .
                 \CoralsForm::button('<i class="fa fa-search"></i>',
-                    ['class' => 'btn btn-primary filterBtn', 'data-table' => $tableId]) . '&nbsp;&nbsp;' .
+                    ['class' => 'btn btn-sm btn-primary filterBtn', 'data-table' => $tableId]) . '&nbsp;&nbsp;' .
                 \CoralsForm::button('<i class="fa fa-eraser"></i>',
-                    ['class' => 'btn btn-default clearBtn', 'data-table' => $tableId]);
+                    ['class' => 'btn btn-sm btn-default clearBtn', 'data-table' => $tableId]);
 
             $filters .= '</div></div></div>';
         } else {
@@ -381,6 +386,31 @@ class CoralsBuilder extends Builder
 
         return $this;
     }
+    public function addOwner(array $attributes = [], $prepend = false): static
+    {
+        $options = $this->options;
+
+        if (!isset($options['has_owner']) || !$options['has_owner']) {
+            return $this;
+        }
+
+        $attributes = array_merge([
+            'defaultContent' => '',
+            'data' => 'owner',
+            'name' => 'owenr',
+            'title' => trans('Intelligence::attributes.owner'),
+            'render' => null,
+            'orderable' => true,
+            'searchable' => false,
+            'exportable' => false,
+            'printable' => true,
+            'footer' => '',
+        ], $attributes);
+        $this->collection->push(new Column($attributes));
+
+        return $this;
+    }
+
 
     public function assets()
     {
@@ -547,6 +577,11 @@ class CoralsBuilder extends Builder
                                $('#%s_filtersCollapse .filterBtn').click();
                             }});", $tableId, $tableId);
             }
+        }
+        if (isset($options['filter_auto_open']) && $options['filter_auto_open']) {
+            $script .= sprintf("
+                                $('#%s_filtersCollapse').collapse('show');
+                        ", $tableId);
         }
 
         if (!empty($this->extra_scripts)) {

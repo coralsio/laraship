@@ -1,15 +1,21 @@
 @extends('layouts.crud.create_edit')
-
-
-
 @section('content_header')
     @component('components.content_header')
+        @php
+            $invitationHeaderDefaults =  [
+                    'title' => trans('Utility::module.invitation.title', ['title' => 'Invite Friends']),
+                    'breadcrumb' => Breadcrumbs::render('utility_invite_friends_create')
+                    ];
+
+            $invitationHeader = \Filters::do_filter('invitation_labels', $invitationHeaderDefaults);
+        @endphp
+
         @slot('page_title')
-            {{ $title }}
+            {{trans('Utility::module.invitation.title', ['title' => data_get($invitationHeader,'title', $invitationHeaderDefaults['title'])])}}
         @endslot
 
         @slot('breadcrumb')
-            {{ Breadcrumbs::render('utility_invite_friends_create') }}
+            {{ data_get($invitationHeader, 'breadcrumb', $invitationHeaderDefaults['breadcrumb']) }}
         @endslot
     @endcomponent
 @endsection

@@ -2,10 +2,14 @@
 
 namespace Corals\Utility\Http\Controllers\InviteFriends;
 
-use Corals\Foundation\Http\Controllers\BaseController;
-use Corals\Utility\Http\Requests\InviteFriends\InviteFriendsRequest;
-use Corals\Utility\Mail\InviteFriends\InvitationEmail;
+use Corals\Foundation\Facades\Filters;
 use Corals\Foundation\Formatter\Formatter;
+use Corals\Foundation\Http\Controllers\BaseController;
+use Corals\Settings\Facades\Settings;
+use Corals\Utility\Http\Requests\InviteFriends\InviteFriendsRequest;
+use Corals\Utility\Models\Invitation;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class InviteFriendsBaseController extends BaseController
 {
@@ -25,9 +29,9 @@ class InviteFriendsBaseController extends BaseController
             return $next($request);
         });
 
-        $this->title = 'Utility::module.invite_friends.title';
+        $this->title = trans('Utility::module.invitation.title', ['title' => 'Invite Friends']);
 
-        $this->title_singular = 'Utility::module.invite_friends.title';
+        $this->title_singular = trans('Utility::module.invitation.title', ['title' => 'Invite Friends']);
 
         parent::__construct();
     }
@@ -43,17 +47,21 @@ class InviteFriendsBaseController extends BaseController
      */
     public function getInviteFriendsForm(InviteFriendsRequest $request)
     {
-        if (!empty($this->invitationTextSettingKey)) {
-            $invitation_text = trans('Utility::labels.invite_friends.invitation_text_default_placeholder') . '&#13;&#10;';
-
-            $invitation_text .= \Settings::get($this->invitationTextSettingKey);
-
-            $this->setViewSharedData(['invitation_text' => $invitation_text]);
-        }
+        $invitation_text = trans('Utility::labels.invite_friends.invitation_text_default_placeholder') . '&#13;&#10;';
+        $invitation_subject = '';
 
         if (!empty($this->invitationSubjectSettingKey)) {
-            $this->setViewSharedData(['invitation_subject' => \Settings::get($this->invitationSubjectSettingKey)]);
+            $invitation_subject = Settings::get($this->invitationSubjectSettingKey);
         }
+
+        if (!empty($this->invitationTextSettingKey)) {
+            $invitation_text .= Settings::get($this->invitationTextSettingKey);
+        }
+
+        $this->setViewSharedData(Filters::do_filter('invite_form_defaults', [
+            'invitation_subject' => $invitation_subject,
+            'invitation_text' => $invitation_text,
+        ]));
 
         return view($this->inviteFormView);
     }
@@ -71,15 +79,41 @@ class InviteFriendsBaseController extends BaseController
 
             $friends = collect($request->get('friends'));
 
-            // to get unique emails
             $friends = $friends->pluck('name', 'email')->toArray();
 
             foreach ($friends as $email => $name) {
-                $friendInvitationText = Formatter::format($invitationText, ['name' => $name]);
+                $code = Str::random(10);
+
+                $eventData = Filters::do_filter('send_invitation_data', [
+                    'email' => $email,
+                    'name' => $name,
+                    'emailSubject' => $invitationSubject,
+                    'emailBody' => $invitationText,
+                    'code' => $code,
+                    'url' => sprintf("%s?invitation_code=%s&email=%s", route('register'), $code, $email)
+                ]);
+
+                $friendInvitationText = Formatter::format(data_get($eventData, 'emailBody'), [
+                    'name' => $name,
+                    'accept_link' => trans('Utility::labels.notifications.invitation.link', ['url' => data_get($eventData, 'url')])
+                ]);
 
                 $friendInvitationText = nl2br($friendInvitationText);
 
-                \Mail::to($email)->queue(new InvitationEmail($friendInvitationText, $invitationSubject));
+                Invitation::create([
+                    'email' => data_get($eventData, 'email'),
+                    'message' => $friendInvitationText,
+                    'subject' => $invitationSubject,
+                    'inviter_id' => Auth::id(),
+                    'code' => $code,
+                    'properties' => [
+                        'text' => $invitationText
+                    ]
+                ]);
+
+                $eventData['emailBody'] = $friendInvitationText;
+
+                event('notifications.user.invitation', $eventData);
             }
 
             $message = ['level' => 'success', 'message' => trans($this->successMessage)];

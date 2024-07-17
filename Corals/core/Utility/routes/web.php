@@ -20,4 +20,5 @@ Route::group(['prefix' => 'utilities'], function () {
     Route::get('invite-friends', 'InviteFriends\InviteFriendsBaseController@getInviteFriendsForm');
     Route::post('invite-friends', 'InviteFriends\InviteFriendsBaseController@sendInvitation');
 
+
 });

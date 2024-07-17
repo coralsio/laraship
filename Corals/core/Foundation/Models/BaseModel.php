@@ -92,6 +92,7 @@ class BaseModel extends Model
     {
         return null;
     }
+
     /**
      * @return LogOptions
      */
@@ -101,6 +102,16 @@ class BaseModel extends Model
             ->logAll()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->dontLogIfAttributesChangedOnly(['id', 'updated_at', 'created_at', 'deleted_at']);
+            ->dontLogIfAttributesChangedOnly(['id', 'created_by', 'updated_by', 'updated_at', 'created_at', 'deleted_at']);
+    }
+
+    public function customActivityLog($logName, $description, $attributes = [], $old = [], $custom = []): void
+    {
+        activity($logName)->performedOn($this)
+            ->withProperties([
+                'attributes' => $attributes,
+                'old' => $old,
+                'custom' => $custom
+            ])->log($description);
     }
 }

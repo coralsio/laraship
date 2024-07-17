@@ -196,7 +196,7 @@ trait ModelActionsTrait
         if ($formModalConfig) {
             $data = [
                 'action' => 'modal-load',
-                'size' => $formModalConfig['size'] ?? '',
+                'size' => data_get($formModalConfig, 'edit-size', $formModalConfig['size'] ?? '') ?? '',
                 'title_pattern' => [
                     'pattern' => '[arg]',
                     'replace' => ['return trans("Corals::labels.update_title", ["title" => $object->getIdentifier()]);']
@@ -253,7 +253,7 @@ trait ModelActionsTrait
                 'data' => [
                     'action' => 'modal-load',
                     'title' => "<i class='fa fa-history fa-fw'></i> Activity Log",
-                    'modal_class' => 'modal-x',
+                    'size' => 'modal-lg',
                 ]
             ]
         ];
@@ -270,7 +270,9 @@ trait ModelActionsTrait
 
     public function getActionByName($name, $view = null)
     {
-        if (!$action = $this->getConfig("actions.$name")) {
+        $commonActions = $this->getCommonActions();
+
+        if ((!$action = $this->getConfig("actions.$name")) && (!$action = data_get($commonActions, $name))) {
             return null;
         }
 

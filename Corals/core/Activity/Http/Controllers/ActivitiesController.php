@@ -57,6 +57,7 @@ class ActivitiesController extends BaseController
         $model_name = str_replace("-", "\\", $model_name);
 
         $activities = Activity::query()
+            ->with('subject')
             ->where('subject_type', getMorphAlias($model_name))
             ->where('subject_id', hashids_decode($model_hashed_id))
             ->orderBy('created_at', 'desc')

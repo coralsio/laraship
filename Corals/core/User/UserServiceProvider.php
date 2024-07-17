@@ -154,6 +154,7 @@ class UserServiceProvider extends ServiceProvider
             'notifications.import_status',
             'Import Status',
             ImportStatusNotification::class);
+
     }
 
     protected function registerHooks()

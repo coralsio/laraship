@@ -37,6 +37,8 @@
 
                         {!! CoralsForm::select2('dashboard_theme', 'User::attributes.role.dashboard_theme',collect(\Theme::all())->pluck('caption','name')->toArray() , false,null,['help_text' => trans('User::messages.role.defaults_will_be_used')] ) !!}
 
+                        {!! CoralsForm::checkboxes('can_manage_roles[]', 'User::attributes.user.roles_can_manage' ,false,\Roles::getRolesList(),$role->can_manage_roles) !!}
+
                         {!! CoralsForm::customFields($role, 'col-md-12') !!}
 
                         {!! CoralsForm::formButtons() !!}

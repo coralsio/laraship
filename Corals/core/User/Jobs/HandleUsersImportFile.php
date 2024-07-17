@@ -24,20 +24,21 @@ class HandleUsersImportFile implements ShouldQueue
     protected $importHeaders;
     protected $user;
     protected $roles;
-    protected $groups;
+    private $rolesListForLoggedInUser;
 
     /**
      * HandleBrandsImportFile constructor.
      * @param $importFilePath
      * @param $user
      */
-    public function __construct($importFilePath, $user, $roles, $groups)
+    public function __construct($importFilePath, $user, $roles, $groups, $rolesListForLoggedInUser)
     {
         $this->user = $user;
         $this->roles = $roles;
         $this->groups = $groups;
         $this->importFilePath = $importFilePath;
         $this->importHeaders = array_keys(trans('User::import.user-headers'));
+        $this->rolesListForLoggedInUser = $rolesListForLoggedInUser;
     }
 
 
@@ -64,6 +65,15 @@ class HandleUsersImportFile implements ShouldQueue
 
         $userModel = $this->gerUserModel($userData['email']);
 
+        if ($userModel) {
+            // in case the importer can't manage all imported user roles
+            $userRoles = $userModel->roles->pluck('label', 'id');
+            $rolesToInsert = array_merge(array_keys(($userRoles->diff($this->rolesListForLoggedInUser))->toArray()), $this->roles);
+
+            $userData['roles'] = $rolesToInsert;
+        }
+
+
         $userRequest = new UserRequest();
 
         $userRequest->replace($userData);
@@ -71,9 +81,9 @@ class HandleUsersImportFile implements ShouldQueue
         $userService = new UserService();
 
         if ($userModel) {
-            $userService->update($userRequest, $userModel);
+            $userService->update($userRequest, $userModel, ['roles_for_logged_in_user' => $this->rolesListForLoggedInUser]);
         } else {
-            $userService->store($userRequest, User::class);
+            $userService->store($userRequest, User::class, ['roles_for_logged_in_user' => $this->rolesListForLoggedInUser]);
         }
     }
 

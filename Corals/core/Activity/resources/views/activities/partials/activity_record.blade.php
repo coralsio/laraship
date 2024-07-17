@@ -1,37 +1,43 @@
-<div class="activity-record">
+<div class="activity-record text-sm">
     <div class="meta-details">
-        <ul class="list-inline">
+        <ul class="list-inline mb-0 m-b-0">
             <li class="list-inline-item">
-                <i class="fa fa-user-o fa-fw"></i> {!!  $activity->present('causer_id') !!}
+                <i class="fa fa-info-circle fa-fw"
+                   title="{!!  $activity->present('log_name') !!}"></i> {!!  ucwords($activity->description) !!}
             </li>
             <li class="list-inline-item">
-                <i class="fa fa-clock-o fa-fw"></i> {!!  $activity->present('created_at') !!}
+                <i class="fa fa-clock-o fa-fw"></i> {!! $activity->present('created_at') !!}
             </li>
             <li class="list-inline-item">
-                <i class="fa fa-info-circle fa-fw"></i> {!!  $activity->present('log_name') !!}
+                By: <i class="fa fa-user-o fa-fw"></i> {!!  $activity->present('causer_id') !!}
             </li>
         </ul>
-        <p>Description: {!!  ucwords($activity->description) !!}</p>
     </div>
     <div class="body">
-        @php
-            $attributes = $activity->getProperties()['attributes']??[];
-            $old = $activity->getProperties()['old']??[];
-        @endphp
-        @if($attributes)
+        <div class="row">
+            @php
+                $attributes = $activity->getProperties()['attributes']??[];
+                $old = $activity->getProperties()['old']??[];
+            @endphp
+            <div class="{{ $old?'col-md-6':'col-md-12' }}">
+                @if($attributes)
+                    @if($old)
+                        <span class="text-info">After</span>
+                    @endif
+                    <div class="properties-table">
+                        {!! formatProperties($attributes, $activity->subject) !!}
+                    </div>
+                @endif
+            </div>
             @if($old)
-                <strong class="text-primary">New Values</strong>
+                <div class="col-md-6">
+                    <span class="d-block text-primary text-right">Before</span>
+                    <div class="properties-table">
+                        {!! formatProperties($old, $activity->subject) !!}
+                    </div>
+                </div>
             @endif
-            <div class="properties-table">
-                {!! formatProperties($attributes) !!}
-            </div>
-        @endif
-        @if($old)
-            <strong class="text-danger">Old Values</strong>
-            <div class="properties-table">
-                {!! formatProperties($old) !!}
-            </div>
-        @endif
+        </div>
     </div>
     <hr/>
 </div>

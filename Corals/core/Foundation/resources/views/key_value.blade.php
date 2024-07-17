@@ -58,7 +58,10 @@
     <button type="button" class="btn btn-success btn-sm add-value">
         <i class="fa fa-plus"></i>
     </button>
-    <span class="help-block">@lang('Corals::labels.add_new_pairs')</span>
+    @php
+    $labelButton = $newPairLabelButton ?? trans('Corals::labels.add_new_pairs');
+    @endphp
+    <span class="help-block">{{$labelButton}}</span>
 </div>
 
 <script type="text/javascript">

@@ -2,6 +2,7 @@
 
 namespace Corals\Foundation\Http\Controllers;
 
+use Corals\Settings\Facades\Settings;
 use Corals\User\Models\Role;
 
 class AuthBaseController extends BaseController
@@ -13,7 +14,7 @@ class AuthBaseController extends BaseController
      */
     public function __construct()
     {
-        if (!\Settings::get('confirm_user_registration_email', false) && session()->has('confirmation_user_id')) {
+        if (!Settings::get('confirm_user_registration_email', false) && session()->has('confirmation_user_id')) {
             session()->forget('confirmation_user_id');
         }
 
@@ -24,7 +25,7 @@ class AuthBaseController extends BaseController
     {
         $auth_theme = $this->getDefaultAdminTheme();
 
-        $active_frontend_theme = \Settings::get('active_frontend_theme');
+        $active_frontend_theme = Settings::get('active_frontend_theme');
         $useFrontendTheme = false;
 
         if (request()->is([
@@ -86,9 +87,9 @@ class AuthBaseController extends BaseController
 
     public function assignDefaultRoles($user, $roleName = null)
     {
-        $available_registration_roles = \Settings::get('available_registration_roles', []);
+        $available_registration_roles = Settings::get('available_registration_roles', []);
 
-        $default_role_name = \Settings::get('default_user_role', 'member');
+        $default_role_name = Settings::get('default_user_role', 'member');
 
         if ($roleName && in_array($roleName, array_keys($available_registration_roles))) {
             $role_exists = Role::where('name', '=', $roleName)

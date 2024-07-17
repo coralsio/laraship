@@ -703,7 +703,7 @@ if (!function_exists('floatValWithLeftMost')) {
 }
 
 if (!function_exists('formatProperties')) {
-    function formatProperties($properties)
+    function formatProperties($properties, $model = null)
     {
         try {
             $formattedResponse = '';
@@ -712,7 +712,7 @@ if (!function_exists('formatProperties')) {
                 $properties = $properties->toArray();
             }
 
-            appendDetails($formattedResponse, $properties);
+            appendDetails($formattedResponse, $properties, $model);
 
             if (!empty($formattedResponse)) {
                 $formattedResponse = '<table class="details-table">' . $formattedResponse . '</table>';
@@ -732,10 +732,28 @@ if (!function_exists('formatProperties')) {
 }
 
 if (!function_exists('appendDetails')) {
-    function appendDetails(&$formattedResponse, $detailsArray)
+    function appendDetails(&$formattedResponse, $detailsArray, $model)
     {
         if (is_array($detailsArray)) {
             foreach ($detailsArray as $key => $value) {
+                if (in_array($key, ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'])) {
+                    continue;
+                }
+                if ($model && property_exists($model, 'activityLogViewExcludedKeys')) {
+                    if (in_array($key, $model->activityLogViewExcludedKeys)) {
+                        continue;
+                    }
+                }
+                if ($model && method_exists($model, 'customLogFormatter')) {
+                    [$key, $value] = $model->customLogFormatter($key, $value);
+
+                    $formattedResponse .= "<tr><td>{$key}</td>";
+
+                    $formattedResponse .= "<td><span style='word-break: break-all;'>{$value}</span></td></tr>";
+
+                    continue;
+                }
+
                 $keyTitle = str_replace('_', ' ', Str::title($key));
 
                 if (strlen($key) < 3) {
@@ -745,23 +763,52 @@ if (!function_exists('appendDetails')) {
                 if (is_array($value)) {
                     $formattedResponse .= "<tr><td colspan='2'>{$keyTitle}</td></tr>";
 
-                    appendDetails($formattedResponse, $value);
+                    appendDetails($formattedResponse, $value, $model);
 
                     $formattedResponse .= "<tr><td colspan='2' class='separator-tr'></td></tr>";
                 } else {
-                    $formattedResponse .= "<tr><td>{$keyTitle}</td>";
-
                     if (empty($value)) {
                         $value = '-';
                     }
 
+                    switch ($key) {
+                        case 'confirmed_at':
+                            $value = format_date_time($value);
+                            break;
+                        case 'status':
+                            if ($model && method_exists($model, 'getFormattedStatusAttribute')) {
+                                $value = $model->formattedStatus();
+                            } else {
+                                $value = formatStatusAsLabels($value);
+                            }
+                        default:
+                            if (Str::endsWith($key, ['_id', '_code'])) {
+                                //guess relation
+                                $relationName = str_replace(['_id', '_code'], '', $key);
+                                $relationName = lcfirst(str_replace('_', '', ucwords($relationName, '_')));
+                                if ($model && method_exists($model, $relationName)) {
+                                    $model->{$key} = $value;
+                                    $model->load($relationName);
+                                    if ($model->$relationName) {
+                                        $value = $model->$relationName->getIdentifier();
+                                        //for label in the activity show
+                                        $key = $relationName;
+                                    }
+                                }
+                            }
+                    }
+
                     if (Str::contains($value, ['www', 'http'])) {
                         $value = HtmlElement('a', ['href' => $value, 'target' => '_blank'], $value);
-                    } else {
+                    } elseif ($value == strip_tags($value)) {
                         $value = ucwords($value);
                     }
 
-                    $formattedResponse .= "<td><b style='word-break: break-all;'>{$value}</b></td></tr>";
+                    $keyTitle = str_replace('_', ' ', Str::title($key));
+
+                    $formattedResponse .= "<tr><td>{$keyTitle}</td>";
+
+                    $formattedResponse .= "<td><span style='word-break: break-all;'>{$value}</span></td></tr>";
                 }
             }
         }

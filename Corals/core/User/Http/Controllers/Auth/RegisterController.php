@@ -3,7 +3,9 @@
 namespace Corals\User\Http\Controllers\Auth;
 
 use App\Exceptions\Handler;
+use Corals\Foundation\Facades\Actions;
 use Corals\Foundation\Http\Controllers\AuthBaseController;
+use Corals\Settings\Facades\Settings;
 use Corals\User\Facades\TwoFactorAuth;
 use Corals\User\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -106,8 +108,6 @@ class RegisterController extends AuthBaseController
 
         event(new Registered($user));
 
-        \Actions::do_action('user_registered', $user);
-
         return $user;
     }
 
@@ -119,19 +119,26 @@ class RegisterController extends AuthBaseController
      */
     public function register(Request $request, $roleName = null)
     {
-        if (!\Settings::get('registration_enabled')) {
-            return abort(403);
+        if (!Settings::get('registration_enabled')) {
+            abort(403);
+        }
+
+        try {
+            Actions::do_action('pre_registration_submit', $request);
+        } catch (\Exception $exception) {
+            flash($exception->getMessage())->error();
+            return redirect($request->fullUrl());
         }
 
         $user = $this->createUserObject($request, $roleName);
+        Actions::do_action('user_registered', $user, $request);
 
         if (TwoFactorAuth::isEnabled($user)) {
             $request->session()->put('authy:auth:id', $user->id);
-
             return redirectTo(url('auth/token'));
         }
 
-        if (\Settings::get('confirm_user_registration_email', false)) {
+        if (Settings::get('confirm_user_registration_email', false)) {
             $this->sendConfirmationToUser($user);
 
             flash(trans('User::messages.confirmation.confirm_email'), 'success');
@@ -163,7 +170,6 @@ class RegisterController extends AuthBaseController
      */
     protected function sendConfirmationToUser($user)
     {
-        // Create the confirmation code
         $user->confirmation_code = \Str::random(25);
 
         $user->save();
@@ -227,12 +233,21 @@ class RegisterController extends AuthBaseController
         return redirect(route('login'));
     }
 
-    public function showRegistrationForm($roleName = null)
+    public function showRegistrationForm(Request $request, $roleName = null)
     {
-        if (!\Settings::get('registration_enabled')) {
+        if (!Settings::get('registration_enabled')) {
             return redirectTo('login');
         }
-        $available_registration_roles = \Settings::get('available_registration_roles', []);
+
+        try {
+            Actions::do_action('pre_registration_submit', $request);
+        } catch (\Exception $exception) {
+            report($exception);
+            flash($exception->getMessage())->error();
+            return redirect($request->fullUrlWithoutQuery([]));
+        }
+
+        $available_registration_roles = Settings::get('available_registration_roles', []);
 
         $view = 'auth.register';
 

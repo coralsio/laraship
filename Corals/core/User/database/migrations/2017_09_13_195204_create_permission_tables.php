@@ -34,6 +34,7 @@ class CreatePermissionTables extends Migration
             $table->string('dashboard_url')->nullable();
             $table->string('dashboard_theme')->nullable();
             $table->text('properties')->nullable();
+            $table->json('can_manage_roles')->nullable();
 
             $table->string('guard_name');
 
@@ -42,6 +43,7 @@ class CreatePermissionTables extends Migration
 
             $table->softDeletes();
             $table->timestamps();
+
         });
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $foreignKeys) {

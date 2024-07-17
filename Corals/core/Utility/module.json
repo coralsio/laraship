@@ -6,7 +6,7 @@
   "description": "Utility Package",
   "namespace": "Corals\\Utility\\",
   "provider": "UtilityServiceProvider",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "load_order": "0",
   "folder": "Utility",
   "autoload": "psr-4",

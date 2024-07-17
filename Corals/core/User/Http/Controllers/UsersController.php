@@ -8,6 +8,7 @@ use Corals\User\DataTables\UsersDataTable;
 use Corals\User\Http\Requests\UserRequest;
 use Corals\User\Models\User;
 use Corals\User\Services\UserService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -75,7 +76,7 @@ class UsersController extends BaseController
     /**
      * @param UserRequest $request
      * @param User $user
-     * @return $this
+     * @return View
      */
     public function show(UserRequest $request, User $user)
     {
@@ -91,7 +92,7 @@ class UsersController extends BaseController
     /**
      * @param UserRequest $request
      * @param User $user
-     * @return $this
+     * @return View
      */
     public function edit(UserRequest $request, User $user)
     {
@@ -242,7 +243,8 @@ class UsersController extends BaseController
 
     public function impersonate(Request $request, User $user)
     {
-        abort_if(!isSuperUser(), 403, 'Forbidden only superuser can impersonate');
+        $this->authorize('impersonate', $user);
+
         try {
             Auth::login($user);
 

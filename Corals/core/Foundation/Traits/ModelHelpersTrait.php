@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 trait ModelHelpersTrait
 {
+    public $related = null;
+
     public $htmlentitiesExcluded = [];
 
     protected function getModelId($id)
@@ -61,7 +63,7 @@ trait ModelHelpersTrait
         return $url;
     }
 
-    protected function getResourceRouteFor($action, $id = null)
+    protected function getResourceRouteFor($action, $id = null, $extras = [])
     {
         $config = config($this->config);
 
@@ -71,14 +73,24 @@ trait ModelHelpersTrait
 
         $resourceRelation = $config['resource_relation'];
 
+        if ($this->related) {
+            $related = $this->related;
+        } else {
+            $related = request()->route($resourceRelation);
+        }
+
+        if (!$related) {
+            return null;
+        }
+
         $route = Str::replaceLast('index', $action, $config['resource_route']);
 
 
         if ($action == 'create') {
-            $url = route($route, [$resourceRelation => request()->route($resourceRelation)->hashed_id]);
+            $url = route($route, [$resourceRelation => $related->hashed_id]);
         } else {
             $url = route($route,
-                [$resourceRelation => $this->{$resourceRelation}->hashed_id, $config['relation'] => $id]);
+                [$resourceRelation => $related->hashed_id, $config['relation'] => $id]);
         }
 
         return $url;
@@ -132,6 +144,8 @@ trait ModelHelpersTrait
             $identifier = $this->title;
         } elseif (Arr::has($this->attributes, 'caption')) {
             $identifier = $this->caption;
+        } elseif (Arr::has($this->attributes, 'label')) {
+            $identifier = $this->label;
         } elseif (Arr::has($this->attributes, 'code')) {
             $identifier = $this->code;
         } else {

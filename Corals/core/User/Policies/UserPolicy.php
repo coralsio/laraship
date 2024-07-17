@@ -57,6 +57,13 @@ class UserPolicy extends BasePolicy
         if (!isSuperUser() && isSuperUser($usermodel)) {
             return false;
         }
+        $loggedInUserRoles = \Roles::getRolesListForLoggedInUser();
+
+        $updatedUserRoles = $usermodel->roles->pluck('label', 'id');
+
+        if ($updatedUserRoles->isNotEmpty() && $loggedInUserRoles->intersect($updatedUserRoles)->isEmpty()) {
+            return false;
+        }
 
         if ($user->can('User::user.update') || isSuperUser()) {
             return true;
@@ -72,6 +79,13 @@ class UserPolicy extends BasePolicy
     public function destroy(User $user, UserModel $usermodel)
     {
         if (isSuperUser($usermodel) || $usermodel->id == $user->id) {
+            return false;
+        }
+        $loggedInUserRoles = \Roles::getRolesListForLoggedInUser();
+
+        $updatedUserRoles = $usermodel->roles->pluck('label', 'id');
+
+        if ($loggedInUserRoles->intersect($updatedUserRoles)->isEmpty()) {
             return false;
         }
 
@@ -114,10 +128,10 @@ class UserPolicy extends BasePolicy
      */
     public function deletedRecords(User $user, UserModel $usermodel)
     {
-        if(($user->can('User::user.delete')||$user->can('User::user.restore'))&& !request()->has("deleted")){
+        if (($user->can('User::user.delete') || $user->can('User::user.restore')) && !request()->has("deleted")) {
             return true;
         }
-            return false;
+        return false;
     }
 
     /**
@@ -127,7 +141,7 @@ class UserPolicy extends BasePolicy
      */
     public function records(User $user, UserModel $usermodel)
     {
-        if($user->can('User::user.view')&& request()->has("deleted")){
+        if ($user->can('User::user.view') && request()->has("deleted")) {
             return true;
         }
         return false;
@@ -135,7 +149,7 @@ class UserPolicy extends BasePolicy
 
     public function impersonate(User $user, UserModel $userModel)
     {
-        return isSuperUser($user);
+        return (!isSuperUser($userModel) && $user->can('User::user.impersonate')) || isSuperUser($user);
     }
 
     /**

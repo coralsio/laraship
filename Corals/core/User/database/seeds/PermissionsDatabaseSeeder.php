@@ -52,6 +52,12 @@ class PermissionsDatabaseSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'name' => 'User::user.impersonate',
+                'guard_name' => config('auth.defaults.guard'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
                 'name' => 'User::user.restore',
                 'guard_name' => config('auth.defaults.guard'),
                 'created_at' => Carbon::now(),

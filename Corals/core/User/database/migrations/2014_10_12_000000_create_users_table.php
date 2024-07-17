@@ -39,12 +39,16 @@ class CreateUsersTable extends Migration
 
             $table->text('properties')->nullable();
 
+            $table->unsignedInteger('owner_id')->nullable();
+
             $table->rememberToken();
             $table->unsignedInteger('created_by')->nullable()->index();
             $table->unsignedInteger('updated_by')->nullable()->index();
 
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('owner_id')->references('id')->on('users');
         });
 
         (new \Corals\User\Communication\database\migrations\CreateNotificationTemplatesTable())->up();

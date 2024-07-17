@@ -4,6 +4,7 @@ namespace Corals\User\Services;
 
 use Corals\Foundation\Facades\Actions;
 use Corals\Foundation\Services\BaseServiceClass;
+use Corals\User\Facades\Roles;
 use Corals\User\Facades\TwoFactorAuth;
 use Corals\User\Http\Requests\UserRequest;
 
@@ -73,7 +74,15 @@ class UserService extends BaseServiceClass
 
     public function handleUserRoles(UserRequest $request)
     {
-        $this->model->roles()->sync($request->roles);
+        $rolesFormRequest = $request->roles;
+
+        $loggedInUserRoles = Roles::getRolesListForLoggedInUser();
+
+        $updatedUserRoles = $this->model->roles->pluck('label', 'id');
+
+        $rolesToInsert = array_merge(array_keys(($updatedUserRoles->diff($loggedInUserRoles))->toArray()), $rolesFormRequest);
+
+        $this->model->syncRoles($rolesToInsert);
     }
 
     public function store($request, $modelClass, $additionalData = [])

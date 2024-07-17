@@ -29,6 +29,8 @@ return [
         'classification' => 'Classification',
         'force_reset' => 'Reset password on login',
         'send_login_details' => 'Send Login Details',
+        'roles_can_manage' => 'Roles Can Manage'
+
     ],
     'role' => [
         'name' => 'Name',

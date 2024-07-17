@@ -3,6 +3,7 @@
 namespace Corals\Utility\database\seeds;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UtilityMenuDatabaseSeeder extends Seeder
 {
@@ -25,20 +26,21 @@ class UtilityMenuDatabaseSeeder extends Seeder
             'order' => 0
         ]);
 
-        \DB::table('menus')->insert([
-                [
-                    'parent_id' => $utilities_menu_id,
-                    'key' => null,
-                    'url' => config('utility.models.invite_friends.resource_url'),
-                    'active_menu_url' => config('utility.models.invite_friends.resource_url') . '*',
-                    'name' => 'Invite Friends',
-                    'description' => 'Invite Friends Menu Item',
-                    'icon' => 'fa fa-paper-plane-o',
-                    'target' => null,
-                    'roles' => '["1","2"]',
-                    'order' => 0
-                ],
-            ]
+        $menuInvitationData = [
+            'parent_id' => $utilities_menu_id,
+            'key' => 'invite_friends_menu',
+            'url' => config('utility.models.invite_friends.resource_url'),
+            'active_menu_url' => config('utility.models.invite_friends.resource_url') . '*',
+            'name' => 'Invite Friends',
+            'description' => 'Invite Friends Menu Item',
+            'icon' => 'fa fa-paper-plane-o',
+            'target' => null,
+            'roles' => '["1","2"]',
+            'order' => 0
+        ];
+
+        DB::table('menus')->insert(
+            $menuInvitationData
         );
     }
 }

@@ -6,7 +6,7 @@
   "description": "Manage Users, Roles and Permissions",
   "namespace": "Corals\\User",
   "provider": "UserServiceProvider",
-  "version": "10.0.0",
+  "version": "10.0.2",
   "load_order": "10",
   "folder": "User",
   "autoload": "psr-4",

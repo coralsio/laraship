@@ -177,12 +177,20 @@ class CoralsForm
             $selected = $value;
             $input = '<div style="padding: 3px 0;">';
             $radioWrapper = Arr::get($attributes, 'radio_wrapper', 'span');
+            $radioWrapperClass = Arr::get($attributes, 'radio_wrapper_class');
             foreach ($options as $radio_value => $radio_label) {
+                if (is_array($radio_label)) {
+                    $radio_description = $radio_label['description'];
+                    $radio_label = $radio_label['label'];
+                }
+
                 $attributes['id'] = $radio_value . '_' . \Str::random(6);
-                $input .= '<' . $radioWrapper . ' class="custom-control custom-radio">';
+                $input .= '<' . $radioWrapper . sprintf(' class="custom-control custom-radio %s">', $radioWrapperClass ?: '');
                 $input .= html()->radio($key, $radio_value == $selected, $radio_value)->attributes(array_merge([], $attributes));
-                $input .= '<label class="custom-control-label" for="' . $attributes['id'] . '">' . self::SPACER . $radio_label . '</label>' .
-                    "</$radioWrapper>" . self::SPACER;
+                $input .= '<label class="custom-control-label" for="' . $attributes['id'] . '">' . self::SPACER . $radio_label .
+                    (isset($radio_description) ? sprintf('<div class="text-sm text-muted">%s</div>', $radio_description) : '')
+                    . '</label>' .
+                    "</$radioWrapper>";
             }
             $input = $input . '</div>';
         } elseif ($type == 'date_range') {

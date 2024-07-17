@@ -35,5 +35,6 @@ return [
         'browse_files' => 'Browse files',
         'save' => 'Save',
         'close' => 'Close',
-    ]
+    ],
+
 ];

@@ -23,10 +23,9 @@
                     <div class="col-md-4">
                         {!! CoralsForm::text('name', 'User::attributes.user.name', true) !!}
                         {!! CoralsForm::email('email', 'User::attributes.user.email', true) !!}
-
                         {!! CoralsForm::radio('status','Corals::attributes.status', true, trans('Corals::attributes.status_options')) !!}
 
-                        @if ((\Settings::get('confirm_user_registration_email', false)))
+                    @if ((\Settings::get('confirm_user_registration_email', false)))
                             {!! CoralsForm::checkbox('confirmed', 'User::attributes.user.confirmed', $user->confirmed) !!}
                         @endif
 
@@ -56,7 +55,7 @@
                         {!! CoralsForm::text('phone_number', 'User::attributes.user.phone_number' ,false,null,['id'=>'authy-cellphone']) !!}
                         {!! CoralsForm::select('classification','User::attributes.user.classification', \Settings::get('customer_classifications',[])) !!}
 
-                        {!! CoralsForm::checkboxes('roles[]', 'User::attributes.user.roles' ,true,\Roles::getRolesList(),$user->roles->pluck('id')->toArray()) !!}
+                        {!! CoralsForm::checkboxes('roles[]', 'User::attributes.user.roles' ,true,\Roles::getRolesListForLoggedInUser() ?? [],$user->roles->pluck('id')->toArray()) !!}
 
                         @if($groups =\Users::getGroupsList())
                             {!! CoralsForm::checkboxes('groups[]', 'User::module.group.title' ,false, $groups, $user->groups->pluck('id')->toArray()) !!}

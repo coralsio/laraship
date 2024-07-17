@@ -2,6 +2,8 @@
 
 namespace Corals\Foundation\Search;
 
+use Illuminate\Support\Facades\DB;
+
 /**
  * Class Indexable
  *
@@ -9,6 +11,11 @@ namespace Corals\Foundation\Search;
  */
 trait Indexable
 {
+    public bool $selfIndexed = false;
+    public bool $replaceSpecialChar = true;
+    public $indexedTitle = 'indexed_title';
+    public $indexedContent = 'indexed_content';
+
     public static function bootIndexable()
     {
         static::created(function ($model) {
@@ -32,19 +39,40 @@ trait Indexable
 
     public function indexedRecord()
     {
-        return $this->morphOne('Corals\Foundation\Search\IndexedRecord', 'indexable');
+        if ($this->selfIndexed) {
+            return $this->hasOne(__CLASS__, 'id', 'id');
+        } else {
+            return $this->morphOne('Corals\Foundation\Search\IndexedRecord', 'indexable');
+        }
     }
 
     public function indexRecord()
     {
-        $record = $this->indexedRecord()->firstOrNew([]);
+        if ($this->selfIndexed) {
+            $record = $this;
+        } else {
+            $record = $this->indexedRecord()->firstOrNew([]);
+        }
 
         $record->updateIndex();
     }
 
+    public function updateIndex($unIndex = false)
+    {
+        $title = $unIndex ? null : ($this->getIndexTitle() ?: null);
+        $content = $unIndex ? null : ($this->getIndexContent() ?: null);
+        DB::table($this->getTable())->where('id', $this->id)
+            ->update([
+                $this->indexedTitle => $title,
+                $this->indexedContent => $content,
+            ]);
+    }
+
     public function unIndexRecord()
     {
-        if (null !== $this->indexedRecord) {
+        if ($this->selfIndexed) {
+            $this->updateIndex(true);
+        } else if (null !== $this->indexedRecord) {
             $this->indexedRecord->delete();
         }
     }
@@ -54,9 +82,9 @@ trait Indexable
         $indexData = [];
         foreach ($columns as $column) {
             if ($this->indexDataIsJSON($column)) {
-                $indexData[] = TermBuilder::textCleanUp(data_get($this, $column, ''));
+                $indexData[] = TermBuilder::textCleanUp(data_get($this, $column, ''), $this->replaceSpecialChar);
             } elseif ($this->indexDataIsRelation($column)) {
-                $indexData[] = TermBuilder::textCleanUp($this->getIndexValueFromRelation($column));
+                $indexData[] = TermBuilder::textCleanUp($this->getIndexValueFromRelation($column), $this->replaceSpecialChar);
             } else {
                 $value = $this->{$column};
 
@@ -64,10 +92,15 @@ trait Indexable
                     $value = json_encode($value);
                 }
 
-                $indexData[] = TermBuilder::textCleanUp($value);
+                $indexData[] = TermBuilder::textCleanUp($value, $this->replaceSpecialChar);
             }
         }
         return implode(' ', array_filter($indexData));
+    }
+
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
     }
 
     /**
@@ -106,5 +139,10 @@ trait Indexable
         }
 
         return $this->{$relation}()->pluck($column)->implode(', ');
+    }
+
+    public function getTermMapping($part)
+    {
+        return $part;
     }
 }

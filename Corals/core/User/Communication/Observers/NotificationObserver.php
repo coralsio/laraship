@@ -14,12 +14,12 @@ class NotificationObserver
      */
     public function created(DatabaseNotification $notification)
     {
-        $notification = Notification::find($notification->id);
-        
-        $notifiable = $notification->notifiable;
-
-        $channelName = sprintf("%s.%s", strtolower(class_basename($notifiable)), $notifiable->hashed_id);
-
-        event(new CoralsBroadcastEvent($channelName, $notification, $notifiable));
+//        $notification = Notification::find($notification->id);
+//
+//        $notifiable = $notification->notifiable;
+//
+//        $channelName = sprintf("%s.%s", strtolower(class_basename($notifiable)), $notifiable->hashed_id);
+//
+//        event(new CoralsBroadcastEvent($channelName, $notification, $notifiable));
     }
 }

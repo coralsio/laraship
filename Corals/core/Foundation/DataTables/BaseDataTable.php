@@ -15,6 +15,8 @@ abstract class BaseDataTable extends DataTable
 {
     protected $resource_url;
 
+    protected $defaultOrderDirection = 'desc';
+
     protected $usesQueryBuilderFilters;
 
     public function __construct()
@@ -33,6 +35,8 @@ abstract class BaseDataTable extends DataTable
         if ($this->request->boolean('deleted')) {
             $this->addScope(new SoftDeleteScope());
         }
+
+        parent::__construct();
     }
 
     public function renderAjaxAndActions()
@@ -106,12 +110,12 @@ abstract class BaseDataTable extends DataTable
             ->columns($this->getColumns())
             ->setExtraScripts($this->getExtraScripts())
             ->minifiedAjax($this->resource_url ?: url()->current(), $this->getMinifiedAjaxCallback(),
-                ['deleted' => $this->request->get('deleted',0)])
+                ['deleted' => $this->request->get('deleted', 0)])
             ->addCheckbox(['datatable_id' => $this->getTableId()], true)
             ->addAction(['width' => '80px'])
             ->parameters(array_merge([
                 'language' => $i18nArray,
-                'order' => [[0, 'desc']],
+                'order' => [[0, $this->defaultOrderDirection]],
                 "lengthMenu" => [[10, 25, 50, 100, 200, 500, 1000], [10, 25, 50, 100, 200, 500, 1000]],
                 'pageLength' => 10,
                 "dom" => "Blfrtip",
@@ -195,7 +199,7 @@ abstract class BaseDataTable extends DataTable
      * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
      * @return mixed
      */
-    protected function applyScopes($query) :EloquentBuilder|QueryBuilder|EloquentRelation
+    protected function applyScopes($query): EloquentBuilder|QueryBuilder|EloquentRelation
     {
         $queryClass = strtolower(class_basename($query->getModel()));
 
@@ -244,7 +248,7 @@ abstract class BaseDataTable extends DataTable
         if (!empty($this->getBulkActions())) {
             $idColumnIndex = array_search('id', array_keys($this->getColumns()));
 
-            return ['order' => [[$idColumnIndex + 1, 'desc']]];
+            return ['order' => [[$idColumnIndex + 1, $this->defaultOrderDirection]]];
         }
 
         return [];

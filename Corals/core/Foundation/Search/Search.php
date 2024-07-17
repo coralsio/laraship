@@ -4,6 +4,7 @@ namespace Corals\Foundation\Search;
 
 class Search implements SearchInterface
 {
+
     /**
      * @param string $search
      * @return \Illuminate\Database\Eloquent\Collection|\Corals\Foundation\Search\IndexedRecord[]
@@ -34,43 +35,51 @@ class Search implements SearchInterface
      * @param array $config
      * @return mixed
      */
-    public function AddSearchPart($query, $search, $class, $config = [])
+    public static function addSearchPart($query, $search, $class, array $config = []): mixed
     {
-        if (strlen($search) < 2) {
+        if (mb_strlen($search) < 3) {
             return $query;
         }
 
-        $terms = TermBuilder::terms($search, $config);
+        $terms = TermBuilder::terms($search, $config, $class);
 
-        $query->leftJoin('fulltext_search', function ($join) use ($class) {
-            $join->on($class::getTableName() . '.id', '=', 'fulltext_search.indexable_id');
-        })->where('fulltext_search.indexable_type', '=', getModelMorphMap($class));
+        if ($terms->isEmpty()) {
+            return $query;
+        }
+
+        $model = new $class;
+
+        if (!$model->selfIndexed) {
+            $query->leftJoin('fulltext_search', function ($join) use ($class) {
+                $join->on($class::getTableName() . '.id', '=', 'fulltext_search.indexable_id');
+            })->where('fulltext_search.indexable_type', '=', $class);
+        }
 
         $termsMatch = '' . $terms->implode(' ');
         $termsBool = '+' . $terms->implode(' +');
-
 
         $titleWeight = str_replace(',', '.', (float)data_get($config, 'title_weight', 1.5));
         $contentWeight = str_replace(',', '.', (float)data_get($config, 'content_weight', 1.0));
 
         $isBoolean = data_get($config, 'boolean', true);
 
+        $indexTitle = $model->getTable() . '.' . $model->indexedTitle;
+        $indexContent = $model->getTable() . '.' . $model->indexedContent;
 
         if (config('database.default') === 'mysql') {
-            $query->when($isBoolean, function ($query) use ($termsBool) {
-                $query->whereRaw('MATCH (indexed_title, indexed_content) AGAINST (? IN BOOLEAN MODE)', [$termsBool]);
-            })->when(!$isBoolean, function ($query) use ($termsMatch) {
-                $query->
-                whereRaw('MATCH (indexed_title, indexed_content) AGAINST (? IN NATURAL LANGUAGE MODE)', [$termsMatch]);
+            $query->when($isBoolean, function ($query) use ($termsBool, $model, $indexTitle, $indexContent) {
+                $query->whereRaw("MATCH ($indexTitle, $indexContent) AGAINST (? IN BOOLEAN MODE)", [$termsBool]);
+            })->when(!$isBoolean, function ($query) use ($termsMatch, $model, $indexTitle, $indexContent) {
+                $query->whereRaw("MATCH ($indexTitle, $indexContent) AGAINST (? IN NATURAL LANGUAGE MODE)", [$termsMatch]);
             })->orderByRaw(
-                '(' . $titleWeight . ' * (MATCH (indexed_title) AGAINST (?)) +
-              ' . $contentWeight . ' * (MATCH (indexed_title, indexed_content) AGAINST (?))
-             ) DESC',
+                '(' . $titleWeight . " * (MATCH ($indexTitle) AGAINST (?)) +
+              " . $contentWeight . " * (MATCH ($indexTitle, $indexContent) AGAINST (?))
+             ) DESC",
                 [$termsMatch, $termsMatch]
             );
         } else if (config('database.default') === 'pgsql') {
             $query
-                ->whereRaw("to_tsvector(indexed_title || ' ' || indexed_content) @@ to_tsquery(?)", [str_replace('*', ':*', $termsMatch)]);
+                ->whereRaw("to_tsvector($indexTitle || ' ' || $indexContent) @@ to_tsquery(?)", [str_replace('*', ':*', $termsMatch)]);
         }
 
         return $query;

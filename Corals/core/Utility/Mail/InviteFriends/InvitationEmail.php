@@ -3,18 +3,21 @@
 namespace Corals\Utility\Mail\InviteFriends;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class InvitationEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $invitationText, $invitationSubject;
+    public $invitationText;
+
+    public $invitationSubject;
 
     /**
      * InvitationEmail constructor.
+     *
      * @param $invitationText
      */
     public function __construct($invitationText, $invitationSubject)

@@ -41,8 +41,10 @@ use Corals\Utility\UtilityServiceProvider;
 use Hashids\Hashids;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Passwords\PasswordBrokerManager as BasePasswordBrokerManager;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Queue\Worker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\HtmlString;
@@ -158,6 +160,8 @@ class FoundationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->extendQueueWorker();
+        
         $helpers = \File::glob(__DIR__ . '/Helpers/*.php');
 
         foreach ($helpers as $helper) {
@@ -296,5 +300,22 @@ class FoundationServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['hashids', 'JavaScript'];
+    }
+
+    protected function extendQueueWorker()
+    {
+        $this->app->extend('queue.worker', function (Worker $resolvedWorker, $app) {
+
+            $isDownForMaintenance = function () {
+                return $this->app->isDownForMaintenance();
+            };
+
+            return new Worker(
+                $app['queue'],
+                $app['events'],
+                $app[ExceptionHandler::class],
+                $isDownForMaintenance
+            );
+        });
     }
 }

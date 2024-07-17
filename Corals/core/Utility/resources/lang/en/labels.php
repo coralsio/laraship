@@ -21,4 +21,17 @@ return [
         'accept_action_url' => 'Accept action url',
         'reject_action_url' => 'Reject action url',
     ],
+
+    'notifications' => [
+        'invitation' => [
+            'body' => 'Body',
+            'link' => '<a href=":url">Click here to accept the invitation</a>',
+            'subject' => 'Subject',
+        ],
+        'accept_invitation' => [
+            'invitee_name' => 'The invitee name',
+            'invitee_email' => 'The invitee email',
+        ]
+    ]
+
 ];

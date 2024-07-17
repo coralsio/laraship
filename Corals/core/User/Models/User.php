@@ -10,6 +10,7 @@ use Corals\Foundation\Traits\Language\Translatable;
 use Corals\Foundation\Traits\ModelActionsTrait;
 use Corals\Foundation\Traits\ModelHelpersTrait;
 use Corals\Foundation\Traits\ModelPropertiesTrait;
+use Corals\Foundation\Traits\Node\SimpleNode;
 use Corals\Foundation\Transformers\PresentableTrait;
 use Corals\Modules\CMS\Models\Content;
 use Corals\Settings\Traits\CustomFieldsModelTrait;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -27,15 +29,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 use Yajra\Auditable\AuditableTrait;
-use  Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable implements TwoFactorAuthenticatableContract, HasMedia
 {
     use TwoFactorAuthenticatable, Notifiable, HashTrait, HasRoles, ModelPropertiesTrait, HasApiTokens,
         Hookable, PresentableTrait, LogsActivity, InteractsWithMedia, AuditableTrait,
         CustomFieldsModelTrait, ModelHelpersTrait, Translatable, BaseRelations,
-        ModelActionsTrait, GatewayStatusTrait, SoftDeletes;
+        ModelActionsTrait, GatewayStatusTrait, SoftDeletes, SimpleNode;
 
+    const PARENT_ID = 'owner_id';
     /**
      *  Model configuration.
      * @var string
@@ -243,7 +245,7 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract, 
      */
     public function getOwner()
     {
-        return $this;
+        return $this->parent ?? $this;
     }
 
     /**
@@ -329,5 +331,20 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract, 
                 'id', 'updated_at', 'created_at',
                 'deleted_at', 'remember_token'
             ]);
+    }
+
+    public function getOwnerId()
+    {
+        return $this->getOwner()->id;
+    }
+
+
+    public function getNotifiables()
+    {
+        if ($this->parent_id != null) {
+            return [$this->parent, $this];
+        } else {
+            return $this;
+        }
     }
 }

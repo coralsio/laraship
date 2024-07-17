@@ -22,7 +22,7 @@ class CreateFulltextSearchTable extends Migration
                 $table->text('indexed_content');
                 $table->text('properties')->nullable();
                 $table->unique(['indexable_type', 'indexable_id']);
-                $table->engine = 'MyISAM';
+//                $table->engine = 'MyISAM';
 
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
