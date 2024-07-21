@@ -153,18 +153,14 @@ class CachedBuilder extends EloquentBuilder
 
     /**
      * @param null $perPage
-     * @param array $columns
+     * @param array|string|string[] $columns
      * @param string $pageName
      * @param null $page
+     * @param null $total
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|mixed
      * @throws \Exception
      */
-    public function paginate(
-        $perPage = null,
-        $columns = ["*"],
-        $pageName = "page",
-        $page = null
-    )
+    public function paginate($perPage = null, $columns = ["*"], $pageName = "page", $page = null, $total = null): mixed
     {
         if (!$this->isCachable()) {
             return parent::paginate($perPage, $columns, $pageName, $page);

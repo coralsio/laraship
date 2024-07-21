@@ -61,6 +61,7 @@
                             {!! CoralsForm::checkboxes('groups[]', 'User::module.group.title' ,false, $groups, $user->groups->pluck('id')->toArray()) !!}
                         @endif
 
+
                     </div>
                     <div class="col-md-4">
                         {!! CoralsForm::file('picture',  'User::attributes.user.picture' ) !!}

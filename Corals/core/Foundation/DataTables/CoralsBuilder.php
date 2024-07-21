@@ -55,6 +55,7 @@ class CoralsBuilder extends Builder
             'text' => 'string',
             'select' => 'string',
             'date_range' => 'date',
+            'pre_defined_date' => 'date',
             'select2' => 'string',
             'select2-ajax' => 'string'
         ];
@@ -69,6 +70,7 @@ class CoralsBuilder extends Builder
         $conditionListsMap = [
             'select2' => 'select',
             'date_range' => 'date',
+            'pre_defined_date' => 'date',
             'select2-ajax' => 'select'
         ];
 
@@ -282,6 +284,10 @@ class CoralsBuilder extends Builder
                     case 'date_range':
                         $attributes['help_text'] = $field['title'];
                         $filters .= \CoralsForm::dateRange($key, '', false, $value, $attributes);
+                        break;
+                    case 'pre_defined_date':
+                        $attributes['help_text'] = $field['title'];
+                        $filters .= \CoralsForm::preDefinedDate($key, '', false, $value, $attributes);
                         break;
                     case 'select':
                         $attributes['placeholder'] = trans('Corals::labels.select', ['label' => $field['title']]);

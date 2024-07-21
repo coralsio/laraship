@@ -195,12 +195,21 @@ class CoralsForm
             $input = $input . '</div>';
         } elseif ($type == 'date_range') {
             $input = '<div class="input-group input-daterange" data-autoclose="true" data-date-format="yyyy-mm-dd">';
-            $input .= $this->date($key . "[from]", '', $required, is_array($value) ? $value['from'] ?? null : $value,
-                $attributes);
-            $input .= '<div class="input-group-addon">to</div>';
-            $input .= $this->date($key . "[to]", '', $required, is_array($value) ? $value['to'] ?? null : $value,
-                $attributes);
-            $input .= '</div>';
+            if (isset($options['monthly']) && $options['monthly']) {
+                $input .= $this->input($key . "[from]", '', $required, is_array($value) ? $value['from'] ?? null : $value,
+                    $attributes, 'month');
+                $input .= '<div class="input-group-addon">to</div>';
+                $input .= $this->input($key . "[to]", '', $required, is_array($value) ? $value['from'] ?? null : $value,
+                    $attributes, 'month');
+                $input .= '</div>';
+            } else {
+                $input .= $this->date($key . "[from]", '', $required, is_array($value) ? $value['from'] ?? null : $value,
+                    $attributes);
+                $input .= '<div class="input-group-addon">to</div>';
+                $input .= $this->date($key . "[to]", '', $required, is_array($value) ? $value['to'] ?? null : $value,
+                    $attributes);
+                $input .= '</div>';
+            }
         } elseif ($type == 'number_range') {
             $input = '<div class="input-group input-number-range">';
             $input .= $this->number($key . "[from]", '', $required,
@@ -208,6 +217,36 @@ class CoralsForm
             $input .= '<div class="input-group-addon">to</div>';
             $input .= $this->number($key . "[to]", '', $required, is_array($value) ? $value['to'] ?? null : $value,
                 $attributes);
+            $input .= '</div>';
+        } else if ($type == 'pre_defined_date') {
+            \JavaScript::put([
+                'predefinedDates' => \Utility::getPredefinedDates()
+            ]);
+
+            $predefinedDateAttributes = array_merge($attributes, [
+                'class' => 'preDefinedDateOption ' . ($attributes['class'] ?? ''),
+                isset($options['monthly']) ? 'monthly' : ''
+            ]);
+
+            $dateRangeAttribute = array_merge($attributes, [
+                'options' => [
+                    'monthly' => $options['monthly'] ?? false
+                ],
+            ]);
+
+            $excluded = $options['black_options'] ?? [];
+            $allowedPredefinedDates = array_diff_key(\Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
+
+            $input = '<div class="preDefinedDates row ">';
+            $input .= '<div class="col-md-4">';
+            $input .= $this->select('', '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $predefinedDateAttributes, 'select2');
+            $input .= '</div>';
+            $input .= '<div class="col-md-8">';
+            $input .= $this->dateRange($key, '', false, [
+                'from' => $value['from'] ?? null,
+                'to' => $value['to'] ?? null,
+            ], $dateRangeAttribute);
+            $input .= '</div>';
             $input .= '</div>';
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
@@ -276,6 +315,11 @@ class CoralsForm
     public function dateRange($key, $label = '', $required = false, $value = null, $attributes = [])
     {
         return $this->input($key, $label, $required, $value, $attributes, 'date_range');
+    }
+
+    public function preDefinedDate($key, $label = '', $required = false, $value = null, $attributes = [])
+    {
+        return $this->input($key, $label, $required, $value, $attributes, 'pre_defined_date');
     }
 
     public function textarea($key, $label = '', $required = false, $value = null, $attributes = [])
@@ -936,4 +980,5 @@ class CoralsForm
     {
         return html()->hidden($name, $value)->attributes($attributes);
     }
+
 }
