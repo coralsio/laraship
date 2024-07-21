@@ -5,6 +5,7 @@ namespace Corals\Foundation\Classes;
 use Carbon\Carbon;
 use Corals\Foundation\Traits\Language\Translatable;
 use Corals\Settings\Facades\CustomFields;
+use Corals\Utility\Facades\Utility;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
@@ -209,6 +210,14 @@ class CoralsForm
             $input .= $this->number($key . "[to]", '', $required, is_array($value) ? $value['to'] ?? null : $value,
                 $attributes);
             $input .= '</div>';
+        } else if ($type == 'pre_defined_date') {
+            $attributes = array_merge($attributes, [
+                'class' => 'preDefinedDateOption'
+            ]);
+            $input = '<div class="input-group preDefinedDates">';
+            $input .= $this->select($key, '', Utility::gerPredefinedDatesOptions(), false, $value['pre_defined_date'] ?? null, $attributes, 'select2');
+            $input .= $this->dateRange($key, '', false, $value);
+            $input .= '</div>';
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
         }
@@ -276,6 +285,11 @@ class CoralsForm
     public function dateRange($key, $label = '', $required = false, $value = null, $attributes = [])
     {
         return $this->input($key, $label, $required, $value, $attributes, 'date_range');
+    }
+
+    public function preDefinedDate($key, $label = '', $required = false, $value = null, $attributes = [])
+    {
+        return $this->input($key, $label, $required, $value, $attributes, 'pre_defined_date');
     }
 
     public function textarea($key, $label = '', $required = false, $value = null, $attributes = [])
@@ -936,4 +950,5 @@ class CoralsForm
     {
         return html()->hidden($name, $value)->attributes($attributes);
     }
+
 }

@@ -4,6 +4,32 @@
     if (typeof CKEDITOR !== "undefined") {
         CKEDITOR.config.language = '{{ app()->getLocale() }}'
     }
+    $(document).ready(function () {
+
+        let predefinedDates = @json(\Utility::getPredefinedDates());
+        let ignorePredefinedChangeEvent = false;
+
+        $('.preDefinedDateOption').on('change', function (e) {
+            if (ignorePredefinedChangeEvent) {
+                ignorePredefinedChangeEvent = false;
+                return;
+            }
+
+            let predefinedDateConfig = predefinedDates[$(this).val()];
+            $('[name$="[from]"]').val(predefinedDateConfig['start_date']);
+            $('[name$="[to]"]').val(predefinedDateConfig['end_date']);
+        });
+
+        $('[name$="[from]"]').on('change', function () {
+            ignorePredefinedChangeEvent = true;
+            $('.preDefinedDateOption').val('custom').trigger('change');
+        });
+
+        $('[name$="[to]"]').on('change', function () {
+            ignorePredefinedChangeEvent = true;
+            $('.preDefinedDateOption').val('custom');
+        })
+    })
 
     function selectViaAjax(element, selected, isPublic = false, callback, callbackArgument) {
         $.ajax({

@@ -32,6 +32,6 @@ return [
             'invitee_name' => 'The invitee name',
             'invitee_email' => 'The invitee email',
         ]
-    ]
-
+    ],
+    'pre_defined_date' => 'Pre Defined Date',
 ];

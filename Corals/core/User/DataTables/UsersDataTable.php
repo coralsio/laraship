@@ -121,7 +121,7 @@ class UsersDataTable extends BaseDataTable
             'created_at' => [
                 'title' => trans('Corals::attributes.created_at'),
                 'class' => 'col-md-4',
-                'type' => 'date_range',
+                'type' => 'pre_defined_date',
                 'active' => true
             ],
         ];

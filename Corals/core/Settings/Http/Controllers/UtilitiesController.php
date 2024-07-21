@@ -234,6 +234,7 @@ class UtilitiesController extends BaseController
                 return \CoralsForm::date($key, null, false, $value, $attributes);
                 break;
             case 'date_range':
+            case 'pre_defined_date':
                 return \CoralsForm::date($key, '', false, $value, $attributes);
                 break;
             case 'select':
