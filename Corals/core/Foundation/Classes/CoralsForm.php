@@ -216,7 +216,9 @@ class CoralsForm
             ]);
             $input = '<div class="input-group preDefinedDates">';
             $input .= $this->select($key, '', Utility::gerPredefinedDatesOptions(), false, $value['pre_defined_date'] ?? null, $attributes, 'select2');
-            $input .= $this->dateRange($key, '', false, $value);
+            $input .= $this->dateRange($key, '', false, $value, [
+                'class' => 'filter'
+            ]);
             $input .= '</div>';
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));

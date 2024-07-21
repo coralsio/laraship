@@ -80,7 +80,8 @@ class CoralsScope implements DataTableScope
                         $function = $this->functionMap('date');
                         break;
                     case 'date_range':
-                        $function = $this->functionMap('date_range');
+                    case 'pre_defined_date':
+                        $function = $this->functionMap($filter['type']);
 
                         if (is_array($value) && count($value) == 1) {
                             if (isset($value['from'])) {
@@ -215,6 +216,7 @@ class CoralsScope implements DataTableScope
             'not null' => 'whereNotNull',
             'date' => 'whereDate',
             'date_range' => 'whereBetween',
+            'pre_defined_date' => 'whereBetween'
         ];
 
         $function = $functionMap[$function] ?? 'where';
