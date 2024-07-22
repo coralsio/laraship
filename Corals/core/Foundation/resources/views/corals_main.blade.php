@@ -6,7 +6,7 @@
     }
     $(document).ready(function () {
 
-        let predefinedDates = @json(\Corals\Modules\Utility\Facades\Utility::getPredefinedDates());
+        let predefinedDates = @json(\Utility::getPredefinedDates());
         let ignorePredefinedChangeEvent = false;
 
         $('.preDefinedDateOption').on('change', function (e) {

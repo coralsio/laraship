@@ -220,24 +220,24 @@ class CoralsForm
             $input .= '</div>';
         } else if ($type == 'pre_defined_date') {
             $attributes = array_merge($attributes, [
-                'class' => 'preDefinedDateOption col-md-8',
-                $options['monthly'] ? 'monthly' : ''
+                'class' => 'preDefinedDateOption col-md-8'.  ($attributes['class'] ?? ''),
+               isset($options['monthly']) ? 'monthly' : ''
             ]);
 
             $excluded = $options['black_options'] ?? [];
-            $allowedPredefinedDates = array_diff_key(\Corals\Modules\Utility\Facades\Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
+            $allowedPredefinedDates = array_diff_key(\Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
 
             $input = '<div class="input-group preDefinedDates col-md-12">';
             $input .= $this->select($key, '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $attributes, 'select2');
             $input .= $this->dateRange($key, '', false, [
                 'from' => $value['from'] ?? null,
                 'to' => $value['to'] ?? null
-            ], [
-                'class' => 'filter',
+            ], array_merge($attributes, [
                 'options' => [
                     'monthly' => $options['monthly'] ?? false,
                 ]
-            ]);
+            ])
+            );
             $input .= '</div>';
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
