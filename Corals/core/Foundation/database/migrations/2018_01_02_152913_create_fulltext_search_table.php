@@ -2,8 +2,10 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
-class CreateFulltextSearchTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +14,7 @@ class CreateFulltextSearchTable extends Migration
      */
     public function up()
     {
-        if (!\Schema::hasTable('fulltext_search')) {
+        if (!Schema::hasTable('fulltext_search')) {
 
             Schema::create('fulltext_search', function (Blueprint $table) {
                 $table->increments('id');
@@ -30,12 +32,12 @@ class CreateFulltextSearchTable extends Migration
                 $table->timestamps();
             });
 
-            if (\Illuminate\Support\Facades\DB::connection()->getConfig()['name'] == 'mysql') {
-                \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title(indexed_title)');
-                \DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title_content(indexed_title, indexed_content)');
-            } else if (\Illuminate\Support\Facades\DB::connection()->getConfig()['name'] == 'pgsql') {
-                \DB::statement('ALTER TABLE fulltext_search ADD COLUMN tsvector_content tsvector GENERATED ALWAYS AS (to_tsvector(\'simple\', COALESCE(indexed_title, \'\') || \' \' || COALESCE(indexed_content, \'\'))) STORED');
-                \DB::statement('CREATE INDEX tsvector_content_gin_index ON fulltext_search USING gin(tsvector_content)');
+            if (DB::connection()->getConfig()['name'] == 'mysql') {
+                DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title(indexed_title)');
+                DB::statement('ALTER TABLE fulltext_search ADD FULLTEXT fulltext_title_content(indexed_title, indexed_content)');
+            } else if (DB::connection()->getConfig()['name'] == 'pgsql') {
+                DB::statement('ALTER TABLE fulltext_search ADD COLUMN tsvector_content tsvector GENERATED ALWAYS AS (to_tsvector(\'simple\', COALESCE(indexed_title, \'\') || \' \' || COALESCE(indexed_content, \'\'))) STORED');
+                DB::statement('CREATE INDEX tsvector_content_gin_index ON fulltext_search USING gin(tsvector_content)');
             }
         }
     }
@@ -47,6 +49,6 @@ class CreateFulltextSearchTable extends Migration
      */
     public function down()
     {
-        \Schema::dropIfExists('fulltext_search');
+        Schema::dropIfExists('fulltext_search');
     }
-}
+};
