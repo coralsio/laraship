@@ -48,10 +48,29 @@ class Utility
         return $result ?? [];
     }
 
-    public function gerPredefinedDatesOptions()
+    public function gerPredefinedDatesOptions($monthly = false)
     {
+        $excludedOptionsIfMonthly = [
+            'year_to_today',
+            'month_to_today',
+            'previous_quarter',
+            'current_quarter',
+            'next_quarter',
+            'yesterday',
+            'today',
+            'tomorrow',
+            'last_week',
+            'current_week',
+        ];
+
         $predefinedDates = $this->getPredefinedDates();
-        return array_combine(array_keys($predefinedDates), Arr::pluck($predefinedDates, 'label'));
+        $options = array_combine(array_keys($predefinedDates), Arr::pluck($predefinedDates, 'label'));
+
+        if ($monthly) {
+            $options = array_diff_key($options, array_flip($excludedOptionsIfMonthly));
+        }
+
+        return $options;
     }
 
 }
