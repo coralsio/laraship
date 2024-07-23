@@ -226,7 +226,7 @@ class CoralsForm
 
             $dateRangeAttribute = array_merge($attributes, [
                 'options' => [
-                    'monthly' => true
+                    'monthly' => $options['monthly'] ?? false
                 ]
             ]);
 
