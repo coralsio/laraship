@@ -20,7 +20,7 @@ class Utility
 
     public function getPredefinedDates()
     {
-        foreach (config('utility.pre_defined_date.options') as $key => $attr) {
+        foreach (config('utility.pre_defined_date.options', []) as $key => $attr) {
             $from = data_get($attr, 'from');
             $to = data_get($attr, 'to');
 
