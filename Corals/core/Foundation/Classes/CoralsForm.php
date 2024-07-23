@@ -221,10 +221,13 @@ class CoralsForm
         } else if ($type == 'pre_defined_date') {
             $predefinedDateAttributes = array_merge($attributes, [
                 'class' => 'preDefinedDateOption ' . ($attributes['class'] ?? ''),
+                isset($options['monthly']) ? 'monthly' : ''
             ]);
 
             $dateRangeAttribute = array_merge($attributes, [
-                isset($options['monthly']) ? 'monthly' : ''
+                'options' => [
+                    'monthly' => true
+                ]
             ]);
 
             $excluded = $options['black_options'] ?? [];
