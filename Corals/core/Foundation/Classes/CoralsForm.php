@@ -220,23 +220,26 @@ class CoralsForm
             $input .= '</div>';
         } else if ($type == 'pre_defined_date') {
             $attributes = array_merge($attributes, [
-                'class' => 'preDefinedDateOption col-md-8'.  ($attributes['class'] ?? ''),
-               isset($options['monthly']) ? 'monthly' : ''
+                'class' => 'preDefinedDateOption ' . ($attributes['class'] ?? ''),
+                isset($options['monthly']) ? 'monthly' : ''
             ]);
 
             $excluded = $options['black_options'] ?? [];
-            $allowedPredefinedDates = array_diff_key(\Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
+            $allowedPredefinedDates = array_diff_key(Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
 
-            $input = '<div class="input-group preDefinedDates col-md-12">';
+            $input = '<div class="preDefinedDates row">';
+            $input .= '<div class="col-md-4">';
             $input .= $this->select($key, '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $attributes, 'select2');
+            $input .= '</div>';
+
             $input .= $this->dateRange($key, '', false, [
                 'from' => $value['from'] ?? null,
                 'to' => $value['to'] ?? null
             ], array_merge($attributes, [
-                'options' => [
-                    'monthly' => $options['monthly'] ?? false,
-                ]
-            ])
+                    'options' => [
+                        'monthly' => $options['monthly'] ?? false,
+                    ]
+                ])
             );
             $input .= '</div>';
         } else {
