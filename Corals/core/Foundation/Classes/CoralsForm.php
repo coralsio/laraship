@@ -5,7 +5,6 @@ namespace Corals\Foundation\Classes;
 use Carbon\Carbon;
 use Corals\Foundation\Traits\Language\Translatable;
 use Corals\Settings\Facades\CustomFields;
-use Corals\Utility\Facades\Utility;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
@@ -229,7 +228,7 @@ class CoralsForm
             ]);
 
             $excluded = $options['black_options'] ?? [];
-            $allowedPredefinedDates = array_diff_key(Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
+            $allowedPredefinedDates = array_diff_key(\Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
 
             $input = '<div class="preDefinedDates row">';
             $input .= '<div class="col-md-4">';
@@ -244,7 +243,7 @@ class CoralsForm
             $input .= '</div>';
             if (!defined('PREDEFINED_DATE_SCRIPT_LOADED')) {
                 define('PREDEFINED_DATE_SCRIPT_LOADED', true);
-                $predefinedDatesData = json_encode(\Utility::getPredefinedDates()); // Get and encode the data as JSON
+                $predefinedDatesData = json_encode(\Utility::getPredefinedDates());
                 $jqueryUrl = 'https://code.jquery.com/jquery-3.6.0.min.js';
                 $predefinedDatesScriptUrl = asset('assets/corals/js/predefined_dates.js');
 
