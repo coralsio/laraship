@@ -210,7 +210,8 @@ class CoralsForm
                 $input .= $this->date($key . "[to]", '', $required, is_array($value) ? $value['to'] ?? null : $value,
                     $attributes);
                 $input .= '</div>';
-            }        } elseif ($type == 'number_range') {
+            }
+        } elseif ($type == 'number_range') {
             $input = '<div class="input-group input-number-range">';
             $input .= $this->number($key . "[from]", '', $required,
                 is_array($value) ? $value['from'] ?? null : $value, $attributes);
@@ -219,8 +220,11 @@ class CoralsForm
                 $attributes);
             $input .= '</div>';
         } else if ($type == 'pre_defined_date') {
-            $attributes = array_merge($attributes, [
+            $predefinedDateAttributes = array_merge($attributes, [
                 'class' => 'preDefinedDateOption ' . ($attributes['class'] ?? ''),
+            ]);
+
+            $dateRangeAttribute = array_merge($attributes, [
                 isset($options['monthly']) ? 'monthly' : ''
             ]);
 
@@ -229,19 +233,28 @@ class CoralsForm
 
             $input = '<div class="preDefinedDates row">';
             $input .= '<div class="col-md-4">';
-            $input .= $this->select($key, '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $attributes, 'select2');
+            $input .= $this->select('', '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $predefinedDateAttributes, 'select2');
             $input .= '</div>';
 
             $input .= $this->dateRange($key, '', false, [
                 'from' => $value['from'] ?? null,
                 'to' => $value['to'] ?? null
-            ], array_merge($attributes, [
-                    'options' => [
-                        'monthly' => $options['monthly'] ?? false,
-                    ]
-                ])
+            ], $dateRangeAttribute
             );
             $input .= '</div>';
+            if (!defined('PREDEFINED_DATE_SCRIPT_LOADED')) {
+                define('PREDEFINED_DATE_SCRIPT_LOADED', true);
+                $predefinedDatesData = json_encode(\Utility::getPredefinedDates()); // Get and encode the data as JSON
+                $jqueryUrl = 'https://code.jquery.com/jquery-3.6.0.min.js';
+                $predefinedDatesScriptUrl = asset('assets/corals/js/predefined_dates.js');
+
+                $input .= '<script src="' . $jqueryUrl . '"></script>';
+                $input .= '<script>';
+                $input .= 'var predefinedDatesData = ' . $predefinedDatesData . ';';
+                $input .= '</script>';
+                $input .= '<script src="' . $predefinedDatesScriptUrl . '"></script>';
+            }
+
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
         }
