@@ -5,6 +5,8 @@
         CKEDITOR.config.language = '{{ app()->getLocale() }}'
     }
 
+    let predefinedDates = @json(\Corals\Utility\Facades\Utility::getPredefinedDates());
+
     function selectViaAjax(element, selected, isPublic = false, callback, callbackArgument) {
         $.ajax({
             url: isPublic ? '{{ url('utilities/select2-public') }}' : '{{ url('utilities/select2') }}',

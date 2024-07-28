@@ -244,19 +244,6 @@ class CoralsForm
             ], $dateRangeAttribute
             );
             $input .= '</div>';
-            if (!defined('PREDEFINED_DATE_SCRIPT_LOADED')) {
-                define('PREDEFINED_DATE_SCRIPT_LOADED', true);
-                $predefinedDatesData = json_encode(\Utility::getPredefinedDates());
-                $jqueryUrl = 'https://code.jquery.com/jquery-3.6.0.min.js';
-                $predefinedDatesScriptUrl = asset('assets/corals/js/predefined_dates.js');
-
-                $input .= '<script src="' . $jqueryUrl . '"></script>';
-                $input .= '<script>';
-                $input .= 'var predefinedDatesData = ' . $predefinedDatesData . ';';
-                $input .= '</script>';
-                $input .= '<script src="' . $predefinedDatesScriptUrl . '"></script>';
-            }
-
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
         }
