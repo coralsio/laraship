@@ -61,7 +61,6 @@
                             {!! CoralsForm::checkboxes('groups[]', 'User::module.group.title' ,false, $groups, $user->groups->pluck('id')->toArray()) !!}
                         @endif
 
-                        {!! CoralsForm::predefinedDate() !!}
 
                     </div>
                     <div class="col-md-4">
