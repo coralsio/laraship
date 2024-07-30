@@ -330,6 +330,8 @@ $(document).ready(function () {
     let ignorePredefinedChangeEvent = false;
 
     $('.preDefinedDateOption').on('change', function (e) {
+        let predefinedDates = corals.predefinedDates;
+
         if (ignorePredefinedChangeEvent) {
             ignorePredefinedChangeEvent = false;
             return;

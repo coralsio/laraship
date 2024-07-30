@@ -219,6 +219,10 @@ class CoralsForm
                 $attributes);
             $input .= '</div>';
         } else if ($type == 'pre_defined_date') {
+            \JavaScript::put([
+                'predefinedDates' => \Utility::getPredefinedDates()
+            ]);
+
             $predefinedDateAttributes = array_merge($attributes, [
                 'class' => 'preDefinedDateOption ' . ($attributes['class'] ?? ''),
                 isset($options['monthly']) ? 'monthly' : ''
@@ -227,22 +231,22 @@ class CoralsForm
             $dateRangeAttribute = array_merge($attributes, [
                 'options' => [
                     'monthly' => $options['monthly'] ?? false
-                ]
+                ],
             ]);
 
             $excluded = $options['black_options'] ?? [];
             $allowedPredefinedDates = array_diff_key(\Utility::gerPredefinedDatesOptions($options['monthly'] ?? false), array_flip($excluded));
 
-            $input = '<div class="preDefinedDates row">';
+            $input = '<div class="preDefinedDates row ">';
             $input .= '<div class="col-md-4">';
             $input .= $this->select('', '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $predefinedDateAttributes, 'select2');
             $input .= '</div>';
-
+            $input .= '<div class="col-md-8">';
             $input .= $this->dateRange($key, '', false, [
                 'from' => $value['from'] ?? null,
-                'to' => $value['to'] ?? null
-            ], $dateRangeAttribute
-            );
+                'to' => $value['to'] ?? null,
+            ], $dateRangeAttribute);
+            $input .= '</div>';
             $input .= '</div>';
         } else {
             $input = html()->{$type}($key, $value)->attributes(array_merge([], $attributes));
