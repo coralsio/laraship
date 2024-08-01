@@ -21,6 +21,7 @@ return [
         'notification_parameters' => [
             'name' => 'Registered user name',
             'link' => 'Confirmation Link',
+            'confirmation_code' => 'Confirmation Code',
         ],
         'resend_email' => 'Resend confirmation link'
     ],

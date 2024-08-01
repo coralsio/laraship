@@ -33,8 +33,20 @@ trait GatewayStatusTrait
         $message = null,
         $reference = null,
         $status_type = null,
-        $properties = []
-    ) {
+        array $properties = []
+    )
+    {
+        $gatewayStatus = $this->gatewayStatus()->where([
+            'object_id' => $this->getKey(),
+            'object_type' => getMorphAlias($this),
+            'gateway' => $gateway,
+            'status_type' => $status_type,
+        ])->first();
+
+        if ($gatewayStatus) {
+            $properties = array_merge($gatewayStatus->properties, $properties);
+        }
+
         $data = array_merge([
             'status' => $status,
             'message' => $message,

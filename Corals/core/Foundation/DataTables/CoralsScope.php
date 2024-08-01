@@ -128,6 +128,10 @@ class CoralsScope implements DataTableScope
                     break;
             }
 
+            if ($function == 'whereIn' && is_string($value)) {
+                $value = explode(',', $value);
+            }
+
 
             if (Arr::get($filter, 'is_morph', false)) {
                 $morphTypes = $filter['morph_types'];

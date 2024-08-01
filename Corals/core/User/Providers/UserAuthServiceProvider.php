@@ -7,7 +7,6 @@ use Corals\User\Models\User;
 use Corals\User\Policies\RolePolicy;
 use Corals\User\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Laravel\Passport\Passport;
 
 class UserAuthServiceProvider extends ServiceProvider
 {

@@ -2,9 +2,8 @@
 
 namespace Corals\Media\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Route;
 
 class MediaRouteServiceProvider extends ServiceProvider
 {
@@ -41,7 +40,7 @@ class MediaRouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-//        $this->mapApiRoutes();
+        $this->mapApiRoutes();
 
         $this->mapWebRoutes();
 
@@ -71,9 +70,10 @@ class MediaRouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        Route::prefix('api/' . config('corals.api_version') . '/media')
             ->middleware('api')
-            ->namespace($this->namespace)
+            ->namespace($this->namespace . '\API')
+            ->as('api.')
             ->group(__DIR__ . '/../routes/api.php');
     }
 }

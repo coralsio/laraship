@@ -18,10 +18,11 @@ class NotificationPolicy extends BasePolicy
      */
     public function view(User $user, Notification $notification = null)
     {
-        if ($user->can('Notification::my_notification.view')) {
-            return true;
+        if ($notification && $notification->notifiable_id != $user->id) {
+            return false;
         }
-        return false;
+
+        return $user->can('Notification::my_notification.view');
     }
 
     /**
@@ -40,7 +41,7 @@ class NotificationPolicy extends BasePolicy
      */
     public function update(User $user, Notification $notification)
     {
-        if ($user->can('Notification::my_notification.update')) {
+        if ($user->can('Notification::my_notification.update') && $notification->notifiable_id == $user->id) {
             return true;
         }
         return false;

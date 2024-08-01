@@ -38,7 +38,7 @@ class NotificationRouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-//        $this->mapApiRoutes();
+        $this->mapApiRoutes();
 
         $this->mapWebRoutes();
 
@@ -70,7 +70,7 @@ class NotificationRouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api/' . config('corals.api_version'))
             ->middleware('api')
-            ->namespace($this->namespace)
+            ->namespace($this->namespace.'\API')
             ->group(__DIR__ . '/../routes/api.php');
     }
 }

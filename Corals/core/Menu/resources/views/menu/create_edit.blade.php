@@ -32,16 +32,14 @@
                 {!! CoralsForm::textarea('description','Menu::attributes.menu.description',false,$menu->description,['rows'=>3]) !!}
 
             @else
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item active">
-                        <a class="nav-link active" id="menu-item-tab" data-toggle="tab" href="#menu-item" role="tab"
-                           aria-controls="menu-item" aria-selected="true">Menu Item</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="permission-tab" data-toggle="tab" href="#permission" role="tab"
-                           aria-controls="permission" aria-selected="false">Permission</a>
-                    </li>
-                </ul>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item active">
+                            <a class="nav-link active" id="menu-item-tab" data-toggle="tab" href="#menu-item" role="tab" aria-controls="menu-item" aria-selected="true">Menu Item</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="permission-tab" data-toggle="tab" href="#permission" role="tab" aria-controls="permission" aria-selected="false">Permission</a>
+                        </li>
+                    </ul>
             @endif
 
             @if(!$root)

@@ -39,6 +39,6 @@ class CoralsPathGenerator implements PathGenerator
         $root = $media->getCustomProperty('root', 'user_' . optional(user())->hashed_id);
         $key = $media->getCustomProperty('key', $media->getKey());
 
-        return $root . '/' . $key;
+        return trim($root . '/' . $key, '/');
     }
 }

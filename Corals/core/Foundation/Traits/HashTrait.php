@@ -14,6 +14,11 @@ use Illuminate\Database\Eloquent\Model;
 trait HashTrait
 {
     /**
+     * @var array|string[]
+     */
+    protected array $allowedFields = ['slug', 'username'];
+
+    /**
      * Retrieve the model for a bound value.
      *
      * @param mixed $value
@@ -22,9 +27,11 @@ trait HashTrait
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        $decoded_value = hashids_decode($value);
+        if (in_array($field, $this->allowedFields)) {
+            return $this->where($field, $value)->first();
+        }
 
-        return $this->where($this->getRouteKeyName(), $decoded_value)->first();
+        return $this->where($this->getRouteKeyName(), hashids_decode($value))->first();
     }
 
     public function getHashedIdAttribute()
@@ -48,8 +55,10 @@ trait HashTrait
      */
     public function resolveSoftDeletableRouteBinding($value, $field = null)
     {
-        $decoded_value = hashids_decode($value);
+        if (in_array($field, $this->allowedFields)) {
+            return $this->where($field, $value)->withTrashed()->first();
+        }
 
-        return $this->where($this->getRouteKeyName(), $decoded_value)->withTrashed()->first();
+        return $this->where($this->getRouteKeyName(), hashids_decode($value))->withTrashed()->first();
     }
 }

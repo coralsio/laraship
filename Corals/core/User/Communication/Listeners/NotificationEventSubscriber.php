@@ -16,6 +16,7 @@ class NotificationEventSubscriber
     public function handleNotificationEvent($eventName, $data)
     {
         $events = CoralsNotification::getEventByEventName($eventName);
+
         foreach ($events as $event) {
             $notificationClass = app($event['notificationClass']);
 
