@@ -45,6 +45,14 @@ class BaseServiceClass
         $this->presenter = $presenter;
     }
 
+    /**
+     * @return FractalPresenter|null
+     */
+    public function getPresenter(): FractalPresenter|null
+    {
+        return $this->presenter;
+    }
+
     public function getRequestData($request)
     {
         if (is_array($request)) {

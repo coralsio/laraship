@@ -186,6 +186,10 @@ abstract class CoralsBaseNotification extends Notification implements ShouldQueu
             }
         }
 
+        if (in_array('database', $channels)) {
+            $channels[] = 'broadcast';
+        }
+
         return $channels;
     }
 
@@ -236,7 +240,7 @@ abstract class CoralsBaseNotification extends Notification implements ShouldQueu
             $mail = (new MailMessage)
                 ->subject($subject)
                 ->view('Notification::mail.general_email_template', ['body' => $body]);
-            if($email_from){
+            if ($email_from) {
                 $mail->from($email_from);
             }
 
@@ -311,5 +315,21 @@ abstract class CoralsBaseNotification extends Notification implements ShouldQueu
 
         return (new TwilioSmsMessage())
             ->content(Arr::get($notificationAttributes, 'body'));
+    }
+
+    /**
+     * @param object $notifiable
+     * @return array
+     */
+    public function toBroadcast(object $notifiable)
+    {
+        $data = $this->toArray($notifiable);
+
+        $data['created_at'] = now()->diffForHumans();
+        $data['read_at'] = null;
+
+        return Arr::only($data, [
+            'notification_type', 'title', 'read_at', 'imag', 'created_at'
+        ]);
     }
 }

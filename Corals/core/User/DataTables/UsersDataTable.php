@@ -3,8 +3,8 @@
 namespace Corals\User\DataTables;
 
 use Corals\Foundation\DataTables\BaseDataTable;
-use Corals\User\Facades\Roles;
 use Corals\User\Facades\Users;
+use Corals\User\Facades\Roles;
 use Corals\User\Models\User;
 use Corals\User\Transformers\UserTransformer;
 use Yajra\DataTables\EloquentDataTable;

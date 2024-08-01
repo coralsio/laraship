@@ -8,6 +8,7 @@ use Corals\Activity\HttpLogger\Http\Middleware\HttpLogger;
 use Corals\Activity\HttpLogger\Models\HttpLog;
 use Corals\Activity\HttpLogger\Providers\HttpLoggerAuthServiceProvider;
 use Corals\Activity\HttpLogger\Providers\HttpLoggerRouteServiceProvider;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,6 +36,7 @@ class HttpLoggerServiceProvider extends ServiceProvider
 
         $this->app->singleton(LogProfile::class, config('http_logger.log_profile'));
         $this->app->singleton(LogWriter::class, config('http_logger.log_writer'));
+
     }
 
     /**
@@ -47,8 +49,10 @@ class HttpLoggerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/http_logger.php', 'http_logger');
 
         if (config('http_logger.is_enabled')) {
-            $this->app['router']->pushMiddlewareToGroup('web', HttpLogger::class);
-            $this->app['router']->pushMiddlewareToGroup('api', HttpLogger::class);
+            tap(app()->make(Kernel::class), function ($kernel) {
+                $kernel->appendMiddlewareToGroup('web', HttpLogger::class);
+                $kernel->appendMiddlewareToGroup('api', HttpLogger::class);
+            });
         }
 
         $this->app->register(HttpLoggerRouteServiceProvider::class);

@@ -2,6 +2,7 @@
 
 namespace Corals\User;
 
+
 use Corals\Foundation\Notifications\ImportStatusNotification;
 use Corals\Foundation\Notifications\SendExcelFileNotification;
 use Corals\Settings\Facades\Settings;
@@ -21,6 +22,7 @@ use Corals\User\Providers\UserAuthServiceProvider;
 use Corals\User\Providers\UserEventServiceProvider;
 use Corals\User\Providers\UserObserverServiceProvider;
 use Corals\User\Providers\UserRouteServiceProvider;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -50,6 +52,7 @@ class UserServiceProvider extends ServiceProvider
         $this->registerCustomFieldsModels();
         $this->addEvents();
         $this->registerHooks();
+
     }
 
     /**
@@ -97,7 +100,10 @@ class UserServiceProvider extends ServiceProvider
             return new TwoFactorAuth($provider);
         });
 
-        $this->app['router']->pushMiddlewareToGroup('web', \Corals\User\Middleware\CookieConsentMiddleware::class);
+        tap(app()->make(Kernel::class), function ($kernel) {
+            $kernel->appendMiddlewareToGroup('web', \Corals\User\Middleware\CookieConsentMiddleware::class);
+        });
+
     }
 
     public function registerWidgets()
@@ -154,7 +160,6 @@ class UserServiceProvider extends ServiceProvider
             'notifications.import_status',
             'Import Status',
             ImportStatusNotification::class);
-
     }
 
     protected function registerHooks()

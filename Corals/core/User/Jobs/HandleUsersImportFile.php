@@ -25,6 +25,7 @@ class HandleUsersImportFile implements ShouldQueue
     protected $user;
     protected $roles;
     private $rolesListForLoggedInUser;
+    private $groups;
 
     /**
      * HandleBrandsImportFile constructor.

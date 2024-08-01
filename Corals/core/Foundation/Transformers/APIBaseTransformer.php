@@ -23,6 +23,8 @@ class APIBaseTransformer extends TransformerAbstract
      * @param null $model
      * @param array $extra
      * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function transformResponse(array $transformedArray, $model = null, $extra = [])
     {
@@ -38,7 +40,7 @@ class APIBaseTransformer extends TransformerAbstract
 
         if (!$this->isInEditMode()) {
             $transformedArray = array_map(function ($value) {
-                return $value ?? '-';
+                return $value;
             }, $transformedArray);
         }
 

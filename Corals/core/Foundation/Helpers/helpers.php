@@ -55,11 +55,12 @@ if (!function_exists('hashids_encode')) {
     /**
      * Encode the given id.
      * @param $id
+     * @param bool $force
      * @return mixed
      */
-    function hashids_encode($id)
+    function hashids_encode($id, bool $force = false)
     {
-        if (is_api_request()) {
+        if (!$force && is_api_request()) {
             return $id;
         }
 

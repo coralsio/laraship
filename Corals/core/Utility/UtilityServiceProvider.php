@@ -2,7 +2,6 @@
 
 namespace Corals\Utility;
 
-use Bkwld\Cloner\ServiceProvider;
 use Corals\Foundation\Facades\Actions;
 use Corals\Foundation\Providers\BasePackageServiceProvider;
 use Corals\User\Communication\Facades\CoralsNotification;
@@ -15,7 +14,7 @@ use Corals\Utility\Providers\UtilityObserverServiceProvider;
 use Corals\Utility\Providers\UtilityRouteServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
-class UtilityServiceProvider extends ServiceProvider
+class UtilityServiceProvider extends BasePackageServiceProvider
 {
     protected $defer = true;
 
@@ -27,7 +26,7 @@ class UtilityServiceProvider extends ServiceProvider
      * @return void
      */
 
-    public function boot()
+    public function bootPackage()
     {
         // Load view
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'Utility');
@@ -50,7 +49,7 @@ class UtilityServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function registerPackage()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/utility.php', 'utility');
 

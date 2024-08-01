@@ -392,31 +392,6 @@ class CoralsBuilder extends Builder
 
         return $this;
     }
-    public function addOwner(array $attributes = [], $prepend = false): static
-    {
-        $options = $this->options;
-
-        if (!isset($options['has_owner']) || !$options['has_owner']) {
-            return $this;
-        }
-
-        $attributes = array_merge([
-            'defaultContent' => '',
-            'data' => 'owner',
-            'name' => 'owenr',
-            'title' => trans('Intelligence::attributes.owner'),
-            'render' => null,
-            'orderable' => true,
-            'searchable' => false,
-            'exportable' => false,
-            'printable' => true,
-            'footer' => '',
-        ], $attributes);
-        $this->collection->push(new Column($attributes));
-
-        return $this;
-    }
-
 
     public function assets()
     {

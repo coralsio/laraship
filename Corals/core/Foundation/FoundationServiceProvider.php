@@ -52,6 +52,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\Html\Html;
 use Yajra\DataTables\DataTableAbstract;
+use Illuminate\Contracts\Http\Kernel;
 
 class FoundationServiceProvider extends ServiceProvider
 {
@@ -161,7 +162,7 @@ class FoundationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->extendQueueWorker();
-        
+
         $helpers = \File::glob(__DIR__ . '/Helpers/*.php');
 
         foreach ($helpers as $helper) {
@@ -208,20 +209,10 @@ class FoundationServiceProvider extends ServiceProvider
             $loader->alias('JavaScript', JavaScriptFacade::class);
         });
 
-        $this->app['router']->pushMiddlewareToGroup('web', CoralsMiddleware::class);
-        $this->app['router']->pushMiddlewareToGroup('web', SetLocale::class);
-        $this->app['router']->pushMiddlewareToGroup('api', JSONResponse::class);
 
 
-        $this->app['router']->middlewarePriority = [
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            JSONResponse::class,
-            \Illuminate\Auth\Middleware\Authenticate::class,
-            \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \Illuminate\Auth\Middleware\Authorize::class,
-        ];
+
+
 
         Actions::do_action('post_coral_registration');
 
@@ -236,17 +227,30 @@ class FoundationServiceProvider extends ServiceProvider
 
         $this->registerConfig();
         $this->registerCommand();
+
+
+        tap(app()->make(Kernel::class), function ($kernel) {
+            $kernel->appendMiddlewareToGroup('web', CoralsMiddleware::class);
+            $kernel->appendMiddlewareToGroup('web', SetLocale::class);
+            $kernel->appendMiddlewareToGroup('api', JSONResponse::class);
+        });
+
+        $this->app['router']->middlewarePriority = [
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            JSONResponse::class,
+            \Illuminate\Auth\Middleware\Authenticate::class,
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\Auth\Middleware\Authorize::class,
+        ];
     }
 
-    /**
-     *
-     */
     protected function mobileResetPasswordConfiguration(): void
     {
         $this->resetPasswordEmailCallback();
         $this->extendPasswordBroker();
     }
-
     /**
      *
      */
