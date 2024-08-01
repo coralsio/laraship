@@ -74,7 +74,7 @@ class UserService extends BaseServiceClass
 
     public function handleUserRoles(UserRequest $request)
     {
-        $rolesFormRequest = $request->roles;
+        $rolesFormRequest = array_map(function($role) { return (int)$role; }, $request->roles);
 
         $loggedInUserRoles = Roles::getRolesListForLoggedInUser();
 
