@@ -347,4 +347,6 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract, 
             return $this;
         }
     }
+
+
 }
