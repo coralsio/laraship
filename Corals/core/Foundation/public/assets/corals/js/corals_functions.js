@@ -57,7 +57,7 @@ function initCkeditor() {
 
         $('.ckeditor-simple').each(function (e) {
             if (CKEDITOR.instances[$(this).prop('id')]) {
-                return;
+                CKEDITOR.instances[$(this).prop('id')].destroy(true);
             }
 
             CKEDITOR.replace($(this).prop('id'), {

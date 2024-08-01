@@ -199,7 +199,7 @@ class CoralsForm
                 $input .= $this->input($key . "[from]", '', $required, is_array($value) ? $value['from'] ?? null : $value,
                     $attributes, 'month');
                 $input .= '<div class="input-group-addon">to</div>';
-                $input .= $this->input($key . "[to]", '', $required, is_array($value) ? $value['from'] ?? null : $value,
+                $input .= $this->input($key . "[to]", '', $required, is_array($value) ? $value['to'] ?? null : $value,
                     $attributes, 'month');
                 $input .= '</div>';
             } else {

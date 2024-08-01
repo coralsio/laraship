@@ -23,6 +23,8 @@ use Corals\User\Providers\UserEventServiceProvider;
 use Corals\User\Providers\UserObserverServiceProvider;
 use Corals\User\Providers\UserRouteServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
+use Corals\User\Widgets\RecentlyViewedURLs;
+
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -109,6 +111,7 @@ class UserServiceProvider extends ServiceProvider
     public function registerWidgets()
     {
         \Shortcode::addWidget('new_users', \Corals\User\Widgets\NewUsersWidget::class);
+        \Shortcode::addWidget('RecentlyViewedURLs', RecentlyViewedURLs::class);
     }
 
     protected function registerMorphMaps()

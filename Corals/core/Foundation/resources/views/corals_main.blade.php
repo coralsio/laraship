@@ -5,43 +5,6 @@
         CKEDITOR.config.language = '{{ app()->getLocale() }}'
     }
 
-    function selectViaAjax(element, selected, isPublic = false, callback, callbackArgument) {
-        $.ajax({
-            url: isPublic ? '{{ url('utilities/select2-public') }}' : '{{ url('utilities/select2') }}',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            dataType: 'json',
-            delay: 250,
-            data: {
-                selected: selected,
-                columns: element.data('columns'),
-                key_column: $(this).data('key_column'),
-                textColumns: element.data('text_columns'),
-                model: element.data('model'),
-                where: element.data('where'),
-                scopes: $(this).data('scopes'),
-                scope_params: $(this).data('scope_params'),
-                orWhere: element.data('or_where'),
-                resultMapper: element.data('result_mapper'),
-                join: element.data('join'),
-            },
-            success: function (data, textStatus, jqXHR) {
-                // create the option and append to Select2
-                for (var index in data) {
-                    if (data.hasOwnProperty(index)) {
-                        var selection = data[index];
-                        var option = new Option(selection.text, selection.id, true, true);
-                        element.append(option).trigger('change');
-                    }
-                }
-            },
-            complete: function () {
-                if (callback) {
-                    callback(callbackArgument);
-                }
-            }
-        });
-    }
-
     function handleRecentlyViewedURLs(currentURLTrackableDetails) {
         if (!currentURLTrackableDetails) {
             currentURLTrackableDetails = @json(\Users::isCurrentURLTrackable());
@@ -88,6 +51,46 @@
     }
 
     handleRecentlyViewedURLs();
+
+
+    function selectViaAjax(element, selected, isPublic = false, callback, callbackArgument) {
+        $.ajax({
+            url: isPublic ? '{{ url('utilities/select2-public') }}' : '{{ url('utilities/select2') }}',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            dataType: 'json',
+            delay: 250,
+            data: {
+                selected: selected,
+                columns: element.data('columns'),
+                key_column: $(this).data('key_column'),
+                textColumns: element.data('text_columns'),
+                model: element.data('model'),
+                where: element.data('where'),
+                scopes: $(this).data('scopes'),
+                scope_params: $(this).data('scope_params'),
+                orWhere: element.data('or_where'),
+                resultMapper: element.data('result_mapper'),
+                join: element.data('join'),
+            },
+            success: function (data, textStatus, jqXHR) {
+                // create the option and append to Select2
+                for (var index in data) {
+                    if (data.hasOwnProperty(index)) {
+                        var selection = data[index];
+                        var option = new Option(selection.text, selection.id, true, true);
+                        element.append(option).trigger('change');
+                    }
+                }
+            },
+            complete: function () {
+                if (callback) {
+                    callback(callbackArgument);
+                }
+            }
+        });
+    }
+
+
 
     function initSelect2ajax() {
         $(".select2-ajax").each(function () {

@@ -13,7 +13,7 @@ return [
     | Example: 'footer' or ['footer', 'bottom']
     |
     */
-    'bind_js_vars_to_this_view' => ['partials.footer','partials.dashboard_footer'],
+    'bind_js_vars_to_this_view' => ['partials.footer', 'partials.dashboard_footer', 'partials.scripts.footer'],
 
     /*
     |--------------------------------------------------------------------------
