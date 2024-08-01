@@ -52,6 +52,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\Html\Html;
 use Yajra\DataTables\DataTableAbstract;
+use Illuminate\Contracts\Http\Kernel;
 
 class FoundationServiceProvider extends ServiceProvider
 {
