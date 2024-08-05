@@ -9,5 +9,6 @@ return [
                 'edit' => [],
             ]
         ],
-    ]
+    ],
+    'system_monitor_enabled' => env('SYSTEM_MONITOR_ENABLED', false)
 ];

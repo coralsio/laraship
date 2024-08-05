@@ -17,6 +17,8 @@ return [
 
     'default' => env('CACHE_DRIVER', 'file'),
 
+    'limiter' => env('LIMITER_CACHE_DRIVER', env('CACHE_DRIVER', 'file')),
+
     /*
     |--------------------------------------------------------------------------
     | Cache Stores
@@ -67,10 +69,14 @@ return [
                 ],
             ],
         ],
-
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
+        ],
+        'redis_limiter' => [
+            'driver' => 'redis',
+            'connection' => 'limiter',
+//            'prefix' => ''
         ],
 
     ],

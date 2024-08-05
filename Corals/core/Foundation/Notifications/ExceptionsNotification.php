@@ -13,12 +13,19 @@ class ExceptionsNotification extends Notification
     protected $exception;
 
     /**
-     * SlackNotification constructor.
-     * @param $exception
+     * @var bool
      */
-    public function __construct($exception)
+    protected $includeTrace = true;
+
+    /**
+     * ExceptionsNotification constructor.
+     * @param $exception
+     * @param $includeTrace
+     */
+    public function __construct($exception, $includeTrace = true)
     {
         $this->exception = $exception;
+        $this->includeTrace = $includeTrace;
     }
 
     /**
@@ -47,13 +54,19 @@ class ExceptionsNotification extends Notification
 
     public function toSlack($notifiable)
     {
-        return (new SlackMessage())
+        $slackMessage = (new SlackMessage())
             ->error()
             ->content(sprintf(':warning: %s [%s]',
-                $this->exception->getMessage(), config('app.name')))
-            ->attachment(function ($attachment) {
+                    $this->exception->getMessage(), config('app.name'))
+            );
+
+        if ($this->includeTrace) {
+            $slackMessage->attachment(function ($attachment) {
                 $attachment->title('Trace:')
                     ->content($this->exception->getTraceAsString());
             });
+        }
+
+        return $slackMessage;
     }
 }

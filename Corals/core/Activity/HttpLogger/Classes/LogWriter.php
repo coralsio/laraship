@@ -43,7 +43,7 @@ class LogWriter implements LogWriterContract
      * @param Request $request
      * @return false|string
      */
-    protected function getRequestBody(Request $request)
+    public function getRequestBody(Request $request)
     {
         $body = $request->except(config('http-logger.except'));
 

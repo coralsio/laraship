@@ -2,6 +2,7 @@
 
 namespace Corals\Activity;
 
+use Corals\Activity\Facades\SystemMonitor;
 use Corals\Activity\HttpLogger\HttpLoggerServiceProvider;
 use Corals\Activity\Models\Activity;
 use Corals\Activity\Providers\ActivityAuthServiceProvider;
@@ -30,6 +31,8 @@ class ActivityServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         $this->registerMorphMaps();
+
+        SystemMonitor::configure();
     }
 
     /**
