@@ -4,6 +4,7 @@ namespace Corals\User\Traits;
 
 
 use Carbon\Carbon;
+use Corals\User\Facades\CoralsAuthentication;
 use Illuminate\Support\Facades\Auth;
 
 trait UserLoginTrait
@@ -16,31 +17,18 @@ trait UserLoginTrait
      */
     protected function doLogin($user, $message = '')
     {
-        $activeToken = $user->tokens()->where('revoked', false)->first();
-
-        if ($activeToken) {
-//            $activeToken->revoke();
-        }
-
         if ($user->getProperty('force_reset')) {
             return $this->passwordResetRedirector($user);
         }
-
-        $tokenResult = $user->createToken('Corals-API');
-
-        $token = $tokenResult->token;
-
-        $token->save();
 
         $user->setPresenter(new \Corals\User\Transformers\API\UserPresenter());
 
         $userDetails = $user->presenter();
 
-        $userDetails['authorization'] = 'Bearer ' . $tokenResult->accessToken;
-
-        $userDetails['expires_at'] = Carbon::parse(
-            $tokenResult->token->expires_at
-        )->toDateTimeString();
+        $userDetails = CoralsAuthentication::login(
+            user: $user,
+            userDetails: $userDetails
+        );
 
         return apiResponse($userDetails, $message);
     }

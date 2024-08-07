@@ -3,7 +3,9 @@
 namespace Corals\User\Http\Controllers\API\Auth;
 
 use Carbon\Carbon;
+use Corals\User\Facades\CoralsAuthentication;
 use Corals\User\Http\Controllers\Auth\ResetPasswordController as WebResetPasswordController;
+use Corals\User\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 
@@ -41,24 +43,19 @@ class ResetPasswordController extends WebResetPasswordController
      */
     protected function sendResetResponse(Request $request, $response)
     {
-
+        /**
+         * @var $user User
+         */
         $user = $this->guard()->user();
-
-        $tokenResult = $user->createToken('Corals-API');
-
-        $token = $tokenResult->token;
-
-        $token->save();
 
         $user->setPresenter(new \Corals\User\Transformers\API\UserPresenter());
 
         $userDetails = $user->presenter();
 
-        $userDetails['authorization'] = 'Bearer ' . $tokenResult->accessToken;
-
-        $userDetails['expires_at'] = Carbon::parse(
-            $tokenResult->token->expires_at
-        )->toDateTimeString();
+        CoralsAuthentication::login(
+            user: $user,
+            userDetails: $userDetails
+        );
 
         return apiResponse($userDetails);
     }

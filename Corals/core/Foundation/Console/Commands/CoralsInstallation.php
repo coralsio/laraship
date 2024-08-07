@@ -88,7 +88,6 @@ class CoralsInstallation extends Command
 
         $commands = [
             ['command' => 'migrate:fresh', 'args' => ['--force' => true, '--seed' => true]],
-            'passport:install',
             'key:generate'
         ];
 

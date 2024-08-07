@@ -6,7 +6,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
 
-    Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', 'LoginController@logout');
     });
 });
@@ -21,3 +21,5 @@ Route::group([], function () {
 
     Route::apiResource('users', 'UsersController', ['as' => 'api.user']);
 });
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
