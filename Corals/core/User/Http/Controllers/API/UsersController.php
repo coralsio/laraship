@@ -2,7 +2,6 @@
 
 namespace Corals\User\Http\Controllers\API;
 
-use Corals\Foundation\DataTables\CoralsScope;
 use Corals\Foundation\Http\Controllers\APIBaseController;
 use Corals\User\DataTables\UsersDataTable;
 use Corals\User\Http\Requests\UserRequest;

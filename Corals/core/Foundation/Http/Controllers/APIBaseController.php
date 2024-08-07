@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 class APIBaseController extends Controller
 {
     protected $corals_middleware_except = [];
-    protected $corals_middleware = ['auth:api'];
+    protected $corals_middleware = ['auth:sanctum'];
 
     /**
      * BaseController constructor.

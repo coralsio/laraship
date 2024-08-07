@@ -3,6 +3,7 @@
 namespace Corals\User\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use Corals\User\Facades\CoralsAuthentication;
 use Corals\User\Models\User;
 use Corals\User\Traits\UserLoginTrait;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -97,7 +98,7 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+       CoralsAuthentication::logout();
 
         return apiResponse([], trans('User::messages.auth.logout_success'));
     }

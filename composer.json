@@ -25,6 +25,7 @@
     "intervention/image": "^3.7.2",
     "laracasts/flash": "^3.2.3",
     "laravel/framework": "^11.0",
+    "laravel/sanctum": "^4.0",
     "laravel/slack-notification-channel": "^3.2.0",
     "laravel/tinker": "^2.9",
     "laravel/ui": "^4.5.2",

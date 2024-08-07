@@ -6,6 +6,7 @@ use App\Exceptions\Handler;
 use Corals\Foundation\Facades\Actions;
 use Corals\Foundation\Http\Controllers\AuthBaseController;
 use Corals\Settings\Facades\Settings;
+use Corals\User\Facades\CoralsAuthentication;
 use Corals\User\Facades\TwoFactorAuth;
 use Corals\User\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -170,11 +171,9 @@ class RegisterController extends AuthBaseController
      */
     protected function sendConfirmationToUser($user)
     {
-        $user->confirmation_code = \Str::random(25);
-
-        $user->save();
-
-        event('notifications.user.confirmation', ['user' => $user]);
+        CoralsAuthentication::sendConfirmationToUser(
+            user: $user
+        );
     }
 
 
