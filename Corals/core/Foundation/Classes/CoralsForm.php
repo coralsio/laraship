@@ -239,7 +239,7 @@ class CoralsForm
 
             $input = '<div class="preDefinedDates row ">';
             $input .= '<div class="col-md-4">';
-            $input .= $this->select('', '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $predefinedDateAttributes, 'select2');
+            $input .= $this->select($key . '_key', '', $allowedPredefinedDates, false, $value['pre_defined_date'] ?? null, $predefinedDateAttributes, 'select2');
             $input .= '</div>';
             $input .= '<div class="col-md-8">';
             $input .= $this->dateRange($key, '', false, [

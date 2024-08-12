@@ -55,15 +55,6 @@ class LarashipDeployment extends Command
         });
 
         $sortedModules = [
-            'corals-activity',
-            'corals-file-manager',
-            'corals-foundation',
-            'corals-media',
-            'corals-menu',
-            'corals-settings',
-            'corals-theme',
-            'corals-user',
-            'corals-utility',
         ];
 
         $this->line('Update or install required modules');

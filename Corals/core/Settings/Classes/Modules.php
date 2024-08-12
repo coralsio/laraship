@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Spatie\Permission\Models\Role;
 
 /**
  * Class Modules
@@ -556,8 +557,11 @@ class Modules
 
     public function grantSuperuserRoleFullAccess()
     {
-        $role = \Corals\User\Models\Role::findByName('superuser');
-        $role->syncPermissions(\Spatie\Permission\Models\Permission::all());
+        $superuserRole = Role::query()->where('name', 'superuser')->first();
+
+        if ($superuserRole) {
+            $superuserRole->syncPermissions(\Spatie\Permission\Models\Permission::all());
+        }
     }
 
     /**
