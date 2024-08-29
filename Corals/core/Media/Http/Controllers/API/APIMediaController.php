@@ -28,7 +28,7 @@ class APIMediaController extends APIBaseController
             'model_id' => 'required',
             'model_type' => ['required', Rule::in(array_keys(Relation::$morphMap))],
             'collection' => 'required',
-            'is_public' => 'required|boolean'
+            'is_public' => 'required|boolean',
         ];
     }
 
@@ -45,7 +45,7 @@ class APIMediaController extends APIBaseController
 
         $model = $modelClass::findOrFail($model_id);
 
-        if (!in_array($collection, array_keys($model->allowedMediaCollections()))) {
+        if (method_exists($model, 'allowedMediaCollections') && !in_array($collection, array_keys($model->allowedMediaCollections()))) {
             throw new \Exception("Invalid collection name [{$collection}]");
         }
 
@@ -81,7 +81,11 @@ class APIMediaController extends APIBaseController
 
             extract($request->only(['model_id', 'model_type', 'collection', 'file_name', 'is_public']));
 
-            $isCollectionMany = $model->allowedMediaCollections($collection) === 'many';
+            $isCollectionMany = true;
+
+            if (method_exists($model, 'allowedMediaCollections')) {
+                $isCollectionMany = $model->allowedMediaCollections($collection) === 'many';
+            }
 
             $s3 = Storage::disk('s3');
 
@@ -124,6 +128,7 @@ class APIMediaController extends APIBaseController
                 'name' => 'nullable',
                 'mime_type' => 'required',
                 'key' => 'nullable',
+                'custom_properties' => 'nullable|array'
             ]));
 
             $model = $this->getMediaModel($request);
@@ -134,10 +139,14 @@ class APIMediaController extends APIBaseController
 
             $pathArray = $this->getPath($is_public, $model_type, $model_id, $collection);
 
-            $isCollectionSingle = $model->allowedMediaCollections($collection) == 'single';
+            $isCollectionSingle = false;
 
-            if ($isCollectionSingle || $media_id) {
-                if ($media_id) {
+            if (method_exists($model, 'allowedMediaCollections')) {
+                $isCollectionSingle = $model->allowedMediaCollections($collection) === 'single';
+            }
+
+            if ($isCollectionSingle || isset($media_id)) {
+                if (isset($media_id)) {
                     $media = $model->getMedia($collection)->where('id', $media_id)->first();
                 } else {
                     $media = $model->getFirstMedia($collection);
@@ -158,7 +167,7 @@ class APIMediaController extends APIBaseController
                 'conversions_disk' => 's3',
                 'custom_properties' => array_merge([
                     'root' => join('/', $pathArray)
-                ], $key ? ['key' => $key] : ['key' => ''])
+                ], $key ? ['key' => $key] : ['key' => ''], $request->custom_properties ?? []),
             ]);
 
             return apiResponse([
