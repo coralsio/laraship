@@ -987,6 +987,32 @@ if (!function_exists('get_media_url')) {
     }
 }
 
+if (!function_exists('getMediaPublicURL')) {
+    function getMediaPublicURL($media, $conversion = '', $expireAfter = 120)
+    {
+        if (!$media) {
+            return '#';
+        }
+
+        $media->setCustomProperty('views', $media->getCustomProperty('views', 0) + 1);
+        $media->save();
+
+        $disk = $media->disk;
+
+        if ($disk == 's3') {
+            if (!Storage::disk($disk)->exists($media->getPath())) {
+                return $media->getPath();
+            }
+
+            $url = $media->getTemporaryUrl(now()->addMinutes($expireAfter), $conversion);
+        } else {
+            $url = $media->getFullUrl($conversion);
+        }
+
+        return $url;
+    }
+}
+
 if (!function_exists('get_models')) {
     /**
      * @param $config

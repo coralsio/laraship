@@ -421,6 +421,9 @@ function divSubmit(div) {
     var formData = new FormData();
 
     $.each(data, function (index, element) {
+        if (!element.value) {
+            return;
+        }
         formData.append(element.name, element.value);
     });
 
