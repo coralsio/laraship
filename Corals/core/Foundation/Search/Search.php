@@ -52,7 +52,7 @@ class Search implements SearchInterface
         if (!$model->selfIndexed) {
             $query->leftJoin('fulltext_search', function ($join) use ($class) {
                 $join->on($class::getTableName() . '.id', '=', 'fulltext_search.indexable_id');
-            })->where('fulltext_search.indexable_type', '=', $class);
+            })->where('fulltext_search.indexable_type', '=', getMorphAlias($class));
         }
 
         $termsMatch = '' . $terms->implode(' ');
@@ -63,8 +63,8 @@ class Search implements SearchInterface
 
         $isBoolean = data_get($config, 'boolean', true);
 
-        $indexTitle = $model->getTable() . '.' . $model->indexedTitle;
-        $indexContent = $model->getTable() . '.' . $model->indexedContent;
+        $indexTitle = !$model->selfIndexed ? 'fulltext_search.indexed_title' : $model->getTable() . '.' . $model->indexedTitle;
+        $indexContent = !$model->selfIndexed ? 'fulltext_search.indexed_content' : $model->getTable() . '.' . $model->indexedContent;
 
         if (config('database.default') === 'mysql') {
             $query->when($isBoolean, function ($query) use ($termsBool, $model, $indexTitle, $indexContent) {

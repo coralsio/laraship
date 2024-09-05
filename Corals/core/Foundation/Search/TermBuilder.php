@@ -25,7 +25,7 @@ class TermBuilder
                     $part = $model->getTermMapping($part);
                 }
 
-                return empty(trim($part)) || mb_strlen($part) <= 3;
+                return empty(trim($part)) || mb_strlen($part) < 3;
             })->map(function ($part) use ($model) {
                 if ($model) {
                     $part = $model->getTermMapping($part);
