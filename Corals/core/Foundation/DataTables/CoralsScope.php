@@ -9,37 +9,55 @@ use Yajra\DataTables\Contracts\DataTableScope;
 
 class CoralsScope implements DataTableScope
 {
-    public $filters;
-
-    public function __construct($filters)
+    /**
+     * CoralsScope constructor.
+     * @param $filters
+     * @param $requestFilter
+     * @param array $urlFilters
+     * @param array $dataTable
+     */
+    public function __construct(
+        protected $filters,
+        protected $requestFilter,
+        protected $urlFilters = [],
+        protected array $dataTable = []
+    )
     {
-        $this->filters = $filters;
     }
 
     public function apply($query)
     {
+        $ajaxRequestFilters = urldecode($this->requestFilter);
+
         $filters = $this->filters;
 
-        if (empty($filters)) {
+
+        $filtersRequest = array_merge(
+            \Arr::dot($this->urlFilters),
+            getRequestFiltersArray($ajaxRequestFilters)
+        );
+
+        if ($this->dataTable) {
+            $dt = app(
+                data_get($this->dataTable, 'class'),
+                data_get($this->dataTable, 'parameters'),
+            );
+
+            if (method_exists($dt, 'applyDefaultFilters')) {
+                $dt->applyDefaultFilters($query, $filtersRequest, $this->urlFilters);
+            }
+        }
+
+        if (!$ajaxRequestFilters || empty($filters)) {
             return $query;
         }
 
-        $requestFilters = request()->get('filters');
-
-        if (!is_array($requestFilters)) {
-            $requestFilters = urldecode($requestFilters);
-            $requestFilters = get_request_filters_array($requestFilters);
-        }
-
-        $requestFilters = array_merge(request()->only(array_keys($filters)), $requestFilters);
-
-        if (empty($requestFilters)) {
-            return $query;
-        }
+        request()->request->add($filtersRequest);
 
         $baseTable = $query->getModel()->getTable();
 
-        foreach ($requestFilters as $column => $value) {
+
+        foreach ($filtersRequest as $column => $value) {
             $filter = Arr::get($filters, $column, Arr::get($filters, $column . "[]"));
 
             if (empty($filter) || !($value || $value === 0 || $value === 0.0 || $value === false)) {

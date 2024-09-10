@@ -27,9 +27,15 @@ abstract class BaseDataTable extends DataTable
         $filters = array_merge($this->getFilters(), $this->getCustomRenderedFilters());
 
         if ($this->usesQueryBuilderFilters) {
-            $this->addScope(new CoralsQueryBuilderDataTableScope($filters));
+            $this->addScope(new CoralsQueryBuilderDataTableScope($filters, request('q')));
         } else {
-            $this->addScope(new CoralsScope($filters));
+            $this->addScope(new CoralsScope(
+                $this->getFilters(),
+                request()->filters,
+                $urlFilters ?? [], [
+                'class' => get_class($this),
+                'parameters' => $this->resolveDataTableParameters()
+            ]));
         }
 
         if ($this->request->boolean('deleted')) {
@@ -72,6 +78,22 @@ abstract class BaseDataTable extends DataTable
     public function builder(): Builder
     {
         return app(CoralsBuilder::class);
+    }
+
+    /**
+     * @return array
+     */
+    protected function resolveDataTableParameters()
+    {
+        $objectParameters = [];
+
+        $objectReflection = new \ReflectionClass($this);
+
+        foreach ($objectReflection->getConstructor()->getParameters() as $parameter) {
+            $objectParameters[$parameter->getName()] = $this->{$parameter->getName()};
+        }
+
+        return $objectParameters;
     }
 
     /**

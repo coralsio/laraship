@@ -44,6 +44,7 @@ use Illuminate\Auth\Passwords\PasswordBrokerManager as BasePasswordBrokerManager
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Queue\Queue;
 use Illuminate\Queue\Worker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
@@ -89,6 +90,8 @@ class FoundationServiceProvider extends ServiceProvider
 
 
         $this->registerMissingHtmlMacro();
+
+        $this->registerCreateQueuePayloadCallback();
     }
 
     /**
@@ -210,10 +213,6 @@ class FoundationServiceProvider extends ServiceProvider
         });
 
 
-
-
-
-
         Actions::do_action('post_coral_registration');
 
         // Bind 'hashids' shared component to the IoC container
@@ -251,6 +250,7 @@ class FoundationServiceProvider extends ServiceProvider
         $this->resetPasswordEmailCallback();
         $this->extendPasswordBroker();
     }
+
     /**
      *
      */
@@ -320,6 +320,18 @@ class FoundationServiceProvider extends ServiceProvider
                 $app[ExceptionHandler::class],
                 $isDownForMaintenance
             );
+        });
+    }
+
+    /**
+     *
+     */
+    protected function registerCreateQueuePayloadCallback(): void
+    {
+        Queue::createPayloadUsing(function () {
+            return [
+                'user_id' => data_get(user(), 'id')
+            ];
         });
     }
 }

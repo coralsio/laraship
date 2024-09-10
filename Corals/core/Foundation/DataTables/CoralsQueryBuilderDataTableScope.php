@@ -9,21 +9,18 @@ use Yajra\DataTables\Contracts\DataTableScope;
 
 class CoralsQueryBuilderDataTableScope implements DataTableScope
 {
-
-    protected $filters;
-
     /**
      * CoralsQueryBuilderDataTableScope constructor.
      * @param $filters
+     * @param $urlQuery
      */
-    public function __construct($filters)
+    public function __construct(protected $filters, protected $urlQuery)
     {
-        $this->filters = $filters;
     }
 
     public function apply($query)
     {
-        if ($queryBuilderJson = request('q')) {
+        if ($queryBuilderJson = $this->urlQuery) {
             $queryBuilderParser = new QueryBuilderParser($this->filters);
             $query = $queryBuilderParser->parse(json_encode($queryBuilderJson), $query);
         }
