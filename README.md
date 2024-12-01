@@ -1,3 +1,10 @@
+
+## Support This Project  💖 💖
+
+If you find this project helpful, consider making a donation to support its development.
+
+[![Donate](https://img.shields.io/badge/Donate-Stripe-blue.svg)]([YOUR_STRIPE_PAYMENT_LINK](https://donate.stripe.com/28oaFq30141J920146))
+
 # Laraship
 
 Laraship is a modular Laravel-based platform for building various websites and applications. Laravel
