@@ -9,7 +9,7 @@
 <!-- iCheck -->
 {!! Theme::js('plugins/iCheck/icheck.min.js') !!}
 <!-- Pace -->
-{{--{!! Theme::js('plugins/pace/pace.min.js') !!}--}}
+{!! Theme::js('plugins/pace/pace.min.js') !!}
 
 <!-- Jquery BlockUI -->
 {!! Theme::js('plugins/jquery-block-ui/jquery.blockUI.min.js') !!}
