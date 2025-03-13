@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ \Language::getCode() }}" dir="{{ \Language::getDirection() }}">
 <head>
+    <style>
+        .end-impersonation-btn {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+    </style>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
@@ -38,6 +49,20 @@
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
 <div id="main-wrapper">
+
+    @can('leaveImpersonation' , [\Corals\User\Models\User::class,session()->get('impersonator')])
+        <div class="end-impersonation-btn">
+            <a
+                    class="btn btn-sm btn-warning text-dark"
+                    href="{{ route('impersonation.leave') }}"
+                    data-action="post"
+                    data-page_action="redirectTo"
+            >
+                <i class="fa fa-fw fa-power-off text-dark"></i>
+                End Impersonation
+            </a>
+        </div>
+    @endcan
 
     @include('partials.header')
 

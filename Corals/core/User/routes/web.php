@@ -19,6 +19,7 @@ Route::group(['prefix' => ''], function () {
     Route::get('users/{user}/address/{type}/edit', 'UserAddressesController@edit');
     Route::delete('users/{user}/address/{type}', 'UserAddressesController@destroy');
     Route::post('users/{user}/impersonate', 'UsersController@impersonate');
+    Route::post('users/leave-impersonation', 'UsersController@leaveImpersonation')->name('impersonation.leave');
     Route::post('users/bulk-action', 'UsersController@bulkAction');
     Route::post('users/{user}/restore', 'UsersController@restore')->withTrashed();
     Route::delete('users/{user}/hard-delete', 'UsersController@hardDelete')->withTrashed();
