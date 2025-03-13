@@ -168,34 +168,33 @@ class CoralsBuilder extends Builder
             $action = Arr::get($bulk_action, 'action', $bulk_action_key);
             $href = Arr::get($bulk_action, 'href', $this->resource_url);
             $title = Arr::get($bulk_action, 'modal-title');
+            $confirmation = !empty($bulk_action['confirmation']) ? ' data-confirmation="' . $bulk_action['confirmation'] . '" ' : '';
 
-            $confirmation = "";
+            if ($this->isExpandableBulkActions()) {
+                $btnColorClass = Arr::get($bulk_action, 'color-btn-class', 'btn-primary');
 
-            if ($bulk_action['confirmation']) {
-                $confirmation = ' data-confirmation="' . $bulk_action['confirmation'] . '" ';
+                $class = "btn btn-sm m-1 " . $btnColorClass;
+                $action_links .= '<a class="' . $class . '" href="' . $href . '" ' . $confirmation . ' data-action="' . $action . '" data-title="' . $title . '" >Bulk ' . $bulk_action['title'] . '</a>';
+            } else {
+                $action_links .= '<li><a class="dropdown-item" href="' . $href . '" ' . $confirmation . ' data-action="' . $action . '" data-title="' . $title . '" >' . $bulk_action['title'] . '</a></li>';
             }
-
-            $action_links .= '<li><a class="dropdown-item"  href="' . $href . '" ' . $confirmation . ' data-action="' . $action . '" data-title="' . $title . '" >' . $bulk_action['title'] . '</a></li>';
         }
 
         if (empty($action_links)) {
             return '';
         }
 
-        $actions = ' 
-                <div class="btn-group bulk_actions" id="bulk_actions_' . $tableId . '" data-table="' . $tableId . '">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">'
-            . trans('Corals::labels.actions') .
-            '
-                  </button>
-                  <ul class="dropdown-menu" role="menu">';
-        $actions .= $action_links;
-
-        $actions .= ' </ul>
-                </div>';
-
-
-        return $actions;
+        if ($this->isExpandableBulkActions()) {
+            return '<div class="bulk-actions d-inline" id="bulk_actions_' . $tableId . '" data-table="' . $tableId . '">' . $action_links . '</div>';
+        } else {
+            return ' 
+            <div class="btn-group bulk_actions" id="bulk_actions_' . $tableId . '" data-table="' . $tableId . '">
+              <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">'
+                . trans('Corals::labels.actions') .
+                '</button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">' . $action_links . '</ul>
+            </div>';
+        }
     }
 
     /**
@@ -610,5 +609,10 @@ class CoralsBuilder extends Builder
         }
 
         return $this;
+    }
+
+    private function isExpandableBulkActions(): bool
+    {
+        return $this->options['bulk_actions_as_buttons'] ?? false;
     }
 }
