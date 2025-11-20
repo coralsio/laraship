@@ -246,6 +246,11 @@ class UsersController extends BaseController
         $this->authorize('impersonate', $user);
 
         try {
+            session()->put([
+                'impersonator' => user(),
+                'impersonate_origin_url' => url()->previous()
+            ]);
+
             Auth::login($user);
 
             $role = $user->roles()->first();
@@ -263,6 +268,28 @@ class UsersController extends BaseController
             }
 
             return redirectTo('dashboard');
+        } catch (\Exception $exception) {
+            $message = ['level' => 'error', 'message' => $exception->getMessage()];
+            return response()->json($message);
+        }
+    }
+
+    public function leaveImpersonation(Request $request)
+    {
+        $impersonator = session()->get('impersonator');
+        $this->authorize('leaveImpersonation', $impersonator);
+
+        try {
+            Auth::login($impersonator);
+            $redirectUrl = session()->get('impersonate_origin_url');
+
+            session()->forget([
+                'impersonator',
+                'impersonate_origin_url'
+            ]);
+
+            flash('Impersonation session end successfully', 'success');
+            return redirectTo($redirectUrl);
         } catch (\Exception $exception) {
             $message = ['level' => 'error', 'message' => $exception->getMessage()];
             return response()->json($message);

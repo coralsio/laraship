@@ -18,7 +18,8 @@ class UserPolicy extends BasePolicy
         'impersonate',
         'sendSMS',
         'deletedRecords',
-        'records'
+        'records',
+        'leaveImpersonation',
     ];
 
     /**
@@ -161,4 +162,11 @@ class UserPolicy extends BasePolicy
     {
         return Modules::isModuleActive('corals-sms') && !is_null($userModel->getPhoneNumber());
     }
+
+    public function leaveImpersonation(User $user, ?User $impersonator = null): bool
+    {
+        return $impersonator && $this->impersonate($impersonator, $user);
+    }
+
+
 }

@@ -374,3 +374,35 @@ $(document).ready(function () {
         return date.toISOString().split('T')[0];
     }
 });
+
+$(document).ready(function (){
+
+    let isDirty = false;
+
+    $('.confirmation_dirty_leave_form').on('change input', ':input', function () {
+        isDirty = true;
+    });
+
+    $('.confirmation_dirty_leave_form').on('submit', function () {
+        isDirty = false;
+    });
+
+    $('a').on('click', function (e) {
+        if (isDirty) {
+            e.preventDefault();
+            themeConfirmation(
+                corals.confirmation.title,
+                "You have unsaved changes. Do you want to discard them and leave?",
+                'warning',
+                corals.confirmation.yes,
+                corals.confirmation.cancel,
+                function () {
+                    isDirty = false;
+                    window.location.href = $(e.target).attr('href');
+                },
+                function () {
+                }
+            );
+        }
+    });
+});
