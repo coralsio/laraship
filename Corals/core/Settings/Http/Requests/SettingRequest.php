@@ -29,7 +29,7 @@ class SettingRequest extends BaseRequest
         $this->setModel(Setting::class);
         $rules = parent::rules();
 
-        if ($this->isUpdate() && \Auth::guard('sanctum')->check()) {
+        if ($this->isUpdate() && in_array('api',$this->route()->middleware())) {
             return [
                 'value' => 'required',
             ];
@@ -80,7 +80,7 @@ class SettingRequest extends BaseRequest
                     $data['value'] = isset($data['value']) ? 'true' : 'false';
                     break;
                 case 'SELECT':
-                    if (\Auth::guard('sanctum')->check()) {
+                    if (in_array('api',$this->route()->middleware())) {
                         break;
                     }
                     
