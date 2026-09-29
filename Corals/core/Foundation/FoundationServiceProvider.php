@@ -42,6 +42,7 @@ use Hashids\Hashids;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Passwords\PasswordBrokerManager as BasePasswordBrokerManager;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\Queue;
@@ -53,7 +54,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\Html\Html;
 use Yajra\DataTables\DataTableAbstract;
-use Illuminate\Contracts\Http\Kernel;
 
 class FoundationServiceProvider extends ServiceProvider
 {
@@ -217,11 +217,9 @@ class FoundationServiceProvider extends ServiceProvider
 
         // Bind 'hashids' shared component to the IoC container
         $this->app->singleton('hashids', function ($app) {
-            $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+            $salt = hash('sha256', config('app.key'));
 
-            $salt = hash('sha256', 'Corals');
-
-            return new Hashids($salt, 10, $alphabet);
+            return new Hashids($salt, 10);
         });
 
         $this->registerConfig();
