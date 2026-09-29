@@ -129,6 +129,8 @@ class UsersController extends BaseController
     public function destroy(UserRequest $request, User $user)
     {
         try {
+            $this->authorize('destroy', $user);
+
             $name = $user->name;
 
             $this->userService->destroy($request, $user);
@@ -178,6 +180,8 @@ class UsersController extends BaseController
     public function hardDelete(UserRequest $request, User $user)
     {
         try {
+            $this->authorize('destroy', $user);
+
             $name = $user->name;
 
             $this->userService->hardDelete($request, $user);
@@ -222,7 +226,8 @@ class UsersController extends BaseController
 
                 case 'hardDelete':
                     foreach ($selection as $selection_id) {
-                        $user = User::findByHash($selection_id);
+                        $user = User::where('id', hashids_decode($selection_id))->withTrashed()->first();
+//                        $user = User::findByHash($selection_id);
                         $user_request = new UserRequest;
                         $user_request->setMethod('DELETE');
                         $this->hardDelete($user_request, $user);

@@ -79,9 +79,10 @@ class UserPolicy extends BasePolicy
      */
     public function destroy(User $user, UserModel $usermodel)
     {
-        if (isSuperUser($usermodel) || $usermodel->id == $user->id) {
+        if ($usermodel->id == $user->id) {
             return false;
         }
+
         $loggedInUserRoles = \Roles::getRolesListForLoggedInUser();
 
         $updatedUserRoles = $usermodel->roles->pluck('label', 'id');
